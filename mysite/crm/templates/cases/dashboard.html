@@ -9,19 +9,80 @@ Dashboard
   <div class="container-fluid">
     <!-- Small boxes (Stat box) -->
     <div class="row">
-    {% for case in all_case %}
       <div class="col-sm-4 col-md-2">
         <div class="info-box">
           <span class="info-box-icon bg-info"><small>HOS</small></span>
           <div class="info-box-content">
-            <span class="info-box-text"><H6>{{ case.name }}</H6></span>
-            <span class="info-box-number">1,410</span>
+            <span class="info-box-text"><H6>HospitalOS</H6></span>
+            <span class="info-box-number">{{ count_hos }}</span>
           </div>
           <!-- /.info-box-content -->
         </div>
         <!-- /.info-box -->
       </div>
-      {% endfor %}
+      <!-- /.col -->
+      <div class="col-sm-4 col-md-2">
+        <div class="info-box">
+          <span class="info-box-icon bg-success"><small>Erefer</small></span>
+          <div class="info-box-content">
+            <span class="info-box-text">E-referral</span>
+            <span class="info-box-number">{{count_erefer}}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-sm-4 col-md-2">
+        <div class="info-box">
+          <span class="info-box-icon bg-warning"><small>EHHC</small></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">ehhc</span>
+            <span class="info-box-number">{{count_ehhc}}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-sm-4 col-md-2">
+        <div class="info-box">
+          <span class="info-box-icon bg-info"><small>HsHv</small></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Healthurvey</span>
+            <span class="info-box-number">{{count_hshv}}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <div class="col-sm-4 col-md-2">
+        <div class="info-box">
+          <span class="info-box-icon bg-success"><small>OPBkk</small></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">OPBKKClaim</span>
+            <span class="info-box-number">{{ count_opbkk }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <div class="col-sm-4 col-md-2">
+        <div class="info-box">
+          <span class="info-box-icon bg-warning"><small>Card</small></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">SmartCard</span>
+            <span class="info-box-number">{{count_smartcard}}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
     </div>
     <div class="row">
   <div class="col-12">

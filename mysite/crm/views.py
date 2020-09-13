@@ -1,4 +1,3 @@
-
 import datetime
 import pytz
 from django.shortcuts import render, redirect
@@ -9,16 +8,15 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-
 @login_required(login_url='login')
 def dashboardPage(request):
     current_user = request.user.id
     count_case_hos = Case.objects.filter(project_id=1).count()
-    count_project_opbkk = Case.objects.filter(project_id=2).count()     
-    count_project_erefer = Case.objects.filter(project_id=3).count()   
-    count_project_ehhc = Case.objects.filter(project_id=4).count() 
-    count_project_hshv = Case.objects.filter(project_id=5).count() 
-    count_project_smartcard = Case.objects.filter(project_id=6).count() 
+    count_project_opbkk = Case.objects.filter(project_id=2).count()
+    count_project_erefer = Case.objects.filter(project_id=3).count()
+    count_project_ehhc = Case.objects.filter(project_id=4).count()
+    count_project_hshv = Case.objects.filter(project_id=5).count()
+    count_project_smartcard = Case.objects.filter(project_id=6).count()
     case = Case.objects.filter(created_by=current_user).order_by('-id')[:10]
     context = {'count_smartcard':count_project_smartcard,'count_hshv':count_project_hshv,'count_ehhc':count_project_ehhc,'count_erefer' : count_project_erefer,'count_opbkk': count_project_opbkk,'count_hos': count_case_hos, "all_case": case}
     return render(request, 'cases/dashboard.html',context )
@@ -123,7 +121,7 @@ def hospitalAdd(request):
                     newHospital.label = label
                     newHospital.h_type = h_type
                     tz = pytz.timezone('Asia/Bangkok')
-                    newHospital.date_created = datetime.datetime.now(tz=tz)                
+                    newHospital.date_created = datetime.datetime.now(tz=tz)
                     newHospital.save()
                     return redirect('hospital-page')
     context = {'form': form}
@@ -131,11 +129,11 @@ def hospitalAdd(request):
 
 @login_required(login_url='login')
 def hospitalEdit(request, pk):
-    hosptial = Hospitals.objects.get(id=pk)
+    edithosptial = Hospitals.objects.get(id=pk)
     form = editHospitalForm()
-    form.fields['code'].initial  = hosptial.code
-    form.fields['label'].initial  = hosptial.label
-    form.fields['h_type'].initial  = hosptial.h_type
+    form.fields['code'].initial  = edithosptial.code
+    form.fields['label'].initial  = edithosptial.label
+    form.fields['h_type'].initial  = edithosptial.h_type
     if request.method == 'POST':
         form = editHospitalForm(request.POST)
         if form.is_valid():
@@ -144,17 +142,11 @@ def hospitalEdit(request, pk):
             h_type = form.cleaned_data["h_type"]
             hcode = Hospitals.objects.filter(code=code)
             Label = Hospitals.objects.filter(label=label)
-            if hcode:
-                messages.info(request, 'This ' + code +' already')
-            elif Label:
-                messages.info(request, 'This ' + label +' already')
-            else:
-                newHospital = Hospitals()
-                newHospital.code = code
-                newHospital.label = label
-                newHospital.h_type = h_type
-                newHospital.save()
-                return redirect('hospital-page')
+            edithosptial.code = code
+            edithosptial.label = label
+            edithosptial.h_type = h_type
+            edithosptial.save()
+            return redirect('hospital-page')
     context = { 'form': form }
     return render(request, 'cases/edit_hospital.html', context)
 
