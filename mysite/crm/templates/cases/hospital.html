@@ -1,0 +1,94 @@
+{% extends 'cases/base.html' %}
+{% block page_title %}
+{% endblock page_title %}
+{% block main_content %}
+
+<section class="content">
+  <div class="container-fluid">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-tools">
+          <!-- form find case -->
+          <form method="GET">
+           <!-- {% csrf_token %} -->
+            <div class="input-group input-group-sm" style="width: 400px;">
+            <input type="text" name="text_find" class="form-control float-right" placeholder="Search">
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+            </div>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+      <section class="content">
+        <!-- Default box -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
+                title="Collapse">
+                <i class="fas fa-minus"></i></button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip"
+                title="Remove">
+                <i class="fas fa-times"></i></button>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <table class="table table-striped projects">
+              <thead>
+                <tr>
+                  <th style="width: 20%">
+                    H_type
+                  </th>
+                  <th style="width: 10%">
+                    Code
+                  </th>
+                  <th>
+                    Name
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for hospital in hospital %}
+                <tr>
+                  <td>
+                  {% if hospital.h_type == '1' %}
+                    โรงพยาบาล
+                  {% elif hospital.h_type == '3' %}
+                    ศูนย์บริการสาธารณสุข
+                    {% elif hospital.h_type == '4' %}
+                    คลินิก
+                  {% endif %}
+                  </td>
+                  <td>
+                    {{ hospital.code}}
+                  </td>
+                  <td>
+                    {{hospital.label}}
+                  </td>
+                  <td class="project-actions text-right">
+                    <a class="btn btn-info btn-sm" href="{% url 'edit_hospital' hospital.id %}">
+                      <i class="fas fa-pencil-alt">
+                      </i>
+                      Edit
+                    </a>
+                  </td>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </section>
+    </div>
+    <!-- /.card -->
+  </div>
+    <!-- /.row (main row) -->
+  </div><!-- /.container-fluid -->
+</section>
+{% endblock main_content %}
