@@ -4,8 +4,41 @@ from django import forms
 from .models import *
 
 
+class hospitalAddCaseForm(forms.Form):
+    type_choice = (
+        ("1", "โรงพยาบาล"),
+        ("3", "ศูนย์บริการสาธารณสุข"),
+        ("4", "คลินิก"),
+    )
+
+    projects = Project.objects.all()
+    project_list = []
+    for project in projects:
+        small_project = (project.id, project.name)
+        project_list.append(small_project)
+
+    projects_subgroups = Project_subgroup.objects.all()
+    project_subgroup_list = []
+    for subgroup_project in projects_subgroups:
+        small_subgroup_project = (subgroup_project.id, subgroup_project.name)
+        project_subgroup_list.append(small_subgroup_project)
+
+    services = Service.objects.all()
+    service_list = []
+    for service in services:
+        small_service = (service.id, service.name)
+        service_list.append(small_service)
+
+
+    case_name = forms.CharField(max_length=255,widget=forms.TextInput(attrs={"class":"form-control",'placeholder': 'Case Name'}))
+    project = forms.ChoiceField(choices = project_list, widget=forms.Select(attrs={"class":"form-control"}))
+    project_subgroup = forms.ChoiceField( choices = project_subgroup_list, widget=forms.Select(attrs={"class":"form-control"}))
+    resolution = forms.CharField( max_length=255,widget=forms.Textarea(attrs={"class":"form-control"}))
+    service = forms.ChoiceField(choices = service_list, widget=forms.Select(attrs={"class":"form-control"}))
+    case_image = forms.FileField(label="Case image",widget=forms.FileInput(attrs={"class":"form-control"}),required=False)
+
 class CaseForm(ModelForm):
-    hospitals = forms.ModelChoiceField(queryset=Hospitals.objects.order_by('label')) ## order in from
+    hospitals = forms.ModelChoiceField(queryset=Hospitals.objects.order_by('code')) ## order in from
     class Meta():
         model = Case
         fields = ['name','project', 'project_subgroup','resolution','service','hospitals','case_pic','created_by']
@@ -37,7 +70,7 @@ class updateCaseForm(ModelForm):
             self.fields['resolution'].widget = forms.Textarea(attrs={"class":"form-control"})
 
 
-        
+
 class hospitalForm(forms.Form):
     type_choice = (
         ("1", "โรงพยาบาล"),
