@@ -8,15 +8,19 @@ from .forms import *
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-# from .filters import HositalFilter
+
 
 @login_required(login_url='login')
 def dashboardPage(request):
     current_user = request.user.id
+    count_case_hos = Case.objects.filter(project_id=1).count()
+    count_project_opbkk = Case.objects.filter(project_id=2).count()     
+    count_project_erefer = Case.objects.filter(project_id=3).count()   
+    count_project_ehhc = Case.objects.filter(project_id=4).count() 
+    count_project_hshv = Case.objects.filter(project_id=5).count() 
+    count_project_smartcard = Case.objects.filter(project_id=6).count() 
     case = Case.objects.filter(created_by=current_user).order_by('-id')[:10]
-    project = Project.objects.all()
-    print(project)
-    context = { "all_case": case," all_project": project}
+    context = {'count_smartcard':count_project_smartcard,'count_hshv':count_project_hshv,'count_ehhc':count_project_ehhc,'count_erefer' : count_project_erefer,'count_opbkk': count_project_opbkk,'count_hos': count_case_hos, "all_case": case}
     return render(request, 'cases/dashboard.html',context )
 
 
@@ -153,3 +157,54 @@ def hospitalEdit(request, pk):
                 return redirect('hospital-page')
     context = { 'form': form }
     return render(request, 'cases/edit_hospital.html', context)
+
+@login_required(login_url='login')
+def create_case_hospital(request, pk):
+    hosptial = Hospitals.objects.get(id=pk)
+    form = hospitalAddCaseForm()
+    if request.method == 'POST':
+        form = hospitalAddCaseForm(request.POST,request.FILES)
+        if form.is_valid():
+            tz = pytz.timezone('Asia/Bangkok')
+        try:
+            case_name = request.POST['case_name']
+            project = request.POST['project']
+            project_subgroup = request.POST['project_subgroup']
+            resolution = request.POST['resolution']
+            service  = request.POST['service']
+            upload_file = request.FILES['case_image']
+            newCase = Case()
+            newCase.name = case_name
+            newCase.project_id = project
+            newCase.project_subgroup_id = project_subgroup
+            newCase.created_by_id = request.user.id
+            newCase.resolution = resolution
+            newCase.service_id = service
+            newCase.date_entered = datetime.datetime.now(tz=tz)
+            newCase.hospitals_id = hosptial.id
+            fs = FileSystemStorage()
+            name = fs.save(upload_file.name, upload_file)
+            url = fs.url(name)
+            newCase.case_pic = url
+            newCase.save()
+            return redirect('dashboard-page')
+        except:
+            case_name = request.POST['case_name']
+            project = request.POST['project']
+            project_subgroup = request.POST['project_subgroup']
+            resolution = request.POST['resolution']
+            service  = request.POST['service']
+            newCase = Case()
+            newCase.name = case_name
+            newCase.project_id = project
+            newCase.project_subgroup_id = project_subgroup
+            newCase.created_by_id = request.user.id
+            newCase.resolution = resolution
+            newCase.service_id = service
+            newCase.date_entered = datetime.datetime.now(tz=tz)
+            newCase.hospitals_id = hosptial.id
+            newCase.save()
+            return redirect('dashboard-page')
+
+    context = {'form': form,'hosptial': hosptial}
+    return render(request, 'cases/hospital_addcase_form.html', context)
