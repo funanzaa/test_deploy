@@ -36,10 +36,11 @@ class Hospitals(models.Model):
 
 class Service(models.Model):
     CATEGORY = (
-        ('call','call'),
-        ('line','line'),
-        ('facebook','facebook'),
-        ('email','email'),
+        ('Call','Call'),
+        ('Line','Line'),
+        ('Facebook','Facebook'),
+        ('Email','Email'),
+        ('Line_official','Line Official'),
     )
     name = models.CharField(max_length=255,null=True, choices=CATEGORY)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
