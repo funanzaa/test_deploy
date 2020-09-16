@@ -73,5 +73,4 @@ class ChartDataService(APIView):
             "labels":labels,
             "default":default_items,
         }
-        print("view:ddd",data)
         return Response(data)

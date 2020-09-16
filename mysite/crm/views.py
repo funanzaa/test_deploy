@@ -24,8 +24,7 @@ def dashboardPage(request):
     count_server = Case.objects.filter(date_entered__month=str(now)[6:7],project_id=7,date_entered__year=str(now)[:4]).count()
     count_other = Case.objects.filter(date_entered__month=str(now)[6:7],project_id=8,date_entered__year=str(now)[:4]).count()
     case = Case.objects.filter(created_by=current_user).order_by('-id')[:10]
-    context = {'customers':10,'count_other':count_other,'count_server':count_server,'count_smartcard':count_project_smartcard,'count_hshv':count_project_hshv,'count_ehhc':count_project_ehhc
-    ,'count_erefer' : count_project_erefer,'count_opbkk': count_project_opbkk,'count_hos': count_case_hos, "all_case": case}
+    context = {"dates": now ,"all_case": case}
     return render(request, 'cases/dashboard.html',context )
 
 
