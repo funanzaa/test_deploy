@@ -8,7 +8,6 @@
             success: function(data){
                 labels = data.labels
                 defaultData = data.default
-                console.log(data)
                 setChart()
             },
             error: function(error_data){
@@ -85,7 +84,6 @@
               success: function(data){
                   labels = data.labels
                   defaultData = data.default
-                  console.log(data)
                   setChart()
               },
               error: function(error_data){

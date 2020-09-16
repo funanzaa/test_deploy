@@ -7,6 +7,7 @@ from .forms import *
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger #paginator 
 
 
 
@@ -98,13 +99,24 @@ def deleteCase(request, pk):
 
 @login_required(login_url='login')
 def hospital(request):
+    hospital_list = Hospitals.objects.all().order_by('code')
+    page = request.GET.get('page',1)
+
+    paginator = Paginator(hospital_list,10)
+    try:
+        hospital = paginator.page(page)
+    except PageNotAnInteger:
+        hospital = paginator.page(page)
+    except EmptyPage:
+        hospital = paginator.page(paginator.num_pages)
     if request.method == 'GET':
             search_query = request.GET.get('text_find', None)
             if search_query:
                 hospital = Hospitals.objects.filter(label__icontains=search_query) | Hospitals.objects.filter(code__icontains=search_query)
                 context = {'hospital': hospital}
                 return render(request, 'cases/hospital.html', context)
-    return render(request, 'cases/hospital.html')
+    context = {'hospital': hospital}
+    return render(request, 'cases/hospital.html', context)
 
 @login_required(login_url='login')
 def hospitalAdd(request):
