@@ -29,7 +29,17 @@
                   label:'Case',
                   data: defaultData,
                   backgroundColor:'green',
-                  backgroundColor:['#F44336', '#E91E63', '#9C27B0', '#673AB7', '#009688','#3c8dbc','#607D8B','#FF5722'],
+                  // backgroundColor:['#F44336', '#E91E63', '#9C27B0', '#673AB7', '#009688','#3c8dbc','#607D8B','#FF5722'],
+                  backgroundColor: [
+                  'rgba(255, 99, 132, 0.7)',
+                  'rgba(54, 162, 235, 0.7)',
+                  'rgba(255, 206, 86, 0.7)',
+                  'rgba(75, 192, 192, 0.7)',
+                  'rgba(153, 102, 255, 0.7)',
+                  'rgba(255, 159, 64, 0.7)',
+                  'rgba(241, 196, 15,0.7)',
+                  'rgba(44, 62, 80,0.7)'
+                  ],
                   borderWidth:1,
                   borderColor:'#777',
                   hoverBorderWidth:3,
@@ -89,14 +99,21 @@
               Chart.defaults.global.defaultFontSize = 18;
               Chart.defaults.global.defaultFontColor = '#777';
               let massPopChart = new Chart(myChart, {
-                type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+                type:'doughnut', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
                 data:{
                   labels: labels,
                   datasets:[{
                     label:'Case',
                     data: defaultData,
                     backgroundColor:'green',
-                    backgroundColor:['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc'],
+                    backgroundColor: [
+                    'rgba(75, 207, 250,0.7)',
+                    'rgba(255, 94, 87,0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(75, 192, 192, 0.7)',
+                    'rgba(153, 102, 255, 0.7)',
+                    ],
+                    // backgroundColor:['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc'],
                     borderWidth:1,
                     borderColor:'#777',
                     hoverBorderWidth:3,
