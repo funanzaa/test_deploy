@@ -7,15 +7,16 @@ from .forms import *
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger #paginator 
-
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger #paginator
 
 @login_required(login_url='login')
 def dashboardPage(request):
     current_user = request.user.id
     tz = pytz.timezone('Asia/Bangkok')
     now = (datetime.datetime.now(tz=tz))
+    count_hospitals_all = Hospitals.objects.all().count()
+    count_project_all = Project.objects.all().count()
+    count_case_all = Case.objects.all().count()
     count_case_hos = Case.objects.filter(date_entered__month=str(now)[6:7],project_id=1,date_entered__year=str(now)[:4]).count()
     count_project_opbkk = Case.objects.filter(date_entered__month=str(now)[6:7],project_id=2,date_entered__year=str(now)[:4]).count()
     count_project_erefer = Case.objects.filter(date_entered__month=str(now)[6:7],project_id=3,date_entered__year=str(now)[:4]).count()
@@ -25,7 +26,7 @@ def dashboardPage(request):
     count_server = Case.objects.filter(date_entered__month=str(now)[6:7],project_id=7,date_entered__year=str(now)[:4]).count()
     count_other = Case.objects.filter(date_entered__month=str(now)[6:7],project_id=8,date_entered__year=str(now)[:4]).count()
     case = Case.objects.filter(created_by=current_user).order_by('-id')[:10]
-    context = {"dates": now ,"all_case": case}
+    context = {"dates": now ,"all_case": case,"count_hospitals_all":count_hospitals_all,"count_project_all":count_project_all,"count_case_all":count_case_all}
     return render(request, 'cases/dashboard.html',context )
 
 
@@ -49,11 +50,11 @@ def createCase(request):
             # print(upload_file.name)
             # print(upload_file.size)
                 obj.save()
-                return redirect('dashboard-page')
+                return redirect('viewcase')
             except:
                 obj.created_by = request.user
                 form.save()
-                return redirect('dashboard-page')
+                return redirect('viewcase')
     context = {'form': form}
     return render(request, 'cases/case_form.html', context)
 
@@ -78,12 +79,12 @@ def updateCase(request, pk):
             # print(upload_file.name)
             # print(upload_file.size)
                 obj.save()
-                return redirect('dashboard-page')
+                return redirect('viewcase')
             except:
                 obj.update_at = datetime.datetime.now(tz=tz)
                 obj.created_by = request.user
                 form.save()
-                return redirect('dashboard-page')
+                return redirect('viewcase')
 
     context = { 'form': form }
     return render(request, 'cases/case_form.html', context)
@@ -218,3 +219,24 @@ def create_case_hospital(request, pk):
 
     context = {'form': form,'hosptial': hosptial}
     return render(request, 'cases/hospital_addcase_form.html', context)
+
+#viewCase
+def viewCase(request):
+    current_user = request.user.id
+    case_list = Case.objects.filter(created_by=current_user).order_by('-id')
+    page = request.GET.get('page',1)
+    paginator = Paginator(case_list,10)
+    try:
+        case = paginator.page(page)
+    except PageNotAnInteger:
+        case = paginator.page(page)
+    except EmptyPage:
+        case = paginator.page(paginator.num_pages)
+    if request.method == 'GET':
+            search_query = request.GET.get('text_find', None)
+            if search_query:
+                case = Case.objects.filter(name__icontains=search_query)
+                context = {'case': case}
+                return render(request, 'cases/case.html', context)
+    context = {'case': case}
+    return render(request, 'cases/case.html', context)
