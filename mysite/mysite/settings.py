@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crm',
     'rest_framework',
-    'django_filters',
+    # 'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -89,9 +89,9 @@ DATABASES = {
 	        'ENGINE': 'django.db.backends.postgresql_psycopg2',
 	        'NAME': 'mysite',
 	        'USER': 'postgres',
-            'PASSWORD': 'postgres',
+            # 'PASSWORD': 'postgres',
 	        'HOST': 'localhost',
-	        # 'PASSWORD': 'W7h78D@K',
+	        'PASSWORD': 'W7h78D@K',
 	        # 'HOST': '61.19.253.23',
 	        'PORT': '5432',
 	    }

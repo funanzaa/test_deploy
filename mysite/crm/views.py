@@ -235,7 +235,7 @@ def viewCase(request):
     if request.method == 'GET':
             search_query = request.GET.get('text_find', None)
             if search_query:
-                case = Case.objects.filter(name__icontains=search_query)
+                case = Case.objects.filter(name__icontains=search_query,created_by=current_user)
                 context = {'case': case}
                 return render(request, 'cases/case.html', context)
     context = {'case': case}
