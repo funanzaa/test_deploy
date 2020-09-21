@@ -30,33 +30,89 @@ def dashboardPage(request):
     return render(request, 'cases/dashboard.html',context )
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
+# def createCase(request):
+#     form = CaseForm()
+#     if request.method == 'POST':
+#         # print('Printing POST: ', request.POST)
+#         form = CaseForm(request.POST)
+#         if form.is_valid():
+#             obj = form.save(commit=False)
+#             tz = pytz.timezone('Asia/Bangkok')
+#             obj.date_entered = datetime.datetime.now(tz=tz)
+#             try:
+#                 obj.created_by = request.user
+#                 upload_file = request.FILES['case_pic']
+#                 fs = FileSystemStorage()
+#                 name = fs.save(upload_file.name, upload_file)
+#                 url = fs.url(name)
+#                 obj.case_pic = url
+#             # print(upload_file.name)
+#             # print(upload_file.size)
+#                 obj.save()
+#                 return redirect('viewcase')
+#             except:
+#                 obj.created_by = request.user
+#                 form.save()
+#                 return redirect('viewcase')
+#     context = {'form': form}
+#     return render(request, 'cases/case_form.html', context)
+
+# Add Case
 def createCase(request):
-    form = CaseForm()
-    if request.method == 'POST':
-        # print('Printing POST: ', request.POST)
-        form = CaseForm(request.POST)
-        if form.is_valid():
-            obj = form.save(commit=False)
+    project = Project.objects.all()
+    subgroup = Project_subgroup.objects.all()
+    service = Service.objects.all()
+    hospital = Hospitals.objects.all()
+    if request.method == "POST":
+        try:
             tz = pytz.timezone('Asia/Bangkok')
-            obj.date_entered = datetime.datetime.now(tz=tz)
-            try:
-                obj.created_by = request.user
-                upload_file = request.FILES['case_pic']
-                fs = FileSystemStorage()
-                name = fs.save(upload_file.name, upload_file)
-                url = fs.url(name)
-                obj.case_pic = url
-            # print(upload_file.name)
-            # print(upload_file.size)
-                obj.save()
-                return redirect('viewcase')
-            except:
-                obj.created_by = request.user
-                form.save()
-                return redirect('viewcase')
-    context = {'form': form}
-    return render(request, 'cases/case_form.html', context)
+            case_name = request.POST.get("name")
+            project = request.POST.get("project")
+            project_subgroup = request.POST.get("project_subgroup")
+            resolution = request.POST.get("resolution")
+            service = request.POST.get("service")
+            hosptial = request.POST.get("hospital")
+            upload_file = request.FILES['case_image']
+            newCase = Case()
+            newCase.name = case_name
+            newCase.project_id = project
+            newCase.project_subgroup_id = project_subgroup
+            newCase.created_by_id = request.user.id
+            newCase.resolution = resolution
+            newCase.service_id = service
+            newCase.date_entered = datetime.datetime.now(tz=tz)
+            newCase.hospitals_id = hosptial
+            fs = FileSystemStorage()
+            name = fs.save(upload_file.name, upload_file)
+            url = fs.url(name)
+            # print('url:'+ url)
+            newCase.case_pic = url
+            newCase.save()
+            return redirect('viewcase')
+        except:
+            tz = pytz.timezone('Asia/Bangkok')
+            case_name = request.POST.get("name")
+            project = request.POST.get("project")
+            project_subgroup = request.POST.get("project_subgroup")
+            resolution = request.POST.get("resolution")
+            service = request.POST.get("service")
+            hosptial = request.POST.get("hospital")
+            newCase = Case()
+            newCase.name = case_name
+            newCase.project_id = project
+            newCase.project_subgroup_id = project_subgroup
+            newCase.created_by_id = request.user.id
+            newCase.resolution = resolution
+            newCase.service_id = service
+            newCase.date_entered = datetime.datetime.now(tz=tz)
+            newCase.hospitals_id = hosptial
+            newCase.save()
+            return redirect('viewcase')
+    context = {"projects":project,"subgroups":subgroup,"services":service,"hospitals":hospital}
+    return render(request, 'cases/add_case.html',context)
+
+
 
 @login_required(login_url='login')
 def updateCase(request, pk):

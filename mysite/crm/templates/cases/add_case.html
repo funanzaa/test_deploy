@@ -1,0 +1,84 @@
+{% extends 'cases/base_case.html' %}
+{% block page_title %}
+<!-- Create Case -->
+{% endblock page_title %}
+{% block main_content %}
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="col-md-6 offset-md-3">
+      <!-- general form elements -->
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Add Case </h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form role="form" method="POST" class="form-group" enctype="multipart/form-data">
+          <div class="card-body">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="exampleInputEmail1">Case name :</label>
+              <input type="text" class="form-control" id="exampleInputName1" placeholder="Case name" name="name">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Project name :</label>
+              <select class="form-control" name="project">
+                {% for project in projects %}
+                <option value="{{ project.id }}">{{ project.name }} </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1"> Project Subgroup :</label>
+              <select class="form-control" name="project_subgroup">
+                {% for subgroup in subgroups %}
+                <option value="{{ subgroup.id }}">{{ subgroup.name }} </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Resolution :</label>
+              <textarea name="resolution" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="inputSpentBudget">Service : </label>
+              <select class="form-control" name="service">
+                {% for service in services %}
+                <option value="{{ service.id }}"> {{ service.name }} </option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Hospital</label>
+              <select class="form-control select2" name="hospital"style="width: 100%;">
+                {% for hospital in hospitals %}
+                <option value="{{ hospital.id }}" >{{hospital}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="customFile" name='case_image'>
+                <label class="custom-file-label" for="customFile">Choose file</label>
+              </div>
+            </div>
+            <!-- /.form-group -->
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+  <div class="row">
+
+
+    <!-- /.row (main row) -->
+  </div><!-- /.container-fluid -->
+</section>
+{% endblock main_content %}

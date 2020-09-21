@@ -8,7 +8,7 @@ $(document).ready(function(){
         success: function(data){
             labels = data.labels
             defaultData = data.default
-            console.log(data)
+            // console.log(data)
             setChart()
         },
         error: function(error_data){
