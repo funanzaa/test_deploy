@@ -8,6 +8,64 @@ Dashboard
 <section class="content">
   <div class="container-fluid">
     <div class="row">
+          <!-- Left col -->
+          <div class="col-md-8">
+            <div class="card" url-endpoint3='{% url 'api-data-case' %}'>
+              <div class="card-header ui-sortable-handle" style="cursor: move;">
+                <h3 class="card-title">
+                  <i class="fas fa-chart-pie mr-1"></i>
+                  Case of Year
+                </h3>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content p-0">
+                  <!-- Morris chart - Sales -->
+                  <div class="position-relative mb-4" id="revenue-chart" style="position: relative; height: 300px;"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                    <canvas id="case-chart" height="250" width="715" class="chartjs-render-monitor" style="display: block; height: 200px; width: 572px;"></canvas>                           </div>
+                </div>
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+          </div>
+          <!-- /.col -->
+
+          <div class="col-md-4">
+            <!-- Info Boxes Style 2 -->
+            <div class="info-box mb-3 bg-warning">
+              <span class="info-box-icon"><i class="ion-android-home"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Hospital</span>
+                <span class="info-box-number">{{count_hospitals_all}}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+            <div class="info-box mb-3 bg-success">
+              <span class="info-box-icon"><i class="ion-android-laptop"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Project</span>
+                <span class="info-box-number">{{count_project_all}}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+            <div class="info-box mb-3 bg-danger">
+              <span class="info-box-icon"><i class="ion-ios-list-outline"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Case</span>
+                <span class="info-box-number">{{count_case_all}}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+        </div>
+    <div class="row">
           <div class="col-lg-6" >
                       <!-- Custom tabs (Charts with tabs)-->
                       <div class="card" url-endpoint='{% url 'api-data' %}'>
@@ -49,64 +107,6 @@ Dashboard
                       <!-- /.card -->
           </div>
             </div>
-            <div class="row">
-                  <!-- Left col -->
-                  <div class="col-md-8">
-                    <div class="card" url-endpoint='{% url 'api-data' %}'>
-                      <div class="card-header ui-sortable-handle" style="cursor: move;">
-                        <h3 class="card-title">
-                          <i class="fas fa-chart-pie mr-1"></i>
-                          Case of Year
-                        </h3>
-                      </div><!-- /.card-header -->
-                      <div class="card-body">
-                        <div class="tab-content p-0">
-                          <!-- Morris chart - Sales -->
-                          <div class="position-relative mb-4" id="revenue-chart" style="position: relative; height: 300px;"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                            <!-- <canvas id="myChart3" height="375" style="height: 300px; display: block; width: 676px;" width="845" class="chartjs-render-monitor"></canvas> -->
-                            <canvas id="visitors-chart" height="250" width="715" class="chartjs-render-monitor" style="display: block; height: 200px; width: 572px;"></canvas>                           </div>
-                        </div>
-                      </div><!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
 
-                  </div>
-                  <!-- /.col -->
-
-                  <div class="col-md-4">
-                    <!-- Info Boxes Style 2 -->
-                    <div class="info-box mb-3 bg-warning">
-                      <span class="info-box-icon"><i class="ion-android-home"></i></span>
-
-                      <div class="info-box-content">
-                        <span class="info-box-text">Hospital</span>
-                        <span class="info-box-number">{{count_hospitals_all}}</span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                    <div class="info-box mb-3 bg-success">
-                      <span class="info-box-icon"><i class="ion-android-laptop"></i></span>
-
-                      <div class="info-box-content">
-                        <span class="info-box-text">Project</span>
-                        <span class="info-box-number">{{count_project_all}}</span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                    <div class="info-box mb-3 bg-danger">
-                      <span class="info-box-icon"><i class="ion-ios-list-outline"></i></span>
-
-                      <div class="info-box-content">
-                        <span class="info-box-text">Case</span>
-                        <span class="info-box-number">{{count_case_all}}</span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                  </div>
-                  <!-- /.col -->
-                </div>
 </section>
 {% endblock main_content %}

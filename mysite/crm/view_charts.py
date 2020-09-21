@@ -74,3 +74,33 @@ class ChartDataService(APIView):
             "default":default_items,
         }
         return Response(data)
+
+class ChartDataCase(APIView):
+
+    authentication_classes = []
+    permission_classes = []
+
+
+    def get(self, request, format=None):
+        tz = pytz.timezone('Asia/Bangkok')
+        now = (datetime.datetime.now(tz=tz))
+        count_m9 = Case.objects.filter(date_entered__month='9',date_entered__year=str(now)[:4]).count()
+        count_m10= Case.objects.filter(date_entered__month='10',date_entered__year=str(now)[:4]).count()
+        count_m11 = Case.objects.filter(date_entered__month='11',date_entered__year=str(now)[:4]).count()
+        count_m12 = Case.objects.filter(date_entered__month='12',date_entered__year=str(now)[:4]).count()
+        count_m01 = Case.objects.filter(date_entered__month='1',date_entered__year=str(now)[:4]).count()
+        count_m02 = Case.objects.filter(date_entered__month='2',date_entered__year=str(now)[:4]).count()
+        count_m03 = Case.objects.filter(date_entered__month='3',date_entered__year=str(now)[:4]).count()
+        count_m04 = Case.objects.filter(date_entered__month='4',date_entered__year=str(now)[:4]).count()
+        count_m05 = Case.objects.filter(date_entered__month='5',date_entered__year=str(now)[:4]).count()
+        count_m06 = Case.objects.filter(date_entered__month='6',date_entered__year=str(now)[:4]).count()
+        count_m07 = Case.objects.filter(date_entered__month='7',date_entered__year=str(now)[:4]).count()
+        count_m08 = Case.objects.filter(date_entered__month='8',date_entered__year=str(now)[:4]).count()
+
+        labels =['Sep', 'Oct', 'Nov', 'Dec','Jan','Feb','Mar','Apr','May','Jun', 'Jul', 'Aug', ]
+        default_items = [count_m9, count_m10, count_m11, count_m12, count_m01, count_m02, count_m03, count_m04, count_m05, count_m06, count_m07, count_m08]
+        data = {
+            "labels":labels,
+            "default":default_items,
+        }
+        return Response(data)

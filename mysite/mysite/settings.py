@@ -90,9 +90,9 @@ DATABASES = {
 	        'NAME': 'mysite',
 	        'USER': 'postgres',
             # 'PASSWORD': 'postgres',
-	        'HOST': 'localhost',
+	        # 'HOST': 'localhost',
 	        'PASSWORD': 'W7h78D@K',
-	        # 'HOST': '61.19.253.23',
+	        'HOST': '61.19.253.23',
 	        'PORT': '5432',
 	    }
 }
