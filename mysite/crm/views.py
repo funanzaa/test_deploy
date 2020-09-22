@@ -229,13 +229,13 @@ def hospitalEdit(request, pk):
 @login_required(login_url='login')
 def create_case_hospital(request, pk):
     hosptial = Hospitals.objects.get(id=pk)
-    form = hospitalAddCaseForm()
+    project = Project.objects.all()
+    subgroup = Project_subgroup.objects.all()
+    service = Service.objects.all()
     if request.method == 'POST':
-        form = hospitalAddCaseForm(request.POST,request.FILES)
-        if form.is_valid():
-            tz = pytz.timezone('Asia/Bangkok')
         try:
-            case_name = request.POST['case_name']
+            tz = pytz.timezone('Asia/Bangkok')
+            case_name = request.POST['name']
             project = request.POST['project']
             project_subgroup = request.POST['project_subgroup']
             resolution = request.POST['resolution']
@@ -255,9 +255,9 @@ def create_case_hospital(request, pk):
             url = fs.url(name)
             newCase.case_pic = url
             newCase.save()
-            return redirect('dashboard-page')
+            return redirect('viewcase')
         except:
-            case_name = request.POST['case_name']
+            case_name = request.POST['name']
             project = request.POST['project']
             project_subgroup = request.POST['project_subgroup']
             resolution = request.POST['resolution']
@@ -272,9 +272,9 @@ def create_case_hospital(request, pk):
             newCase.date_entered = datetime.datetime.now(tz=tz)
             newCase.hospitals_id = hosptial.id
             newCase.save()
-            return redirect('dashboard-page')
+            return redirect('viewcase')
 
-    context = {'form': form,'hosptial': hosptial}
+    context = {'projects': project,'subgroups':subgroup,'services': service,'hosptial': hosptial}
     return render(request, 'cases/hospital_addcase_form.html', context)
 
 #viewCase
