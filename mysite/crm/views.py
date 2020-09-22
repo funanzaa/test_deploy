@@ -88,15 +88,6 @@ def createCase(request):
 
 def detailCase(request, pk):
     case = Case.objects.get(id=pk)
-    # tz = pytz.timezone('Asia/Bangkok')
-    # case_name = request.POST.get("name")
-    # project = request.POST.get("project")
-    # project_subgroup = request.POST.get("project_subgroup")
-    # resolution = request.POST.get("resolution")
-    # service = request.POST.get("service")
-    # hosptial = request.POST.get("hospital")
-    # upload_file = request.FILES['case_image']
-    # context = { 'case': case,"projects":project,"subgroups":subgroup,"services":service,"hospitals":hospital }
     context = { 'case': case }
     return render(request, 'cases/detail_case.html', context)
 
