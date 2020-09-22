@@ -31,7 +31,7 @@ $(document).ready(function(){
               data: defaultData,
               backgroundColor: '#007bff',
               backgroundColor : 'transparent',
-              borderWidth:1,
+              borderWidth:4,
               borderColor : '#007bff',
               pointBorderColor : '#007bff',
               pointBackgroundColor: '#007bff',
