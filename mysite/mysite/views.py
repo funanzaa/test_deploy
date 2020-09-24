@@ -8,6 +8,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
+import os
+from django.conf import settings
+from django.http import HttpResponse, Http404
 
 
 def HomePage(request):
