@@ -22,10 +22,14 @@
               <input type="text" class="form-control" id="exampleInputName1" placeholder="Case name" name="name" value="{{ case.name }}">
             </div>
             <div class="form-group">
-              <label for="exampleInputEmail1">Project name :</label>
+              <label for="exampleInputEmail1">Project name : {{case.project.id}}</label>
               <select class="form-control" name="project">
                 {% for project in projects %}
-                <option value="{{ project.id }}"> {{ project.name}} </option>
+                    {% if case.project.id == project.id %}
+                    <option value="{{ case.project.id }}" selected> {{case.project}} </option>
+                    {% else %}
+                    <option value="{{ project.id }}">{{ project.name }} </option>
+                    {% endif %}
                 {% endfor %}
               </select>
             </div>
@@ -33,7 +37,11 @@
               <label for="exampleInputEmail1"> Project Subgroup :</label>
               <select class="form-control" name="project_subgroup">
                 {% for subgroup in subgroups %}
-                <option value="{{ subgroup.id }}">{{ subgroup.name }} </option>
+                  {% if case.project_subgroup.id == subgroup.id %}
+                  <option value="{{ case.project_subgroup.id }}" selected> {{case.project_subgroup}} </option>
+                  {% else %}
+                  <option value="{{ subgroup.id }}">{{ subgroup.name }} </option>
+                  {% endif %}
                 {% endfor %}
               </select>
             </div>
@@ -45,7 +53,11 @@
               <label for="inputSpentBudget">Service : </label>
               <select class="form-control" name="service">
                 {% for service in services %}
-                <option value="{{ service.id }}"> {{ service.name }} </option>
+                  {% if case.service.id == service.id %}
+                    <option value="{{ case.service.id }}" selected> {{case.service}} </option>
+                    {% else %}
+                    <option value="{{ service.id }}"> {{ service.name }} </option>
+                  {% endif %}
                 {% endfor %}
               </select>
             </div>
@@ -54,16 +66,14 @@
               <label>Hospital</label>
               <select class="form-control select2" name="hospital" style="width: 100%;">
                 {% for hospital in hospitals %}
-                <option value="{{ hospital.id }}">{{hospital}}</option>
+                  {% if case.hospitals.id == hospital.id %}
+                    <option value="{{ case.hospitals.id }}" selected> {{case.hospitals}} </option>
+                  {% else %}
+                    <option value="{{ hospital.id }}">{{hospital}}</option>
+                  {% endif %}
                 {% endfor %}
               </select>
             </div>
-            <!-- <div class="form-group">
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="customFile" name='case_image' >
-                  <label class="custom-file-label" for="customFile"> <a href="{{ case.case_pic }}"> {{case.case_pic}} </a></label>
-                </div>
-              </div> -->
             <div class="form-group">
               <label for="customFile">Case File</label>
               Currently: <a href="{{case.case_pic}}">{{case.case_pic}}</a>
