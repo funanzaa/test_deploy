@@ -12,24 +12,18 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{% static "plugins/fontawesome-free/css/all.min.css" %} ">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" %} ">
-  <!-- daterange picker -->
-  <link rel="stylesheet" href="{% static "plugins/daterangepicker/daterangepicker.css" %} ">
-  <!-- iCheck for checkboxes and radio inputs -->
-  <link rel="stylesheet" href="{% static "plugins/icheck-bootstrap/icheck-bootstrap.min.css" %} ">
-  <!-- Bootstrap Color Picker -->
-  <link rel="stylesheet" href="{% static "plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" %} ">
-  <!-- Tempusdominus Bbootstrap 4 -->
-  <link rel="stylesheet" href="{% static "plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css" %} ">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Select2 -->
   <link rel="stylesheet" href="{% static "plugins/select2/css/select2.min.css" %} ">
   <link rel="stylesheet" href="{% static "plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" %} ">
-  <!-- Bootstrap4 Duallistbox -->
-  <link rel="stylesheet" href="{% static "plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css" %} ">
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static "dist/css/adminlte.min.css" %} ">
   <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet" %} ">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link rel=" stylesheet" href="{% static "plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" %} ">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{% static "plugins/toastr/toastr.min.css" %} ">
 </head>
 
 
@@ -44,9 +38,6 @@
         </li>
         <li class="nav-item d-none d-sm-inline-block">
           <a href="{% url 'dashboard-page' %}" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="{% url 'hospital-page' %}" class="nav-link">Hospital</a>
         </li>
       </ul>
       <!-- Right navbar links -->
@@ -72,6 +63,8 @@
           </div>
         </div>
       </div>
+      <!-- msg -->
+      {% include 'cases/messages.html'%}
       <!-- Main content -->
       {% block main_content %} {% endblock main_content %}
       <!-- /.content -->
@@ -112,30 +105,22 @@
   <!-- AdminLTE for demo purposes -->
   <script src="{% static "dist/js/demo.js" %} "></script>
   <!-- bs-custom-file-input -->
-<script src="{% static "plugins/bs-custom-file-input/bs-custom-file-input.min.js" %} "></script>
+  <script src="{% static "plugins/bs-custom-file-input/bs-custom-file-input.min.js" %} "></script>
   <!-- Page script -->
+  <!-- SweetAlert2 -->
+  <script src="{% static "plugins/sweetalert2/sweetalert2.min.js" %} "></script>
+  <!-- Toastr -->
+  <script src="{% static "plugins/toastr/toastr.min.js" %} "></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="{% static "dist/js/demo.js" %} "></script>
   <script>
-    $(function () {
+    $(function() {
       //Initialize Select2 Elements
       $('.select2').select2()
 
       //Initialize Select2 Elements
       $('.select2bs4').select2({
         theme: 'bootstrap4'
-      })
-      //Date range picker
-      $('#reservationdate').datetimepicker({
-          format: 'L'
-      });
-      //Date range picker
-      $('#reservation').daterangepicker()
-      //Date range picker with time picker
-      $('#reservationtime').daterangepicker({
-        timePicker: true,
-        timePickerIncrement: 30,
-        locale: {
-          format: 'MM/DD/YYYY hh:mm A'
-        }
       })
       //Timepicker
       $('#timepicker').datetimepicker({
@@ -154,7 +139,7 @@
         $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
       });
 
-      $("input[data-bootstrap-switch]").each(function(){
+      $("input[data-bootstrap-switch]").each(function() {
         $(this).bootstrapSwitch('state', $(this).prop('checked'));
       });
       bsCustomFileInput.init();

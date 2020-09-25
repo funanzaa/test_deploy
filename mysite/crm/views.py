@@ -1,11 +1,13 @@
 import datetime
 import pytz
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .models import *
 from .forms import *
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger #paginator
 
@@ -61,7 +63,8 @@ def createCase(request):
             # print('url:'+ url)
             newCase.case_pic = url
             newCase.save()
-            return redirect('viewcase')
+            messages.success(request, 'Your profile is added successfully!')
+            return HttpResponseRedirect(reverse_lazy('viewcase'))
         except:
             tz = pytz.timezone('Asia/Bangkok')
             case_name = request.POST.get("name")
@@ -80,7 +83,8 @@ def createCase(request):
             newCase.date_entered = datetime.datetime.now(tz=tz)
             newCase.hospitals_id = hosptial
             newCase.save()
-            return redirect('viewcase')
+            messages.success(request, 'Your profile is added successfully!')
+            return HttpResponseRedirect(reverse_lazy('viewcase'))
     context = {"projects":project,"subgroups":subgroup,"services":service,"hospitals":hospital}
     return render(request, 'cases/add_case.html',context)
 
@@ -123,7 +127,8 @@ def updateCase(request, pk):
             # print('url:'+ url)
             updateCase.case_pic = url
             updateCase.save()
-            return redirect('viewcase')
+            messages.success(request, 'Your profile is updated successfully!')
+            return HttpResponseRedirect(reverse_lazy('viewcase'))
         except:
             tz = pytz.timezone('Asia/Bangkok')
             case_name = request.POST.get("name")
@@ -142,7 +147,9 @@ def updateCase(request, pk):
             updateCase.update_at = datetime.datetime.now(tz=tz)
             updateCase.hospitals_id = hosptial
             updateCase.save()
-            return redirect('viewcase')
+            messages.success(request, 'Your profile is updated successfully!')
+            return HttpResponseRedirect(reverse_lazy('viewcase'))
+            # return redirect('viewcase')
     context = { 'case': case,"projects":project,"subgroups":subgroup,"services":service,"hospitals":hospital }
     return render(request, 'cases/update_case.html', context)
 
@@ -151,7 +158,8 @@ def deleteCase(request, pk):
     case = Case.objects.get(id=pk)
     if request.method == "POST":
         case.delete()
-        return redirect('dashboard-page')
+        messages.success(request, 'Your case is deleted successfully!')
+        return HttpResponseRedirect(reverse_lazy('viewcase'))
     context = {'case': case}
     return render(request, 'cases/delete.html', context)
 
@@ -199,7 +207,8 @@ def hospitalAdd(request):
                     tz = pytz.timezone('Asia/Bangkok')
                     newHospital.date_created = datetime.datetime.now(tz=tz)
                     newHospital.save()
-                    return redirect('hospital-page')
+                    messages.success(request, 'Your hospital is added successfully!')
+                    return HttpResponseRedirect(reverse_lazy('hospital-page'))
     context = {'form': form}
     return render(request, 'cases/hospital_form.html', context)
 
@@ -222,7 +231,8 @@ def hospitalEdit(request, pk):
             edithosptial.label = label
             edithosptial.h_type = h_type
             edithosptial.save()
-            return redirect('hospital-page')
+            messages.success(request, 'Your hospital is updated successfully!')
+            return HttpResponseRedirect(reverse_lazy('hospital-page'))
     context = { 'form': form }
     return render(request, 'cases/edit_hospital.html', context)
 
@@ -255,7 +265,8 @@ def create_case_hospital(request, pk):
             url = fs.url(name)
             newCase.case_pic = url
             newCase.save()
-            return redirect('viewcase')
+            messages.success(request, 'Your profile is added successfully!')
+            return HttpResponseRedirect(reverse_lazy('viewcase'))
         except:
             case_name = request.POST['name']
             project = request.POST['project']
@@ -272,7 +283,8 @@ def create_case_hospital(request, pk):
             newCase.date_entered = datetime.datetime.now(tz=tz)
             newCase.hospitals_id = hosptial.id
             newCase.save()
-            return redirect('viewcase')
+            messages.success(request, 'Your case is added successfully!')
+            return HttpResponseRedirect(reverse_lazy('viewcase'))
 
     context = {'projects': project,'subgroups':subgroup,'services': service,'hosptial': hosptial}
     return render(request, 'cases/hospital_addcase_form.html', context)
