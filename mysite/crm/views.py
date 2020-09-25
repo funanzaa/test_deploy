@@ -63,7 +63,7 @@ def createCase(request):
             # print('url:'+ url)
             newCase.case_pic = url
             newCase.save()
-            messages.success(request, 'Your profile is added successfully!')
+            messages.success(request, 'Your case is added successfully!')
             return HttpResponseRedirect(reverse_lazy('viewcase'))
         except:
             tz = pytz.timezone('Asia/Bangkok')
@@ -83,7 +83,7 @@ def createCase(request):
             newCase.date_entered = datetime.datetime.now(tz=tz)
             newCase.hospitals_id = hosptial
             newCase.save()
-            messages.success(request, 'Your profile is added successfully!')
+            messages.success(request, 'Your case is added successfully!')
             return HttpResponseRedirect(reverse_lazy('viewcase'))
     context = {"projects":project,"subgroups":subgroup,"services":service,"hospitals":hospital}
     return render(request, 'cases/add_case.html',context)
@@ -127,7 +127,7 @@ def updateCase(request, pk):
             # print('url:'+ url)
             updateCase.case_pic = url
             updateCase.save()
-            messages.success(request, 'Your profile is updated successfully!')
+            messages.success(request, 'Your case is updated successfully!')
             return HttpResponseRedirect(reverse_lazy('viewcase'))
         except:
             tz = pytz.timezone('Asia/Bangkok')
@@ -147,7 +147,7 @@ def updateCase(request, pk):
             updateCase.update_at = datetime.datetime.now(tz=tz)
             updateCase.hospitals_id = hosptial
             updateCase.save()
-            messages.success(request, 'Your profile is updated successfully!')
+            messages.success(request, 'Your case is updated successfully!')
             return HttpResponseRedirect(reverse_lazy('viewcase'))
             # return redirect('viewcase')
     context = { 'case': case,"projects":project,"subgroups":subgroup,"services":service,"hospitals":hospital }
@@ -265,7 +265,7 @@ def create_case_hospital(request, pk):
             url = fs.url(name)
             newCase.case_pic = url
             newCase.save()
-            messages.success(request, 'Your profile is added successfully!')
+            messages.success(request, 'Your case is added successfully!')
             return HttpResponseRedirect(reverse_lazy('viewcase'))
         except:
             case_name = request.POST['name']
