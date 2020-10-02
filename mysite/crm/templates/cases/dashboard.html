@@ -1,5 +1,6 @@
 {% extends 'cases/base_dashborard.html' %}
 {% load static %}
+{% load tags_and_filters_extras %}
 {% block page_title %}
 Dashboard
 {% endblock page_title %}
@@ -7,6 +8,166 @@ Dashboard
 
 <section class="content">
   <div class="container-fluid">
+     <div class="row">
+         <div class="col-md-12">
+              <div class="card" url-endpoint4='{% url 'api-monthlyrecap' %}'>
+                <div class="card-header">
+                  <h5 class="card-title">Monthly Recap Report</h5>
+
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <p class="text-center">
+                        <strong>Case: 1 {{dates|date:"M , Y "}} - {{dates|date:"d M , Y"}}</strong>
+                      </p>
+
+                      <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                        <!-- Sales Chart Canvas -->
+                        <canvas id="caseMonthChart" height="180" style="height: 295px; display: block; width: 907px;" width="1020" class="chartjs-render-monitor"></canvas>
+                      </div>
+                      <!-- /.chart-responsive -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                      <p class="text-center">
+                        <strong>Project </strong>
+                      </p>
+
+                      <div class="progress-group">
+                        HospitalOS
+                        <span class="float-right"><b>{{count_case_hos}}</b>/{{count_case_total}}</span>
+                        <div class="progress progress-sm">
+                          <div class="progress-bar bg-primary" style="width: {{count_case_hos|round_number }}%"></div>
+                        </div>
+                      </div>
+                      <!-- /.progress-group -->
+                      <div class="progress-group">
+                        OPBKKClaim
+                        <span class="float-right"><b>{{count_case_opbkk}}</b>/{{count_case_total}}</span>
+                        <div class="progress progress-sm">
+                          <div class="progress-bar bg-danger" style="width: {{count_case_opbkk|round_number }}%"></div>
+                        </div>
+                      </div>
+
+                      <!-- /.progress-group -->
+                      <div class="progress-group">
+                        <span class="progress-text">Ereferral</span>
+                        <span class="float-right"><b>{{count_case_erefer}}</b>/{{count_case_total}}</span>
+                        <div class="progress progress-sm">
+                          <div class="progress-bar bg-success" style="width: {{count_case_erefer|round_number }}%"></div>
+                        </div>
+                      </div>
+                      <!-- /.progress-group -->
+                      <div class="progress-group">
+                        EHHC
+                        <span class="float-right"><b>{{count_case_ehhc}}</b>/{{count_case_total}}</span>
+                        <div class="progress progress-sm">
+                          <div class="progress-bar bg-primary" style="width: {{count_case_ehhc|round_number }}%"></div>
+                        </div>
+                      </div>
+                      <!-- /.progress-group -->
+                      <div class="progress-group">
+                        HsHv
+                        <span class="float-right"><b>{{count_case_hshv}}</b>/{{count_case_total}}</span>
+                        <div class="progress progress-sm">
+                          <div class="progress-bar bg-warning" style="width: {{count_case_hshv|round_number }}%"></div>
+                        </div>
+                      </div>
+                      <div class="progress-group">
+                        SmartCard
+                        <span class="float-right"><b>{{count_case_smartcard}}</b>/{{count_case_total}}</span>
+                        <div class="progress progress-sm">
+                          <div class="progress-bar bg-primary" style="width: {{count_case_smartcard|round_number }}%"></div>
+                        </div>
+                      </div>
+                      <!-- /.progress-group -->
+                      <div class="progress-group">
+                        Server
+                        <span class="float-right"><b>{{count_case_server}}</b>/{{count_case_total}}</span>
+                        <div class="progress progress-sm">
+                          <div class="progress-bar bg-danger" style="width: {{count_case_server|round_number }}%"></div>
+                        </div>
+                      </div>
+                      <!-- /.progress-group -->
+                      <div class="progress-group">
+                        <span class="progress-text">Other</span>
+                        <span class="float-right"><b>{{count_case_other}}</b>/{{count_case_total}}</span>
+                        <div class="progress progress-sm">
+                          <div class="progress-bar bg-success" style="width: {{count_case_other|round_number }}%"></div>
+                        </div>
+                      </div>
+                      <!-- /.progress-group -->
+
+                    </div>
+                    <!-- /.col -->
+                  </div>
+                  <!-- /.row -->
+                </div>
+                <!-- ./card-body -->
+                <div class="card-footer">
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <div class="description-block border-right">
+                        <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                        <h5 class="description-header">{{count_call}}</h5>
+                        <span class="description-text">TOTAL CALL</span>
+                      </div>
+                      <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-2">
+                      <div class="description-block border-right">
+                        <!-- <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span> -->
+                        <h5 class="description-header">{{count_line}}</h5>
+                        <span class="description-text">TOTAL LINE</span>
+                      </div>
+                      <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-2">
+                      <div class="description-block border-right">
+                        <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span> -->
+                        <h5 class="description-header">{{count_facebook}}</h5>
+                        <span class="description-text">TOTAL FACEBOOK</span>
+                      </div>
+                      <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-2">
+                      <div class="description-block border-right">
+                        <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span> -->
+                        <h5 class="description-header">{{count_email}}</h5>
+                        <span class="description-text">TOTAL EMAIL</span>
+                      </div>
+                      <!-- /.description-block -->
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="description-block">
+                        <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span> -->
+                        <h5 class="description-header">{{count_Line_official}}</h5>
+                        <span class="description-text">TOTAL LINE OFFICIAL</span>
+                      </div>
+                      <!-- /.description-block -->
+                    </div>
+                  </div>
+                  <!-- /.row -->
+                </div>
+                <!-- /.card-footer -->
+              </div>
+              <!-- /.card -->
+            </div>
+     </div>
+      </div>
     <div class="row">
           <!-- Left col -->
           <div class="col-md-8">
@@ -36,8 +197,16 @@ Dashboard
               <span class="info-box-icon"><i class="ion-android-home"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Hospital</span>
-                <span class="info-box-number">{{count_hospitals_all}}</span>
+                     <span class="info-box-text">Hospital</span>
+                     <span class="info-box-number">{{count_hospital}}</span>
+              </div>
+              <div class="info-box-content">
+                     <span class="info-box-text">HealthCenter</span>
+                     <span class="info-box-number">{{count_hc}}</span>
+              </div>
+              <div class="info-box-content">
+                     <span class="info-box-text">Clinic</span>
+                     <span class="info-box-number">{{count_clinic}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>

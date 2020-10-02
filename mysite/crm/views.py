@@ -17,28 +17,30 @@ def dashboardPage(request):
     current_user = request.user.id
     tz = pytz.timezone('Asia/Bangkok')
     now = (datetime.datetime.now(tz=tz))
-    count_hospitals_all = Hospitals.objects.all().count()
+    count_hospital = Hospitals.objects.filter(h_type=1).count()
+    count_hc = Hospitals.objects.filter(h_type=3).count()
+    count_clinic = Hospitals.objects.filter(h_type=4).count()
     count_project_all = Project.objects.all().count()
     count_case_all = Case.objects.all().count()
-    count_case_hos = Case.objects.filter(date_entered__month=str(
-        now)[6:7], project_id=1, date_entered__year=str(now)[:4]).count()
-    count_project_opbkk = Case.objects.filter(date_entered__month=str(
-        now)[6:7], project_id=2, date_entered__year=str(now)[:4]).count()
-    count_project_erefer = Case.objects.filter(date_entered__month=str(
-        now)[6:7], project_id=3, date_entered__year=str(now)[:4]).count()
-    count_project_ehhc = Case.objects.filter(date_entered__month=str(
-        now)[6:7], project_id=4, date_entered__year=str(now)[:4]).count()
-    count_project_hshv = Case.objects.filter(date_entered__month=str(
-        now)[6:7], project_id=5, date_entered__year=str(now)[:4]).count()
-    count_project_smartcard = Case.objects.filter(date_entered__month=str(
-        now)[6:7], project_id=6, date_entered__year=str(now)[:4]).count()
-    count_server = Case.objects.filter(date_entered__month=str(
-        now)[6:7], project_id=7, date_entered__year=str(now)[:4]).count()
-    count_other = Case.objects.filter(date_entered__month=str(
-        now)[6:7], project_id=8, date_entered__year=str(now)[:4]).count()
-    case = Case.objects.filter(created_by=current_user).order_by('-id')[:10]
-    context = {"dates": now, "all_case": case, "count_hospitals_all": count_hospitals_all,
-               "count_project_all": count_project_all, "count_case_all": count_case_all}
+    count_case_hos = Case.objects.filter(date_entered__month=now.month, project_id=1).count()
+    count_case_opbkk = Case.objects.filter(date_entered__month=now.month, project_id=2).count()
+    count_case_erefer = Case.objects.filter(date_entered__month=now.month, project_id=3).count()
+    count_case_ehhc = Case.objects.filter(date_entered__month=now.month, project_id=4).count()
+    count_case_hshv = Case.objects.filter(date_entered__month=now.month, project_id=5).count()
+    count_case_smartcard = Case.objects.filter(date_entered__month=now.month, project_id=6).count()
+    count_case_server = Case.objects.filter(date_entered__month=now.month, project_id=7).count()
+    count_case_other = Case.objects.filter(date_entered__month=now.month, project_id=8).count()
+    count_case_total = Case.objects.filter(date_entered__month=now.month).count()
+    count_call = Case.objects.filter(date_entered__month=now.month, service_id=1).count()
+    count_line = Case.objects.filter(date_entered__month=now.month, service_id=2).count()
+    count_facebook = Case.objects.filter(date_entered__month=now.month, service_id=3).count()
+    count_email = Case.objects.filter(date_entered__month=now.month, service_id=4).count()
+    count_Line_official = Case.objects.filter(date_entered__month=now.month, service_id=5).count()
+    context = {"dates": now, "count_hospital": count_hospital, "count_hc": count_hc, "count_clinic": count_clinic,
+               "count_project_all": count_project_all, "count_case_all": count_case_all, "count_case_hos": count_case_hos, "count_case_opbkk": count_case_opbkk,
+               "count_case_erefer": count_case_erefer, "count_case_ehhc": count_case_ehhc, "count_case_hshv": count_case_hshv, "count_case_smartcard": count_case_smartcard,
+               "count_case_server": count_case_server, "count_case_other": count_case_other, "count_case_total": count_case_total,
+               "count_call": count_call, "count_line": count_line, "count_facebook": count_facebook, "count_email": count_email, "count_Line_official": count_Line_official}
     return render(request, 'cases/dashboard.html', context)
 
 # Add Case

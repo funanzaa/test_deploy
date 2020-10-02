@@ -161,3 +161,26 @@ class ChartDataCase(APIView):
             "default": default_items,
         }
         return Response(data)
+
+
+class MonthlyRecap(APIView):
+
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
+        tz = pytz.timezone('Asia/Bangkok')
+        now = (datetime.datetime.now(tz=tz))
+        labels_list = []
+        default_items = []
+        i = 1
+        while i <= now.day:
+            labels_list.append(str(i))
+            default_items.append(Case.objects.filter(
+                date_entered__year=now.year, date_entered__month=now.month, date_entered__day=i).count())
+            i += 1
+        data = {
+            "labels": labels_list,
+            "default": default_items,
+        }
+        return Response(data)

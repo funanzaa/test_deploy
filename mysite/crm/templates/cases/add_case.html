@@ -19,7 +19,7 @@
             {% csrf_token %}
             <div class="form-group">
               <label for="exampleInputEmail1">Case name :</label>
-              <input type="text" class="form-control" id="exampleInputName1" placeholder="Case name" name="name">
+              <input type="text" class="form-control" id="exampleInputName1" placeholder="Case name" name="name" required>
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Project name :</label>
@@ -39,7 +39,7 @@
             </div>
             <div class="form-group">
               <label>Resolution :</label>
-              <textarea name="resolution" class="form-control" rows="5"></textarea>
+              <textarea name="resolution" required class="form-control" rows="5"></textarea>
             </div>
             <div class="form-group">
               <label for="inputSpentBudget">Service : </label>
