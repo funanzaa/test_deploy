@@ -36,11 +36,63 @@ def dashboardPage(request):
     count_facebook = Case.objects.filter(date_entered__month=now.month, service_id=3).count()
     count_email = Case.objects.filter(date_entered__month=now.month, service_id=4).count()
     count_Line_official = Case.objects.filter(date_entered__month=now.month, service_id=5).count()
-    context = {"dates": now, "count_hospital": count_hospital, "count_hc": count_hc, "count_clinic": count_clinic,
-               "count_project_all": count_project_all, "count_case_all": count_case_all, "count_case_hos": count_case_hos, "count_case_opbkk": count_case_opbkk,
-               "count_case_erefer": count_case_erefer, "count_case_ehhc": count_case_ehhc, "count_case_hshv": count_case_hshv, "count_case_smartcard": count_case_smartcard,
-               "count_case_server": count_case_server, "count_case_other": count_case_other, "count_case_total": count_case_total,
-               "count_call": count_call, "count_line": count_line, "count_facebook": count_facebook, "count_email": count_email, "count_Line_official": count_Line_official}
+    # sub setup
+    count_sub_hos = Case.objects.filter(
+        date_entered__month=now.month, project_id=1, project_subgroup_id=1).count()
+    count_sub_opbkk = Case.objects.filter(
+        date_entered__month=now.month, project_id=2, project_subgroup_id=1).count()
+    count_sub_erefer = Case.objects.filter(
+        date_entered__month=now.month, project_id=3, project_subgroup_id=1).count()
+    count_sub_ehhc = Case.objects.filter(
+        date_entered__month=now.month, project_id=4, project_subgroup_id=1).count()
+    count_sub_hshv = Case.objects.filter(
+        date_entered__month=now.month, project_id=5, project_subgroup_id=1).count()
+    count_sub_smartcard = Case.objects.filter(
+        date_entered__month=now.month, project_id=6, project_subgroup_id=1).count()
+    count_sub_server = Case.objects.filter(
+        date_entered__month=now.month, project_id=7, project_subgroup_id=1).count()
+    # sub use program
+    count_use_sub_hos = Case.objects.filter(
+        date_entered__month=now.month, project_id=1, project_subgroup_id=3).count()
+    count_use_sub_opbkk = Case.objects.filter(
+        date_entered__month=now.month, project_id=2, project_subgroup_id=3).count()
+    count_use_sub_erefer = Case.objects.filter(
+        date_entered__month=now.month, project_id=3, project_subgroup_id=3).count()
+    count_use_sub_ehhc = Case.objects.filter(
+        date_entered__month=now.month, project_id=4, project_subgroup_id=3).count()
+    count_use_sub_hshv = Case.objects.filter(
+        date_entered__month=now.month, project_id=5, project_subgroup_id=3).count()
+    count_use_sub_smartcard = Case.objects.filter(
+        date_entered__month=now.month, project_id=6, project_subgroup_id=3).count()
+    count_use_sub_server = Case.objects.filter(
+        date_entered__month=now.month, project_id=7, project_subgroup_id=3).count()
+    # sub process
+    count_process_sub_hos = Case.objects.filter(
+        date_entered__month=now.month, project_id=1, project_subgroup_id=2).count()
+    count_process_sub_opbkk = Case.objects.filter(
+        date_entered__month=now.month, project_id=2, project_subgroup_id=2).count()
+    count_process_sub_erefer = Case.objects.filter(
+        date_entered__month=now.month, project_id=3, project_subgroup_id=2).count()
+    count_process_sub_ehhc = Case.objects.filter(
+        date_entered__month=now.month, project_id=4, project_subgroup_id=2).count()
+    count_process_sub_hshv = Case.objects.filter(
+        date_entered__month=now.month, project_id=5, project_subgroup_id=2).count()
+    count_process_sub_smartcard = Case.objects.filter(
+        date_entered__month=now.month, project_id=6, project_subgroup_id=2).count()
+    count_process_sub_server = Case.objects.filter(
+        date_entered__month=now.month, project_id=7, project_subgroup_id=2).count()
+
+    context = {
+        "dates": now, "count_hospital": count_hospital, "count_hc": count_hc, "count_clinic": count_clinic,
+        "count_project_all": count_project_all, "count_case_all": count_case_all, "count_case_hos": count_case_hos, "count_case_opbkk": count_case_opbkk,
+        "count_case_erefer": count_case_erefer, "count_case_ehhc": count_case_ehhc, "count_case_hshv": count_case_hshv, "count_case_smartcard": count_case_smartcard,
+        "count_case_server": count_case_server, "count_case_other": count_case_other, "count_case_total": count_case_total,
+        "count_call": count_call, "count_line": count_line, "count_facebook": count_facebook, "count_email": count_email, "count_Line_official": count_Line_official,
+        "count_sub_hos": count_sub_hos, "count_sub_opbkk": count_sub_opbkk, "count_sub_erefer": count_sub_erefer, "count_sub_ehhc": count_sub_ehhc, "count_sub_hshv": count_sub_hshv, "count_sub_smartcard": count_sub_smartcard, "count_sub_server": count_sub_server,
+        "count_use_sub_hos": count_use_sub_hos, "count_use_sub_opbkk": count_use_sub_opbkk, "count_use_sub_erefer": count_use_sub_erefer, "count_use_sub_ehhc": count_use_sub_ehhc, "count_use_sub_hshv": count_use_sub_hshv, "count_use_sub_smartcard": count_use_sub_smartcard, "count_use_sub_server": count_use_sub_server,
+        "count_process_sub_hos": count_process_sub_hos, "count_process_sub_opbkk": count_process_sub_opbkk, "count_process_sub_erefer": count_process_sub_erefer, "count_process_sub_ehhc": count_process_sub_ehhc, "count_process_sub_hshv": count_process_sub_hshv, "count_process_sub_smartcard": count_process_sub_smartcard, "count_process_sub_server": count_process_sub_server
+
+    }
     return render(request, 'cases/dashboard.html', context)
 
 # Add Case
