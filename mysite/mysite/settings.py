@@ -28,6 +28,7 @@ SECRET_KEY = 'ye2cghewzw*cc-7nj)*w=2vg8bibmqne*c+bt^*m$2l+&7ia))'
 DEBUG = True
 
 ALLOWED_HOSTS = ['61.19.253.23', '*']
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crm',
     'rest_framework',
+    'rest_framework.authtoken'
     # 'django_filters',
 ]
 
@@ -90,10 +92,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'mysite',
                 'USER': 'postgres',
-                'PASSWORD': 'postgres',
-                'HOST': 'localhost',
-                # 'PASSWORD': 'W7h78D@K',
-                # 'HOST': '61.19.253.23',
+                # 'PASSWORD': 'postgres',
+                # 'HOST': 'localhost',
+                'PASSWORD': 'W7h78D@K',
+                'HOST': '61.19.253.23',
                 'PORT': '5432',
     }
 }
@@ -151,4 +153,15 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'alert-success',
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
+}
+# rest authen
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
 }

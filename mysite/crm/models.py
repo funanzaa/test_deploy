@@ -62,3 +62,16 @@ class Case(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ControlVersion(models.Model):
+    hcode = models.CharField(max_length=140, default='')
+    app_controlVersion = models.CharField(max_length=255)
+    hos_s_version =  models.CharField(max_length=255)
+    hos_stock_version =  models.CharField(max_length=255)
+    hos_ereferral_version =  models.CharField(max_length=255)
+    date_created = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return self.hcode + ' : ' + self.app_controlVersion
+
