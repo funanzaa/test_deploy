@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger  # paginator
+from django.http import HttpResponse, Http404
 
 
 @login_required(login_url='login')
@@ -389,3 +390,8 @@ def viewCase(request):
             return render(request, 'cases/case.html', context)
     context = {'case': case}
     return render(request, 'cases/case.html', context)
+
+def controlversions(request):
+    model = ControlVersion.objects.all()
+    context = {'ControlVersion': model}
+    return render(request, 'cases/controlVersion.html', context)

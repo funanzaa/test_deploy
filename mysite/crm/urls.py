@@ -15,6 +15,7 @@ urlpatterns = [
     path('create_hospital/', views.hospitalAdd, name='create_hospital'),
     path('create_case_hospital/<str:pk>', views.create_case_hospital, name='create_case_hospital'),
     path('edit_hospital/<str:pk>', views.hospitalEdit, name='edit_hospital'),
+    path('controlversions/', views.controlversions, name='controlversions-page'),
     # charts
     path('api/data/', get_data, name='get-data'),
     path('api/chart/data/', ChartData.as_view(), name='api-data'),
