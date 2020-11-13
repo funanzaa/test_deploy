@@ -16,7 +16,7 @@
                 <!-- {% csrf_token %} -->
                 <div class="input-group input-group" style="width: 400px;">
                   <input type="text" name="text_find" maxlength="80" class="form-control float-right"
-                    placeholder="Case Name" required>
+                    placeholder="Search" required>
                   <div class="input-group-append">
                     <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
                   </div>
@@ -72,7 +72,7 @@
                         {% for ControlVersions in ControlVersion %}
                         <tr role="row" class="odd">
                           <td class="" tabindex="0">{{ControlVersions.hcode}}</td>
-                          <td>Hname</td>
+                          <td>{{ControlVersions.label}}</td>
                           <td class="sorting_1">{{ControlVersions.app_controlVersion}}</td>
                           <td>{{ControlVersions.hos_s_version}}</td>
                           <td>{{ControlVersions.hos_stock_version}}</td>

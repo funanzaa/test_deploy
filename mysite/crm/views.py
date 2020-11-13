@@ -391,7 +391,26 @@ def viewCase(request):
     context = {'case': case}
     return render(request, 'cases/case.html', context)
 
+
+from django.db import connection
+
 def controlversions(request):
-    model = ControlVersion.objects.all()
-    context = {'ControlVersion': model}
-    return render(request, 'cases/controlVersion.html', context)
+    with connection.cursor() as cursor:
+        query = """
+        select cc.*,ch.label 
+        FROM crm_controlversion cc
+        left join crm_hospitals ch on cc.hcode = ch.code;
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+        x = cursor.description
+        resultsList = []  
+        for r in results:
+            i = 0
+            d = {}
+            while i < len(x):
+                d[x[i][0]] = r[i]
+                i = i+1
+            resultsList.append(d)
+        context = {'ControlVersion': resultsList}
+        return render(request, 'cases/controlVersion.html', context)
