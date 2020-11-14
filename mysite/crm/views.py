@@ -397,9 +397,14 @@ from django.db import connection
 def controlversions(request):
     with connection.cursor() as cursor:
         query = """
-        select cc.*,ch.label 
+        select  CONCAT(cc."app_controlVersion", ' | ', cc."hos_s_version") AS "app_controlVersion",
+        CONCAT(cc."hos_stock_version", ' | ', cc."hos_ereferral_version") AS "app_hosVersion"
+        ,ch.label 
+        ,cc.date_created 
+        ,cc.hcode 
         FROM crm_controlversion cc
-        left join crm_hospitals ch on cc.hcode = ch.code;
+        left join crm_hospitals ch on cc.hcode = ch.code
+        where cc.hcode not in ('sql fail');
         """
         cursor.execute(query)
         results = cursor.fetchall()
@@ -413,4 +418,4 @@ def controlversions(request):
                 i = i+1
             resultsList.append(d)
         context = {'ControlVersion': resultsList}
-        return render(request, 'cases/controlVersion.html', context)
+        return render(request, 'cases/crontrol_version.html', context)
