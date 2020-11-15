@@ -174,13 +174,21 @@ class MonthlyRecap(APIView):
         labels_list = []
         default_items = []
         i = 1
-        while i <= now.day:
-            labels_list.append(str(i))
-            default_items.append(Case.objects.filter(
-                date_entered__year=now.year, date_entered__month=now.month, date_entered__day=i).count())
-            i += 1
-        data = {
-            "labels": labels_list,
-            "default": default_items,
+        Cases = Case.objects.filter(date_entered__year=now.year, date_entered__month=now.month).count()
+        if Cases == 0:
+            data = {
+            "labels": [Cases],
+            "default": [Cases],
         }
-        return Response(data)
+            return Response(Cases)
+        else:
+            while i <= now.day:
+                labels_list.append(str(i))
+                default_items.append(Case.objects.filter(
+                    date_entered__year=now.year, date_entered__month=now.month, date_entered__day=i).count())
+                i += 1
+            data = {
+                "labels": labels_list,
+                "default": default_items,
+            }
+            return Response(data)

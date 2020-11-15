@@ -404,7 +404,8 @@ def controlversions(request):
         ,cc.hcode 
         FROM crm_controlversion cc
         left join crm_hospitals ch on cc.hcode = ch.code
-        where cc.hcode not in ('sql fail');
+        where cc.hcode not in ('sql fail')
+        order by date_created desc;
         """
         cursor.execute(query)
         results = cursor.fetchall()

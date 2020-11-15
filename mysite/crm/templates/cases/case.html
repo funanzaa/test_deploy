@@ -1,4 +1,5 @@
 {% extends 'cases/base.html' %}
+{% load tags_and_filters_extras %}
 {% block page_title %}
 {% endblock page_title %}
 {% block main_content %}
@@ -63,7 +64,7 @@
                       <br>
                       <small>
                         <!-- {{ case.date_entered}} -->
-                        {{ case.date_entered|date:"D, d M, Y " }}
+                        {{ case.date_entered|add_datetime }}
                       </small>
                     </td>
                     <td>
