@@ -296,17 +296,26 @@ def hospitalEdit(request, pk):
     form.fields['code'].initial = edithosptial.code
     form.fields['label'].initial = edithosptial.label
     form.fields['h_type'].initial = edithosptial.h_type
+    form.fields['active'].initial = edithosptial.active
+    form.fields['install_app'].initial = edithosptial.install_app
+    form.fields['training'].initial = edithosptial.training
     if request.method == 'POST':
         form = editHospitalForm(request.POST)
         if form.is_valid():
             code = form.cleaned_data["code"]
             label = form.cleaned_data["label"]
             h_type = form.cleaned_data["h_type"]
+            active = form.cleaned_data["active"]
+            install_app = form.cleaned_data["install_app"]
+            training = form.cleaned_data["training"]
             hcode = Hospitals.objects.filter(code=code)
             Label = Hospitals.objects.filter(label=label)
             edithosptial.code = code
             edithosptial.label = label
             edithosptial.h_type = h_type
+            edithosptial.active = active
+            edithosptial.install_app = install_app
+            edithosptial.training = training
             edithosptial.save()
             messages.success(request, 'Your hospital is updated successfully!')
             return HttpResponseRedirect(reverse_lazy('hospital-page'))

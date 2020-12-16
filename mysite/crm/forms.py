@@ -60,3 +60,6 @@ class editHospitalForm(forms.Form):
     code = forms.CharField( max_length=5,widget=forms.TextInput(attrs={"class":"form-control",'placeholder': 'code'}))
     label = forms.CharField(max_length=50, widget=forms.TextInput(attrs={"class":"form-control",'placeholder': 'Label'}))
     h_type = forms.ChoiceField(label="h_type", choices = type_choice, widget=forms.Select(attrs={"class":"form-control"}))
+    active = forms.CharField(max_length=50, widget=forms.TextInput(attrs={"class":"form-control",'placeholder': 'Yes or No'}))
+    install_app = forms.CharField(max_length=50, widget=forms.TextInput(attrs={"class":"form-control",'placeholder': 'Yes or No'}))
+    training = forms.CharField(max_length=50, widget=forms.TextInput(attrs={"class":"form-control",'placeholder': 'Yes or No'}))

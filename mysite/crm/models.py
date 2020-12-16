@@ -27,9 +27,9 @@ class Hospitals(models.Model):
     label = models.CharField(max_length=255)
     code = models.CharField(max_length=255,null=True)
     date_created = models.DateTimeField(null=True, blank=True)
-
-    class Meta:
-        unique_together = ('label', 'code')
+    active = models.CharField(max_length=255)
+    install_app = models.CharField(max_length=255)
+    training = models.CharField(max_length=255)
 
     def __str__(self):
         return self.code + " : " + self.label
