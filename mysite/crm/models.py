@@ -75,3 +75,23 @@ class ControlVersion(models.Model):
     def __str__(self):
         return self.hcode + ' : ' + self.app_controlVersion
 
+
+class model5_lookup_error(models.Model):
+    err_code = models.TextField()
+    err_detail = models.TextField()
+
+    def __str__(self):
+        return self.err_code + ' : ' + self.err_detail
+
+
+
+class model5_recap_report(models.Model):
+    hcode = models.CharField(max_length=255)
+    hname = models.CharField(max_length=255)
+    req_claimcode = models.CharField(max_length=255)
+    req_claim = models.CharField(max_length=255)
+    approved = models.CharField(max_length=255)
+    denined = models.CharField(max_length=255)
+    total = models.CharField(max_length=255)
+    def __str__(self):
+        return self.hcode + ' : ' + self.hname
