@@ -1,7 +1,7 @@
 {% extends 'base_dashborard.html' %}
 {% load static %}
 {% block page_title %}
-Dashboard
+
 {% endblock page_title %}
 {% block main_content %}
 
@@ -10,31 +10,33 @@ Dashboard
         <div class="row">
             <div class="col-lg-3 col-6">
               <!-- small box -->
-              <div class="small-box bg-info">
+              <div class="small-box bg-success">
                 <div class="inner">
-                  <h3>{{sum_hosp.TOTAL}}</h3>
+                  <h3> {{sum_hosp.TOTAL}} </h3>
                     
-                  <p>Model 5</p>
+                  <p>Hospital Model(5)</p>
                 </div>
                 <div class="icon">
-                  <i class="ion-home"></i>
+                  <i class="ion-map"></i>
                 </div>
                 <a href="{% url 'hosp_model5' %}" class="small-box-footer">More info <i class="fas fa-home-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
+          </div>
+        <div class="row">
             <div class="col-lg-3 col-6">
               <!-- small box -->
-              <div class="small-box bg-success">
+              <div class="small-box bg-info">
                 <div class="inner">
-                  <h3>53<sup style="font-size: 20px">%</sup></h3>
-  
-                  <p>Bounce Rate</p>
+                  <h3> {{sum_ReqClaimCode}} </h3>
+                    
+                  <p>Req.Claimcode</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-stats-bars"></i>
+                  <i class="ion-arrow-down-a"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{% url 'recepreport' %}" class="small-box-footer">More info <i class="fas fa-home-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -42,14 +44,31 @@ Dashboard
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3>44</h3>
+                  <!-- <h3>53<sup style="font-size: 20px">%</sup></h3> -->
+                  <h3>{{sum_resultsReqClaim}}<sup style="font-size: 20px"></sup></h3>
   
-                  <p>User Registrations</p>
+                  <p>Req.Claim</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-person-add"></i>
+                  <i class="ion-upload"></i>
+                  
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{% url 'recepreport' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-success">
+                <div class="inner">
+                  <h3>{{sum_Approv}}</h3>
+  
+                  <p>Approved</p>
+                </div>
+                <div class="icon">
+                  <i class="ion-checkmark-circled"></i>
+                </div>
+                <a href="{% url 'recepreport' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -57,18 +76,19 @@ Dashboard
               <!-- small box -->
               <div class="small-box bg-danger">
                 <div class="inner">
-                  <h3>65</h3>
+                  <h3>{{sum_Denined}}</h3>
   
-                  <p>Unique Visitors</p>
+                  <p>Denined</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-pie-graph"></i>
+                  <i class="ion-alert-circled"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{% url 'recepreport' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
           </div>
+
     </div>
 
 

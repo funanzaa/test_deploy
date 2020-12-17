@@ -1,0 +1,57 @@
+{% extends 'base_dashborard.html' %}
+{% block page_title %}
+{% endblock page_title %}
+{% block main_content %}
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Report Table</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover text-nowrap">   
+             
+              <thead>
+                <tr>
+                  <th>Hcode</th>
+                  <th>Hname</th>
+                  <th>Training</th>
+                  <th>Install App</th>
+                  <th>Req.claimcode</th>
+                  <th>Req.claim</th>
+                  <th>Approved</th>
+                  <th>Denined</th>
+                  <th>Error.Code</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for recap_reports in recap_report %}
+                <tr>
+                  <td>{{recap_reports.hcode}}</td>
+                  <td>{{recap_reports.hname}}</td>
+                  <th>Yes</th>
+                  <th>Yes</th>
+                  <td>{{recap_reports.req_claimcode}}</td>
+                  <td>{{recap_reports.req_claim}}</td>
+                  <td>{{recap_reports.approved}}</td>
+                  <td>{{recap_reports.denined}}</td>
+                  <td>{{recap_reports.err_code}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+             
+            </table>
+            
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+{% endblock main_content %}
