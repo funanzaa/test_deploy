@@ -14,12 +14,12 @@
                 <div class="inner">
                   <h3> {{sum_hosp.TOTAL}} </h3>
                     
-                  <p>Hospital Model(5)</p>
+                  <p>1.จำนวนหน่วยบริการปฐมภูมิรูปแบบใหม่ (Model5)</p>
                 </div>
                 <div class="icon">
                   <i class="ion-map"></i>
                 </div>
-                <a href="{% url 'hosp_model5' %}" class="small-box-footer">More info <i class="fas fa-home-circle-right"></i></a>
+                <a href="{% url 'recepreport' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -31,12 +31,12 @@
                 <div class="inner">
                   <h3> {{sum_ReqClaimCode}} </h3>
                     
-                  <p>Req.Claimcode</p>
+                  <p>2.จำนวนข้อมูลที่ขอ Claim Code</p>
                 </div>
                 <div class="icon">
                   <i class="ion-arrow-down-a"></i>
                 </div>
-                <a href="{% url 'recepreport' %}" class="small-box-footer">More info <i class="fas fa-home-circle-right"></i></a>
+                <a href="{% url 'recepreport' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -47,7 +47,7 @@
                   <!-- <h3>53<sup style="font-size: 20px">%</sup></h3> -->
                   <h3>{{sum_resultsReqClaim}}<sup style="font-size: 20px"></sup></h3>
   
-                  <p>Req.Claim</p>
+                  <p>3.จำนวนข้อมูลที่ส่งเบิกทั้งหมด</p>
                 </div>
                 <div class="icon">
                   <i class="ion-upload"></i>
@@ -63,7 +63,7 @@
                 <div class="inner">
                   <h3>{{sum_Approv}}</h3>
   
-                  <p>Approved</p>
+                  <p>4.ผ่านการตรวจสอบ</p>
                 </div>
                 <div class="icon">
                   <i class="ion-checkmark-circled"></i>
@@ -78,7 +78,7 @@
                 <div class="inner">
                   <h3>{{sum_Denined}}</h3>
   
-                  <p>Denined</p>
+                  <p>5.ไม่ผ่านการตรวจสอบ</p>
                 </div>
                 <div class="icon">
                   <i class="ion-alert-circled"></i>

@@ -14,7 +14,9 @@ import requests
 from django.conf import settings
 from django.http import HttpResponse, Http404
 import json
-
+import datetime
+import pytz
+from django.db.models import Avg, Max, Min, Sum
 
 
 def HomePage(request):
@@ -43,7 +45,7 @@ def logoutUser(request):
 	logout(request)
 	return redirect('login')
 
-from django.db.models import Avg, Max, Min, Sum
+
 def model5_dashboard(request):
 	# url = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/get_total_hosp'
 	# test =  model5_recap_report.objects.all().aggregate(Sum('req_claimcode'))
@@ -62,10 +64,10 @@ def model5_dashboard(request):
 		cursor.execute(querySumDenined)
 		resultsDenined = cursor.fetchone()
 		# print(resultsReqClaim[0][0])
-		sum_ReqClaimCode  = results[0]
-		sum_resultsReqClaim = resultsReqClaim[0]
-		sum_Approv  = resultsApprov[0]
-		sum_Denined = resultsDenined[0]
+		sum_ReqClaimCode  = "{:,}".format(results[0])
+		sum_resultsReqClaim = "{:,}".format(resultsReqClaim[0])
+		sum_Approv  = "{:,}".format(resultsApprov[0])
+		sum_Denined = "{:,}".format(resultsDenined[0])
 		respones = requests.get(url)
 		sum_hosp = respones.json()
 		# print(sum_hosp)
@@ -108,36 +110,42 @@ def lookup_error(request):
 
 
 def recepreport(request):
-	count_recap_report = model5_recap_report.objects.all().count()
+	# count_recap_report = model5_recap_report.objects.all().count()
 	recap_report = model5_recap_report.objects.all()
+	# get_date =  model5_recap_report.objects.aggregate(Max('date_created')) 
+	max_date = model5_recap_report.objects.latest("date_created").date_created
+	get_day  = max_date.strftime("%d")
 	domain = 'https://bkkapp.nhso.go.th/bkkapp/'
 	list_hosp = domain + 'api/v1/public/HelpdeskReportService/get_list_hosp_model5'
-	total_hosp = 'api/v1/public/HelpdeskReportService/get_total_hosp'
+	# total_hosp = 'api/v1/public/HelpdeskReportService/get_total_hosp'
 	hcodeAppStatus = 'api/v1/public/HelpdeskReportService/get_hosp_approve_status/' # add hcode
-	errCode = 'api/v1/public/HelpdeskReportService/get_error_detail/41666/01003'
+	# errCode = 'api/v1/public/HelpdeskReportService/get_error_detail/41666/01003'
 	responesListHosp = requests.get(list_hosp)
 	jsonListHosp = responesListHosp.json()
 	y_jsonListHosp = json.dumps(jsonListHosp)
 	jsonDictListHosp = json.loads(y_jsonListHosp)
-	if count_recap_report != len(jsonDictListHosp):
+	tz = pytz.timezone('Asia/Bangkok')
+	date_current = datetime.datetime.now(tz=tz)
+	if int(date_current.day) == int(max_date.strftime("%d")):
+		context = {"recap_report":recap_report}
+		return render(request, 'recepreport.html', context)
+	else:
+	# if count_recap_report != len(jsonDictListHosp):
+		recap_report.delete() # delete data on table
 		for i in range(len(jsonDictListHosp)):
 			hcode = jsonDictListHosp[i]['HSUBOP']
 			hname = jsonDictListHosp[i]['HNAME']
 			url_hcodeAppStatus = domain + hcodeAppStatus + hcode
 			responesHcodeAppStatus= requests.get(url_hcodeAppStatus)
 			jsonListHcodeAppStatus = responesHcodeAppStatus.json()
-			y_jsonListHcodeAppStatus = json.dumps(jsonListHcodeAppStatus)
-			jsonDictHcodeAppStatus = json.loads(y_jsonListHcodeAppStatus)
-			req_claimcode = jsonDictHcodeAppStatus[i]['REG_CLAIMCODE']
-			req_claim = jsonDictHcodeAppStatus[i]['REG_CLAIM']
-			approved = jsonDictHcodeAppStatus[i]['APPROVED']
-			denined = jsonDictHcodeAppStatus[i]['DENINED']
+			req_claimcode = jsonListHcodeAppStatus[0]['REG_CLAIMCODE']
+			req_claim = jsonListHcodeAppStatus[0]['REG_CLAIM']
+			approved = jsonListHcodeAppStatus[0]['APPROVED']
+			denined = jsonListHcodeAppStatus[0]['DENINED']
 			blank = 'blank'
+			date_created = date_current
 			with connection.cursor() as cursor:
-				query = "INSERT INTO crm_model5_recap_report(hcode, hname, req_claimcode, req_claim, approved, denined, err_code) VALUES ('{}', '{}', '{}', '{}', '{}', '{}' ,'{}')".format(hcode,hname,req_claimcode,req_claim,approved,denined,blank)
+				query = "INSERT INTO crm_model5_recap_report(hcode, hname, req_claimcode, req_claim, approved, denined, err_code , date_created) VALUES ('{}', '{}', '{}', '{}', '{}', '{}' ,'{}','{}')".format(hcode,hname,req_claimcode,req_claim,approved,denined,blank,date_created)
 				cursor.execute(query)
-				# recap_report = model5_recap_report.objects.all()
-				# context = {"recap_report":recap_report}
-				# return render(request, 'recepreport.html', context)
 	context = {"recap_report":recap_report}
 	return render(request, 'recepreport.html', context)
