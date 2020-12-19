@@ -1,0 +1,54 @@
+{% extends 'base_hosp_model5.html' %}
+{% load tags_and_filters_extras %}
+<!-- {% block page_title %}
+{% endblock page_title %} -->
+{% block main_content %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h1 class="card-title"> จำนวนข้อมูลที่ส่งเบิกทั้งหมด</h1>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid"
+              aria-describedby="example1_info">
+              <thead>
+                <tr role="row">
+                  <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                    aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">รหัส
+                  </th>
+                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                    aria-label="Browser: activate to sort column ascending">สถานพยาบาล</th>
+                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                    aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">จำนวนข้อมูลที่ส่งเบิก
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for amountDataHospReqClaim in amountDataHospReqClaim %}
+                <tr role="row" class="odd">
+                  <td tabindex="0" class="sorting_1">{{amountDataHospReqClaim.hcode}}</td>
+                  <td>{{amountDataHospReqClaim.hname}}</td>
+                  <td>{{amountDataHospReqClaim.req_claim}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
+{% endblock main_content %}

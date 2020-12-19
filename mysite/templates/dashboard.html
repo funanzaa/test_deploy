@@ -31,57 +31,57 @@
                   <!-- 2.ติดตั้งโปรแกรมเรียบร้อยแล้ว -->
                   <div class="small-box bg-success">
                     <div class="inner">
-                      <h3> {{sum_hosp.TOTAL}} </h3>
+                      <h3> {{count_installApp}} </h3>
                       <p>2.ติดตั้งโปรแกรมเรียบร้อยแล้ว</p>
                     </div>
                     <div class="icon">
-                      <i class="ion-map"></i>
+                      <i class="ion-monitor"></i>
                     </div>
-                    <a href="{% url 'hosp_model5' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'installApp' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
                   <!-- 3.ผ่านการอบรมแล้ว -->
-                  <div class="small-box bg-warning">
+                  <div class="small-box bg-success">
                     <div class="inner">
-                      <h3> {{sum_hosp.TOTAL}} </h3>
+                      <h3> {{count_training}} </h3>
                         
                       <p>3.ผ่านการอบรมแล้ว</p>
                     </div>
                     <div class="icon">
-                      <i class="ion-map"></i>
+                      <i class="ion-university"></i>
                     </div>
-                    <a href="{% url 'hosp_model5' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'training' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
                   <!-- small box -->
                   <div class="small-box bg-info">
                     <div class="inner">
-                      <h3> {{sum_ReqClaimCode}} </h3>
+                      <h3> {{countHospReqClaim}} </h3>
                         
                       <p>4.จำนวนคลินิกที่ขอ Claim Code ได้</p>
                     </div>
                     <div class="icon">
-                      <i class="ion-arrow-down-a"></i>
+                      <i class="ion-arrow-down-c"></i>
                     </div>
-                    <a href="{% url 'recepreport' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'amountHospReqClaimcode' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
                   <!-- small box -->
-                  <div class="small-box bg-warning-demo">
+                  <div class="small-box bg-success">
                     <div class="inner">
                       <!-- <h3>53<sup style="font-size: 20px">%</sup></h3> -->
-                      <h3>{{sum_resultsReqClaim}}<sup style="font-size: 20px"></sup></h3>
+                      <h3>{{countHospSendClaim}}<sup style="font-size: 20px"></sup></h3>
       
                       <p>5.จำนวนคลินิกที่ส่งเบิกได้</p>
                     </div>
                     <div class="icon">
-                      <i class="ion-close"></i>
+                      <i class="ion-upload"></i>
                       
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'amountHospReqClaim' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
@@ -111,7 +111,7 @@
                     <div class="icon">
                       <i class="ion-arrow-down-a"></i>
                     </div>
-                    <a href="{% url 'recepreport' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'amountDataHospReqClaimCode' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
@@ -127,7 +127,7 @@
                       <i class="ion-upload"></i>
                       
                     </div>
-                    <a href="{% url 'recepreport' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'amountDataHospReqClaim' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
@@ -141,7 +141,7 @@
                     <div class="icon">
                       <i class="ion-checkmark-circled"></i>
                     </div>
-                    <a href="{% url 'recepreport' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'HospApprove' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">

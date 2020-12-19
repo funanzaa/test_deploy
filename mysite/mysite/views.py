@@ -46,10 +46,15 @@ def logoutUser(request):
 	logout(request)
 	return redirect('login')
 
-
+from django.db.models import Q
 def model5_dashboard(request):
 	with connection.cursor() as cursor:
 		recap_report = model5_recap_report.objects.all()
+		count_installApp = Hospitals.objects.filter(install_app='Yes').count()
+		count_training = Hospitals.objects.filter(training='Yes').count()
+		countHospReqClaim = model5_recap_report.objects.filter(~Q(req_claimcode='0')).count()
+		countHospSendClaim = model5_recap_report.objects.filter(~Q(req_claim='0')).count()
+		print(countHospReqClaim)
 		max_date = model5_recap_report.objects.latest("date_created").date_created
 		print(max_date)
 		url = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/get_total_hosp'
@@ -71,7 +76,10 @@ def model5_dashboard(request):
 		sum_Denined = "{:,}".format(resultsDenined[0])
 		respones = requests.get(url)
 		sum_hosp = respones.json()
-		context = {'sum_hosp': sum_hosp,'sum_ReqClaimCode':sum_ReqClaimCode,"sum_resultsReqClaim":sum_resultsReqClaim,"sum_Approv":sum_Approv,"sum_Denined":sum_Denined,"max_date":max_date}
+		# print(count_installApp)
+		context = {'sum_hosp': sum_hosp,'sum_ReqClaimCode':sum_ReqClaimCode,"sum_resultsReqClaim":sum_resultsReqClaim,
+		"sum_Approv":sum_Approv,"sum_Denined":sum_Denined,"max_date":max_date,"count_installApp":count_installApp,
+		"count_training":count_training,"countHospReqClaim":countHospReqClaim,"countHospSendClaim":countHospSendClaim}
 		return render(request, 'dashboard.html', context)
 
 def hosp_model5(request):
@@ -146,3 +154,43 @@ def recepreport(request):
 	except:
 		context = {"recap_report":recap_report}
 	return render(request, 'recepreport.html', context)
+
+
+def installApp(request):
+	hosInstallApp = Hospitals.objects.filter(install_app='Yes')
+	context = {"hosInstallApp":hosInstallApp}
+	return render(request, 'installApp.html', context)
+
+def training(request):
+	hosTraining = Hospitals.objects.filter(training='Yes')
+	context = {"hosInstallApp":hosTraining}
+	return render(request, 'training.html', context)
+
+
+
+def amountHospReqClaimcode(request):
+	amountHospReqClaimcode = model5_recap_report.objects.filter(~Q(req_claimcode='0'))
+	context = {"amountHospReqClaimcode":amountHospReqClaimcode}
+	return render(request, 'amountHospReqClaimcode.html', context)
+
+def amountHospReqClaim(request):
+	amountHospReqClaim = model5_recap_report.objects.filter(~Q(req_claim='0'))
+	context = {"amountHospReqClaim":amountHospReqClaim}
+	return render(request, 'amountHospReqClaim.html', context)
+
+
+def amountDataHospReqClaimCode(request):
+	amountDataHospReqClaimCode = model5_recap_report.objects.filter(~Q(req_claimcode='0'))
+	context = {"amountDataHospReqClaimCode":amountDataHospReqClaimCode}
+	return render(request, 'amountDataHospReqClaimCode.html', context)
+
+
+def amountDataHospReqClaim(request):
+	amountDataHospReqClaim = model5_recap_report.objects.filter(~Q(req_claim='0'))
+	context = {"amountDataHospReqClaim":amountDataHospReqClaim}
+	return render(request, 'amountDataHospReqClaim.html', context)
+
+def HospApprove(request):
+	HospApprove = model5_recap_report.objects.filter(~Q(req_claim='0'))
+	context = {"HospApprove":HospApprove}
+	return render(request, 'HospApprove.html', context)

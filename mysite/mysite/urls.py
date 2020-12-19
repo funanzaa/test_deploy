@@ -30,6 +30,13 @@ urlpatterns = [
     path('model5/hosp_model5/', views.hosp_model5, name="hosp_model5"),
     path('model5/lookup_error/', views.lookup_error, name="lookup_error"),
     path('model5/recepreport/', views.recepreport, name="recepreport"),
+    path('model5/installApp', views.installApp, name="installApp"),
+    path('model5/training', views.training, name="training"),
+    path('model5/amountHospReqClaimcode', views.amountHospReqClaimcode, name="amountHospReqClaimcode"),
+    path('model5/amountHospReqClaim', views.amountHospReqClaim, name="amountHospReqClaim"),
+    path('model5/amountDataHospReqClaimCode', views.amountDataHospReqClaimCode, name="amountDataHospReqClaimCode"),
+    path('model5/amountDataHospReqClaim', views.amountDataHospReqClaim, name="amountDataHospReqClaim"),
+    path('model5/HospApprove', views.HospApprove, name="HospApprove"),
 
 ]
 
