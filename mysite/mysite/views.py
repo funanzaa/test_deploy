@@ -14,8 +14,9 @@ import requests
 from django.conf import settings
 from django.http import HttpResponse, Http404
 import json
-import datetime
+import datetime 
 import pytz
+from datetime import timedelta
 from django.db.models import Avg, Max, Min, Sum
 
 
@@ -47,9 +48,10 @@ def logoutUser(request):
 
 
 def model5_dashboard(request):
-	# url = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/get_total_hosp'
-	# test =  model5_recap_report.objects.all().aggregate(Sum('req_claimcode'))
 	with connection.cursor() as cursor:
+		recap_report = model5_recap_report.objects.all()
+		max_date = model5_recap_report.objects.latest("date_created").date_created
+		print(max_date)
 		url = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/get_total_hosp'
 		query = "select sum(req_claimcode::int) from crm_model5_recap_report"
 		querySumReqClaim = "select sum(req_claim::int) from crm_model5_recap_report"
@@ -63,18 +65,13 @@ def model5_dashboard(request):
 		resultsApprov = cursor.fetchone()
 		cursor.execute(querySumDenined)
 		resultsDenined = cursor.fetchone()
-		# print(resultsReqClaim[0][0])
 		sum_ReqClaimCode  = "{:,}".format(results[0])
 		sum_resultsReqClaim = "{:,}".format(resultsReqClaim[0])
 		sum_Approv  = "{:,}".format(resultsApprov[0])
 		sum_Denined = "{:,}".format(resultsDenined[0])
 		respones = requests.get(url)
 		sum_hosp = respones.json()
-		# print(sum_hosp)
-		# context = {'sum_hosp': sum_hosp,'sum_ReqClaimCode':sum_ReqClaimCode,"sum_resultsReqClaim":resultsReqClaim}
-		context = {'sum_hosp': sum_hosp,'sum_ReqClaimCode':sum_ReqClaimCode,"sum_resultsReqClaim":sum_resultsReqClaim,"sum_Approv":sum_Approv,"sum_Denined":sum_Denined}
-
-		print(context)
+		context = {'sum_hosp': sum_hosp,'sum_ReqClaimCode':sum_ReqClaimCode,"sum_resultsReqClaim":sum_resultsReqClaim,"sum_Approv":sum_Approv,"sum_Denined":sum_Denined,"max_date":max_date}
 		return render(request, 'dashboard.html', context)
 
 def hosp_model5(request):
@@ -110,42 +107,42 @@ def lookup_error(request):
 
 
 def recepreport(request):
-	# count_recap_report = model5_recap_report.objects.all().count()
-	recap_report = model5_recap_report.objects.all()
-	# get_date =  model5_recap_report.objects.aggregate(Max('date_created')) 
-	max_date = model5_recap_report.objects.latest("date_created").date_created
-	get_day  = max_date.strftime("%d")
-	domain = 'https://bkkapp.nhso.go.th/bkkapp/'
-	list_hosp = domain + 'api/v1/public/HelpdeskReportService/get_list_hosp_model5'
-	# total_hosp = 'api/v1/public/HelpdeskReportService/get_total_hosp'
-	hcodeAppStatus = 'api/v1/public/HelpdeskReportService/get_hosp_approve_status/' # add hcode
-	# errCode = 'api/v1/public/HelpdeskReportService/get_error_detail/41666/01003'
-	responesListHosp = requests.get(list_hosp)
-	jsonListHosp = responesListHosp.json()
-	y_jsonListHosp = json.dumps(jsonListHosp)
-	jsonDictListHosp = json.loads(y_jsonListHosp)
-	tz = pytz.timezone('Asia/Bangkok')
-	date_current = datetime.datetime.now(tz=tz)
-	if int(date_current.day) == int(max_date.strftime("%d")):
+	try:
+		recap_report = model5_recap_report.objects.all()
+		max_date = model5_recap_report.objects.latest("date_created").date_created
+		domain = 'https://bkkapp.nhso.go.th/bkkapp/'
+		list_hosp = domain + 'api/v1/public/HelpdeskReportService/get_list_hosp_model5'
+		# total_hosp = 'api/v1/public/HelpdeskReportService/get_total_hosp'
+		hcodeAppStatus = 'api/v1/public/HelpdeskReportService/get_hosp_approve_status/' # add hcode ex.'api/v1/public/HelpdeskReportService/get_error_detail/41666/01003'
+		responesListHosp = requests.get(list_hosp)
+		url_hcodeAppStatus = list_hosp
+		status_api = responesListHosp.status_code
+		jsonListHosp = responesListHosp.json()
+		y_jsonListHosp = json.dumps(jsonListHosp)
+		jsonDictListHosp = json.loads(y_jsonListHosp)
+		tz = pytz.timezone('Asia/Bangkok')
+		date_current = datetime.datetime.now(tz=tz)
+		if int(date_current.day) == int(max_date.strftime("%d")): 
+			context = {"recap_report":recap_report}
+			return render(request, 'recepreport.html', context)
+		else:
+			recap_report.delete() # delete data on table
+			for i in range(len(jsonDictListHosp)):
+				hcode = jsonDictListHosp[i]['HSUBOP']
+				hname = jsonDictListHosp[i]['HNAME']
+				url_hcodeAppStatus = domain + hcodeAppStatus + hcode
+				responesHcodeAppStatus= requests.get(url_hcodeAppStatus)
+				jsonListHcodeAppStatus = responesHcodeAppStatus.json()
+				req_claimcode = jsonListHcodeAppStatus[0]['REG_CLAIMCODE']
+				req_claim = jsonListHcodeAppStatus[0]['REG_CLAIM']
+				approved = jsonListHcodeAppStatus[0]['APPROVED']
+				denined = jsonListHcodeAppStatus[0]['DENINED']
+				blank = 'blank'
+				date_created = date_current
+				with connection.cursor() as cursor:
+					query = "INSERT INTO crm_model5_recap_report(hcode, hname, req_claimcode, req_claim, approved, denined, err_code , date_created) VALUES ('{}', '{}', '{}', '{}', '{}', '{}' ,'{}','{}')".format(hcode,hname,req_claimcode,req_claim,approved,denined,blank,date_created)
+					cursor.execute(query)
+			context = {"recap_report":recap_report}
+	except:
 		context = {"recap_report":recap_report}
-		return render(request, 'recepreport.html', context)
-	else:
-	# if count_recap_report != len(jsonDictListHosp):
-		recap_report.delete() # delete data on table
-		for i in range(len(jsonDictListHosp)):
-			hcode = jsonDictListHosp[i]['HSUBOP']
-			hname = jsonDictListHosp[i]['HNAME']
-			url_hcodeAppStatus = domain + hcodeAppStatus + hcode
-			responesHcodeAppStatus= requests.get(url_hcodeAppStatus)
-			jsonListHcodeAppStatus = responesHcodeAppStatus.json()
-			req_claimcode = jsonListHcodeAppStatus[0]['REG_CLAIMCODE']
-			req_claim = jsonListHcodeAppStatus[0]['REG_CLAIM']
-			approved = jsonListHcodeAppStatus[0]['APPROVED']
-			denined = jsonListHcodeAppStatus[0]['DENINED']
-			blank = 'blank'
-			date_created = date_current
-			with connection.cursor() as cursor:
-				query = "INSERT INTO crm_model5_recap_report(hcode, hname, req_claimcode, req_claim, approved, denined, err_code , date_created) VALUES ('{}', '{}', '{}', '{}', '{}', '{}' ,'{}','{}')".format(hcode,hname,req_claimcode,req_claim,approved,denined,blank,date_created)
-				cursor.execute(query)
-	context = {"recap_report":recap_report}
 	return render(request, 'recepreport.html', context)
