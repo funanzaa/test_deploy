@@ -3,7 +3,12 @@
 {% load tags_and_filters_extras %}
 {% block page_title %}
 รายงานสถานการณ์การจ่ายชดเชย ในเครือข่ายปฐมภูมิ รูปแบบใหม่ Model5 
-<p class="text-danger"> ** ณ วันที่ {{max_date|add_datetime}} **</p>
+<!-- <p class="text-danger"> ** ณ วันที่ {{max_date|add_datetime}} **</p> -->
+<p class="text-danger">
+<small>
+  ** ณ วันที่ {{max_date|add_datetime}} **
+</small>
+</p>
 {% endblock page_title %}
 {% block main_content %}
 
@@ -24,7 +29,7 @@
                     <div class="icon">
                       <i class="ion-map"></i>
                     </div>
-                    <a href="{% url 'hosp_model5' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'hosp_model5' %}" target="_blank" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
@@ -37,7 +42,7 @@
                     <div class="icon">
                       <i class="ion-monitor"></i>
                     </div>
-                    <a href="{% url 'installApp' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'installApp' %}" target="_blank" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
@@ -51,7 +56,7 @@
                     <div class="icon">
                       <i class="ion-university"></i>
                     </div>
-                    <a href="{% url 'training' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'training' %}" target="_blank" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
@@ -65,7 +70,7 @@
                     <div class="icon">
                       <i class="ion-arrow-down-c"></i>
                     </div>
-                    <a href="{% url 'amountHospReqClaimcode' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'amountHospReqClaimcode' %}" target="_blank" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
@@ -81,7 +86,7 @@
                       <i class="ion-upload"></i>
                       
                     </div>
-                    <a href="{% url 'amountHospReqClaim' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'amountHospReqClaim' %}" target="_blank" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
@@ -97,7 +102,7 @@
                       <i class="ion-sad"></i>
                       
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="#" class="small-box-footer" target="_blank">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
@@ -111,7 +116,7 @@
                     <div class="icon">
                       <i class="ion-arrow-down-a"></i>
                     </div>
-                    <a href="{% url 'amountDataHospReqClaimCode' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'amountDataHospReqClaimCode' %}" target="_blank" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
@@ -127,7 +132,7 @@
                       <i class="ion-upload"></i>
                       
                     </div>
-                    <a href="{% url 'amountDataHospReqClaim' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'amountDataHospReqClaim' %}" target="_blank" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
@@ -141,7 +146,7 @@
                     <div class="icon">
                       <i class="ion-checkmark-circled"></i>
                     </div>
-                    <a href="{% url 'HospApprove' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'HospApprove' %}" target="_blank" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
@@ -155,7 +160,7 @@
                     <div class="icon">
                       <i class="ion-alert-circled"></i>
                     </div>
-                    <a href="{% url 'recepreport' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'model5Error' %}"  target="_blank" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">

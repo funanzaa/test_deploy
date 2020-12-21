@@ -37,6 +37,9 @@ urlpatterns = [
     path('model5/amountDataHospReqClaimCode', views.amountDataHospReqClaimCode, name="amountDataHospReqClaimCode"),
     path('model5/amountDataHospReqClaim', views.amountDataHospReqClaim, name="amountDataHospReqClaim"),
     path('model5/HospApprove', views.HospApprove, name="HospApprove"),
+    path('model5/ErrorDetail', views.ErrorDetail, name="model5Error"),
+    path('model5/ErrorDetail/<str:hcode>', views.ErrorDetailHcode, name='ErrorDetailHcode'),
+
 
 ]
 

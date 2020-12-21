@@ -54,9 +54,7 @@ def model5_dashboard(request):
 		count_training = Hospitals.objects.filter(training='Yes').count()
 		countHospReqClaim = model5_recap_report.objects.filter(~Q(req_claimcode='0')).count()
 		countHospSendClaim = model5_recap_report.objects.filter(~Q(req_claim='0')).count()
-		print(countHospReqClaim)
 		max_date = model5_recap_report.objects.latest("date_created").date_created
-		print(max_date)
 		url = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/get_total_hosp'
 		query = "select sum(req_claimcode::int) from crm_model5_recap_report"
 		querySumReqClaim = "select sum(req_claim::int) from crm_model5_recap_report"
@@ -124,7 +122,6 @@ def recepreport(request):
 		hcodeAppStatus = 'api/v1/public/HelpdeskReportService/get_hosp_approve_status/' # add hcode ex.'api/v1/public/HelpdeskReportService/get_error_detail/41666/01003'
 		responesListHosp = requests.get(list_hosp)
 		url_hcodeAppStatus = list_hosp
-		status_api = responesListHosp.status_code
 		jsonListHosp = responesListHosp.json()
 		y_jsonListHosp = json.dumps(jsonListHosp)
 		jsonDictListHosp = json.loads(y_jsonListHosp)
@@ -194,3 +191,100 @@ def HospApprove(request):
 	HospApprove = model5_recap_report.objects.filter(~Q(req_claim='0'))
 	context = {"HospApprove":HospApprove}
 	return render(request, 'HospApprove.html', context)
+
+
+
+def fnInsertErrDetaill(err_code,total_denined,hcode,err_detail,date_current):
+	with connection.cursor() as cursor:
+		query = "INSERT INTO public.crm_error_detail(hcode, err_code, err_detail, total_denined, date_created)VALUES ( '{}', '{}', '{}', '{}','{}');".format(hcode,err_code,err_detail,total_denined,date_current)
+		cursor.execute(query)
+
+def ErrorDetail(request):
+	try:
+		errDetail = error_detail.objects.all()
+		max_date = error_detail.objects.latest("date_created").date_created
+		url = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/get_error_detail'
+		tz = pytz.timezone('Asia/Bangkok')
+		date_current = datetime.datetime.now(tz=tz)
+		responesDetailErr= requests.get(url)
+		jsonresponesDetailErr = responesDetailErr.json()
+	 	# ex.{'ERR_CODE': '00008', 'TOTAL_DENINED': '33', 'HCODE': '41757', 'ERR_DETAIL': 'การวินิจฉัยโรค ไม่อยู่ในเงื่อนไขการบริการผู้ป่วยนอก'}
+		if int(date_current.day) == int(max_date.strftime("%d")):
+			with connection.cursor() as cursor:
+				query_sumErr = """
+	 					select t1.hcode,t1.hname,sum(total) as total
+	 					from (select r.hcode,r.hname,sum(total_denined::int) as total
+	 						from crm_error_detail e
+	 						inner join crm_model5_recap_report r on r.hcode::int  = e.hcode::int
+	 						group by r.hcode,r.hname,e.total_denined ) t1
+	 					group by t1.hcode,t1.hname
+	 				"""
+				cursor.execute(query_sumErr)
+				results = cursor.fetchall()
+				x = cursor.description
+				resultsList = []  
+				for r in results:
+					i = 0
+					d = {}
+					while i < len(x):
+						d[x[i][0]] = r[i]
+						i = i+1
+					resultsList.append(d)
+			context = {'resultsList': resultsList}
+			return render(request, 'ErrorDetail.html', context)
+		else:
+			errDetail.delete()
+			for i in range(len(jsonresponesDetailErr)):
+				err_code = jsonresponesDetailErr[i]['ERR_CODE']
+				total_denined = jsonresponesDetailErr[i]['TOTAL_DENINED']
+				hcode = jsonresponesDetailErr[i]['HCODE']
+				err_detail = jsonresponesDetailErr[i]['ERR_DETAIL']
+				fnInsertErrDetaill(err_code,total_denined,hcode,err_detail,date_current)
+		query_sumErr = """
+			select t1.hcode,t1.hname,sum(total) as total
+			from (select r.hcode,r.hname,sum(total_denined::int) as total
+				from crm_error_detail e
+				inner join crm_model5_recap_report r on r.hcode::int  = e.hcode::int
+				--where e.hcode = '41687'
+				group by r.hcode,r.hname,e.total_denined ) t1
+			group by t1.hcode,t1.hname
+		"""
+		with connection.cursor() as cursor:
+			cursor.execute(query_sumErr)
+			results = cursor.fetchall()
+			x = cursor.description
+			resultsList = []  
+			for r in results:
+				i = 0
+				d = {}
+				while i < len(x):
+					d[x[i][0]] = r[i]
+					i = i+1
+				resultsList.append(d)
+		context = {'resultsList': resultsList}
+		return render(request, 'ErrorDetail.html', context)
+	except:
+		context = {}
+		return render(request, 'ErrorDetail.html', context)
+
+	
+
+def ErrorDetailHcode(request,hcode):
+	with connection.cursor() as cursor:
+		cursor.execute(""" select err_code,err_detail,sum(total_denined::int)
+            from crm_error_detail
+            where hcode = %(hcode)s
+			group by err_code,err_detail
+         """, {'hcode': hcode})
+		results = cursor.fetchall()
+		x = cursor.description
+		resultsList = []  
+		for r in results:
+			i = 0
+			d = {}
+			while i < len(x):
+				d[x[i][0]] = r[i]
+				i = i+1
+			resultsList.append(d)
+	context = {'resultsList': resultsList}
+	return render(request,'ErrorDetailHcode.html',context)
