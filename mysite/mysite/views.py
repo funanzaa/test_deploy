@@ -18,6 +18,9 @@ import datetime
 import pytz
 from datetime import timedelta
 from django.db.models import Avg, Max, Min, Sum
+from django.views.generic import View
+from rest_framework.views import APIView  # rest_framework
+from rest_framework.response import Response  # rest_framework
 
 
 def HomePage(request):
@@ -50,10 +53,13 @@ from django.db.models import Q
 def model5_dashboard(request):
 	with connection.cursor() as cursor:
 		recap_report = model5_recap_report.objects.all()
+		# listHospNotReqClaim = model5_recap_report.objects.filter(req_claim='0')
+		count_hosp = model5_recap_report.objects.all().count()
 		count_installApp = Hospitals.objects.filter(install_app='Yes').count()
 		count_training = Hospitals.objects.filter(training='Yes').count()
 		countHospReqClaim = model5_recap_report.objects.filter(~Q(req_claimcode='0')).count()
 		countHospSendClaim = model5_recap_report.objects.filter(~Q(req_claim='0')).count()
+		countHospNoSendClaim = model5_recap_report.objects.filter(req_claim='0').count()
 		max_date = model5_recap_report.objects.latest("date_created").date_created
 		url = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/get_total_hosp'
 		query = "select sum(req_claimcode::int) from crm_model5_recap_report"
@@ -75,9 +81,15 @@ def model5_dashboard(request):
 		respones = requests.get(url)
 		sum_hosp = respones.json()
 		# print(count_installApp)
+		# cal persent
+		# print( "{:.{}f}".format( percentSent, 0 ) )
+		# print( "{:.{}f}".format( (countHospSendClaim/count_hosp)*100, 0 ) )
+		persentSendClaimcode = "{:.{}f}".format( (countHospSendClaim/count_hosp)*100, 0 ) 
+		persentNoSendClaimcode = "{:.{}f}".format( (countHospNoSendClaim/count_hosp)*100, 0 ) 
 		context = {'sum_hosp': sum_hosp,'sum_ReqClaimCode':sum_ReqClaimCode,"sum_resultsReqClaim":sum_resultsReqClaim,
 		"sum_Approv":sum_Approv,"sum_Denined":sum_Denined,"max_date":max_date,"count_installApp":count_installApp,
-		"count_training":count_training,"countHospReqClaim":countHospReqClaim,"countHospSendClaim":countHospSendClaim}
+		"count_training":count_training,"countHospReqClaim":countHospReqClaim,"countHospSendClaim":countHospSendClaim,
+		"persentSendClaimcode":persentSendClaimcode,"persentNoSendClaimcode":persentNoSendClaimcode}
 		return render(request, 'dashboard.html', context)
 
 def hosp_model5(request):
@@ -288,3 +300,33 @@ def ErrorDetailHcode(request,hcode):
 			resultsList.append(d)
 	context = {'resultsList': resultsList}
 	return render(request,'ErrorDetailHcode.html',context)
+
+
+
+
+def ListHospNotClaim(request):
+
+	listHospNotReqClaim = model5_recap_report.objects.filter(req_claim='0')
+	context = {'listHospNotReqClaim': listHospNotReqClaim}
+	return render(request,'amountHospNotReqClaim.html',context)
+
+
+
+
+
+class ChartHospSendClaimCode(APIView):
+	def get(self, request, format=None):
+		countHosp = model5_recap_report.objects.all().count()
+		countHospSendClaim = model5_recap_report.objects.filter(~Q(req_claim='0')).count()
+		countHospSendNoClaim = model5_recap_report.objects.filter(req_claim='0').count()
+		# percentSent = ( countHospSendClaim/countHosp)* 100
+		# percentNoSent = ( countHospSendNoClaim/countHosp)* 100
+		# print( "{:.{}f}".format( percentSent, 0 ) )
+		# print(percentNoSent)
+		labels = ['ส่งได้', 'ส่งไม่ได้']
+		# default_items = ["{:.{}f}".format( countHospSendClaim, 0 ) , "{:.{}f}".format( countHospSendNoClaim, 0 )]
+		default_items = [countHospSendClaim,countHospSendNoClaim]
+		data = {"labels": labels,
+            "default": default_items,
+        }
+		return Response(data)

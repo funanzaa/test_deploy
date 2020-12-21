@@ -102,7 +102,7 @@
                       <i class="ion-sad"></i>
                       
                     </div>
-                    <a href="#" class="small-box-footer" target="_blank">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
@@ -126,7 +126,7 @@
                       <!-- <h3>53<sup style="font-size: 20px">%</sup></h3> -->
                       <h3>{{sum_resultsReqClaim}}<sup style="font-size: 20px"></sup></h3>
       
-                      <p>8.จำนวนข้อมูลที่ส่งเบิกทั้งหมด</p>
+                      <p>8.จำนวนข้อมูลที่ส่งเบิกทั้งหมด (8)=(9)+(10)</p>
                     </div>
                     <div class="icon">
                       <i class="ion-upload"></i>
@@ -206,8 +206,10 @@
             <div class="col-md-4">  
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Browser Usage</h3>
-  
+                  <h3 class="card-title">
+                    <i class="fas fa-chart-pie mr-1"></i>
+                    จำนวนคลินิกที่ส่งเบิก
+                  </h3>
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                     </button>
@@ -227,12 +229,12 @@
                     <!-- /.col -->
                     <div class="col-md-4">
                       <ul class="chart-legend clearfix">
-                        <li><i class="far fa-circle text-danger"></i> Chrome</li>
-                        <li><i class="far fa-circle text-success"></i> IE</li>
-                        <li><i class="far fa-circle text-warning"></i> FireFox</li>
+                        <li><i class="far fa-circle text-danger"></i> ไม่ส่งเบิก </li>
+                        <li><i class="far fa-circle text-success"></i> ส่งเบิก</li>
+                        <!-- <li><i class="far fa-circle text-warning"></i> FireFox</li>
                         <li><i class="far fa-circle text-info"></i> Safari</li>
                         <li><i class="far fa-circle text-primary"></i> Opera</li>
-                        <li><i class="far fa-circle text-secondary"></i> Navigator</li>
+                        <li><i class="far fa-circle text-secondary"></i> Navigator</li> -->
                       </ul>
                     </div>
                     <!-- /.col -->
@@ -243,29 +245,28 @@
                 <div class="card-footer bg-white p-0">
                   <ul class="nav nav-pills flex-column">
                     <li class="nav-item">
-                      <a href="#" class="nav-link">
-                        United States of America
+                      <a href="{% url 'ListHospNotClaim' %}" target="_blank" class="nav-link">
+                        ไม่ส่งเบิก
                         <span class="float-right text-danger">
-                          <i class="fas fa-arrow-down text-sm"></i>
-                          12%</span>
+                          {{persentNoSendClaimcode}}%</span>
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a href="#" class="nav-link">
-                        India
+                      <a href="{% url 'amountHospReqClaim' %}" target="_blank" class="nav-link">
+                        ส่งเบิก
                         <span class="float-right text-success">
-                          <i class="fas fa-arrow-up text-sm"></i> 4%
+                         {{persentSendClaimcode}}%
                         </span>
                       </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                       <a href="#" class="nav-link">
                         China
                         <span class="float-right text-warning">
                           <i class="fas fa-arrow-left text-sm"></i> 0%
                         </span>
                       </a>
-                    </li>
+                    </li> -->
                   </ul>
                 </div>
                 <!-- /.footer -->
