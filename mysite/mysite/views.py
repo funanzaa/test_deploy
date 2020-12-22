@@ -368,16 +368,22 @@ def ListHospNotClaim(request):
 
 class ChartHospSendClaimCode(APIView):
 	def get(self, request, format=None):
-		countHosp = model5_recap_report.objects.all().count()
-		countHospSendClaim = model5_recap_report.objects.filter(~Q(req_claim='0')).count()
-		countHospSendNoClaim = model5_recap_report.objects.filter(req_claim='0').count()
-		# percentSent = ( countHospSendClaim/countHosp)* 100
-		# percentNoSent = ( countHospSendNoClaim/countHosp)* 100
-		# print( "{:.{}f}".format( percentSent, 0 ) )
-		# print(percentNoSent)
+		with connection.cursor() as cursor:
+				query_sumErr = """
+	 					select count(*) from crm_model5_recap_report where approved not in ('0')
+	 				"""
+				query = """
+	 					select count(*) from crm_model5_recap_report where approved in ('0')
+	 				"""
+				cursor.execute(query_sumErr)
+				results = cursor.fetchone()
+				cursor.execute(query)
+				results_ = cursor.fetchone()
+
+				countHospSendNoClaim = results[0]
+				countHospSendClaim = results_[0]
 		labels = ['ส่งได้', 'ส่งไม่ได้']
-		# default_items = ["{:.{}f}".format( countHospSendClaim, 0 ) , "{:.{}f}".format( countHospSendNoClaim, 0 )]
-		default_items = [countHospSendClaim,countHospSendNoClaim]
+		default_items = [countHospSendNoClaim,countHospSendClaim]
 		data = {"labels": labels,
             "default": default_items,
         }
