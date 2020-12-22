@@ -29,11 +29,11 @@
                 </tr>
               </thead>
               <tbody>
-                {% for HospApprove in HospApprove %}
+                {% for resultsList in resultsList %}
                 <tr role="row" class="odd">
-                  <td tabindex="0" class="sorting_1">{{HospApprove.hcode}}</td>
-                  <td>{{HospApprove.hname}}</td>
-                  <td>{{HospApprove.approved}}</td>
+                  <td tabindex="0" class="sorting_1">{{resultsList.hcode}}</td>
+                  <td>{{resultsList.hname}}</td>
+                  <td>{{resultsList.approved}}</td>
                 </tr>
                 {% endfor %}
               </tbody>

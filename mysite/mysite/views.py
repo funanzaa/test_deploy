@@ -58,14 +58,16 @@ def model5_dashboard(request):
 		count_installApp = Hospitals.objects.filter(install_app='Yes').count()
 		count_training = Hospitals.objects.filter(training='Yes').count()
 		countHospReqClaim = model5_recap_report.objects.filter(~Q(req_claimcode='0')).count()
-		countHospSendClaim = model5_recap_report.objects.filter(~Q(req_claim='0')).count()
-		countHospNoSendClaim = model5_recap_report.objects.filter(req_claim='0').count()
+		# countHospSendClaim = model5_recap_report.objects.filter(~Q(req_claim='0')).count()
+		# countHospNoSendClaim = model5_recap_report.objects.filter(req_claim='0').count()
 		max_date = model5_recap_report.objects.latest("date_created").date_created
 		url = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/get_total_hosp'
 		query = "select sum(req_claimcode::int) from crm_model5_recap_report"
 		querySumReqClaim = "select sum(req_claim::int) from crm_model5_recap_report"
 		querySumApprove = "select sum(approved::int) from crm_model5_recap_report"
 		querySumDenined = "select sum(denined::int) from crm_model5_recap_report"
+		queryCountHospSendClaim = "select count(*) from crm_model5_recap_report where approved not in ('0')"
+		queryCountHospNoSendClaim = "select count(*) from crm_model5_recap_report where approved in ('0')"
 		cursor.execute(query)
 		results = cursor.fetchone()
 		cursor.execute(querySumReqClaim)
@@ -74,22 +76,29 @@ def model5_dashboard(request):
 		resultsApprov = cursor.fetchone()
 		cursor.execute(querySumDenined)
 		resultsDenined = cursor.fetchone()
+		cursor.execute(queryCountHospSendClaim)
+		countHospSendClaim = cursor.fetchone()
+		cursor.execute(queryCountHospNoSendClaim)
+		countHospNoSendClaim = cursor.fetchone()
 		sum_ReqClaimCode  = "{:,}".format(results[0])
 		sum_resultsReqClaim = "{:,}".format(resultsReqClaim[0])
 		sum_Approv  = "{:,}".format(resultsApprov[0])
 		sum_Denined = "{:,}".format(resultsDenined[0])
 		respones = requests.get(url)
 		sum_hosp = respones.json()
-		# print(count_installApp)
+		# print(type(countHospSendClaim[0]))
 		# cal persent
 		# print( "{:.{}f}".format( percentSent, 0 ) )
 		# print( "{:.{}f}".format( (countHospSendClaim/count_hosp)*100, 0 ) )
-		persentSendClaimcode = "{:.{}f}".format( (countHospSendClaim/count_hosp)*100, 0 ) 
-		persentNoSendClaimcode = "{:.{}f}".format( (countHospNoSendClaim/count_hosp)*100, 0 ) 
+		persentSendClaimcode = "{:.{}f}".format( (int(countHospSendClaim[0])/count_hosp)*100, 0 ) 
+		persentNoSendClaimcode = "{:.{}f}".format( (int(countHospNoSendClaim[0])/count_hosp)*100, 0 ) 
 		context = {'sum_hosp': sum_hosp,'sum_ReqClaimCode':sum_ReqClaimCode,"sum_resultsReqClaim":sum_resultsReqClaim,
 		"sum_Approv":sum_Approv,"sum_Denined":sum_Denined,"max_date":max_date,"count_installApp":count_installApp,
-		"count_training":count_training,"countHospReqClaim":countHospReqClaim,"countHospSendClaim":countHospSendClaim,
-		"persentSendClaimcode":persentSendClaimcode,"persentNoSendClaimcode":persentNoSendClaimcode}
+		"count_training":count_training,"countHospReqClaim":countHospReqClaim,
+		"countHospSendClaim":countHospSendClaim[0],
+		"persentSendClaimcode":persentSendClaimcode,
+		"persentNoSendClaimcode":persentNoSendClaimcode
+		}
 		return render(request, 'dashboard.html', context)
 
 def hosp_model5(request):
@@ -183,8 +192,22 @@ def amountHospReqClaimcode(request):
 	return render(request, 'amountHospReqClaimcode.html', context)
 
 def amountHospReqClaim(request):
-	amountHospReqClaim = model5_recap_report.objects.filter(~Q(req_claim='0'))
-	context = {"amountHospReqClaim":amountHospReqClaim}
+	with connection.cursor() as cursor:
+				query_sumErr = """
+	 					select s.hcode ,s.hname from crm_model5_recap_report s where approved not in ('0')
+	 				"""
+				cursor.execute(query_sumErr)
+				results = cursor.fetchall()
+				x = cursor.description
+				resultsList = []  
+				for r in results:
+					i = 0
+					d = {}
+					while i < len(x):
+						d[x[i][0]] = r[i]
+						i = i+1
+					resultsList.append(d)
+				context = {"amountHospReqClaim":resultsList}
 	return render(request, 'amountHospReqClaim.html', context)
 
 
@@ -200,8 +223,24 @@ def amountDataHospReqClaim(request):
 	return render(request, 'amountDataHospReqClaim.html', context)
 
 def HospApprove(request):
-	HospApprove = model5_recap_report.objects.filter(~Q(req_claim='0'))
-	context = {"HospApprove":HospApprove}
+	with connection.cursor() as cursor:
+		query_sumErr = """
+			select hcode ,hname,approved 
+			from crm_model5_recap_report
+			where approved not in ('0')
+		"""
+		cursor.execute(query_sumErr)
+		results = cursor.fetchall()
+		x = cursor.description
+		resultsList = []  
+		for r in results:
+			i = 0
+			d = {}
+			while i < len(x):
+				d[x[i][0]] = r[i]
+				i = i+1
+			resultsList.append(d)
+	context = {'resultsList': resultsList}
 	return render(request, 'HospApprove.html', context)
 
 
@@ -305,9 +344,22 @@ def ErrorDetailHcode(request,hcode):
 
 
 def ListHospNotClaim(request):
-
-	listHospNotReqClaim = model5_recap_report.objects.filter(req_claim='0')
-	context = {'listHospNotReqClaim': listHospNotReqClaim}
+	with connection.cursor() as cursor:
+				query_sumErr = """
+	 					select s.hcode ,s.hname from crm_model5_recap_report s where approved in ('0')
+	 				"""
+				cursor.execute(query_sumErr)
+				results = cursor.fetchall()
+				x = cursor.description
+				resultsList = []  
+				for r in results:
+					i = 0
+					d = {}
+					while i < len(x):
+						d[x[i][0]] = r[i]
+						i = i+1
+					resultsList.append(d)
+	context = {'listHospNotReqClaim': resultsList}
 	return render(request,'amountHospNotReqClaim.html',context)
 
 
