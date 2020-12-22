@@ -23,7 +23,7 @@
             Chart.defaults.global.defaultFontSize = 18;
             Chart.defaults.global.defaultFontColor = '#777';
             let massPopChart = new Chart(myChart, {
-              type:'doughnut', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+              type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
               data:{
                 labels: labels,
                 datasets:[{

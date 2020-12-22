@@ -51,55 +51,121 @@ def logoutUser(request):
 
 from django.db.models import Q
 def model5_dashboard(request):
-	with connection.cursor() as cursor:
+
+	try:
 		recap_report = model5_recap_report.objects.all()
-		# listHospNotReqClaim = model5_recap_report.objects.filter(req_claim='0')
-		count_hosp = model5_recap_report.objects.all().count()
-		count_installApp = Hospitals.objects.filter(install_app='Yes').count()
-		count_training = Hospitals.objects.filter(training='Yes').count()
-		countHospReqClaim = model5_recap_report.objects.filter(~Q(req_claimcode='0')).count()
-		# countHospSendClaim = model5_recap_report.objects.filter(~Q(req_claim='0')).count()
-		# countHospNoSendClaim = model5_recap_report.objects.filter(req_claim='0').count()
 		max_date = model5_recap_report.objects.latest("date_created").date_created
-		url = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/get_total_hosp'
-		query = "select sum(req_claimcode::int) from crm_model5_recap_report"
-		querySumReqClaim = "select sum(req_claim::int) from crm_model5_recap_report"
-		querySumApprove = "select sum(approved::int) from crm_model5_recap_report"
-		querySumDenined = "select sum(denined::int) from crm_model5_recap_report"
-		queryCountHospSendClaim = "select count(*) from crm_model5_recap_report where approved not in ('0')"
-		queryCountHospNoSendClaim = "select count(*) from crm_model5_recap_report where approved in ('0')"
-		cursor.execute(query)
-		results = cursor.fetchone()
-		cursor.execute(querySumReqClaim)
-		resultsReqClaim = cursor.fetchone()
-		cursor.execute(querySumApprove)
-		resultsApprov = cursor.fetchone()
-		cursor.execute(querySumDenined)
-		resultsDenined = cursor.fetchone()
-		cursor.execute(queryCountHospSendClaim)
-		countHospSendClaim = cursor.fetchone()
-		cursor.execute(queryCountHospNoSendClaim)
-		countHospNoSendClaim = cursor.fetchone()
-		sum_ReqClaimCode  = "{:,}".format(results[0])
-		sum_resultsReqClaim = "{:,}".format(resultsReqClaim[0])
-		sum_Approv  = "{:,}".format(resultsApprov[0])
-		sum_Denined = "{:,}".format(resultsDenined[0])
-		respones = requests.get(url)
-		sum_hosp = respones.json()
-		# print(type(countHospSendClaim[0]))
-		# cal persent
-		# print( "{:.{}f}".format( percentSent, 0 ) )
-		# print( "{:.{}f}".format( (countHospSendClaim/count_hosp)*100, 0 ) )
-		persentSendClaimcode = "{:.{}f}".format( (int(countHospSendClaim[0])/count_hosp)*100, 0 ) 
-		persentNoSendClaimcode = "{:.{}f}".format( (int(countHospNoSendClaim[0])/count_hosp)*100, 0 ) 
-		context = {'sum_hosp': sum_hosp,'sum_ReqClaimCode':sum_ReqClaimCode,"sum_resultsReqClaim":sum_resultsReqClaim,
-		"sum_Approv":sum_Approv,"sum_Denined":sum_Denined,"max_date":max_date,"count_installApp":count_installApp,
-		"count_training":count_training,"countHospReqClaim":countHospReqClaim,
-		"countHospSendClaim":countHospSendClaim[0],
-		"persentSendClaimcode":persentSendClaimcode,
-		"persentNoSendClaimcode":persentNoSendClaimcode
-		}
-		return render(request, 'dashboard.html', context)
+		domain = 'https://bkkapp.nhso.go.th/bkkapp/'
+		list_hosp = domain + 'api/v1/public/HelpdeskReportService/get_list_hosp_model5'
+		hcodeAppStatus = 'api/v1/public/HelpdeskReportService/get_hosp_approve_status/'
+		responesListHosp = requests.get(list_hosp)
+		url_hcodeAppStatus = list_hosp
+		jsonListHosp = responesListHosp.json()
+		y_jsonListHosp = json.dumps(jsonListHosp)
+		jsonDictListHosp = json.loads(y_jsonListHosp)
+		tz = pytz.timezone('Asia/Bangkok')
+		date_current = datetime.datetime.now(tz=tz)
+		if int(date_current.day) != int(max_date.strftime("%d")): 
+			recap_report.delete() # delete data on table
+			for i in range(len(jsonDictListHosp)):
+				hcode = jsonDictListHosp[i]['HSUBOP']
+				hname = jsonDictListHosp[i]['HNAME']
+				url_hcodeAppStatus = domain + hcodeAppStatus + hcode
+				responesHcodeAppStatus= requests.get(url_hcodeAppStatus)
+				jsonListHcodeAppStatus = responesHcodeAppStatus.json()
+				req_claimcode = jsonListHcodeAppStatus[0]['REG_CLAIMCODE']
+				req_claim = jsonListHcodeAppStatus[0]['REG_CLAIM']
+				approved = jsonListHcodeAppStatus[0]['APPROVED']
+				denined = jsonListHcodeAppStatus[0]['DENINED']
+				blank = 'blank'
+				date_created = date_current
+				FnRecapReport(hcode,hname,req_claimcode,req_claim,approved,denined,blank,date_created)
+		with connection.cursor() as cursor:
+			recap_report = model5_recap_report.objects.all()
+			count_hosp = model5_recap_report.objects.all().count()
+			count_installApp = Hospitals.objects.filter(install_app='Yes').count()
+			count_training = Hospitals.objects.filter(training='Yes').count()
+			countHospReqClaim = model5_recap_report.objects.filter(~Q(req_claimcode='0')).count()
+			max_date = model5_recap_report.objects.latest("date_created").date_created
+			url = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/get_total_hosp'
+			query = "select sum(req_claimcode::int) from crm_model5_recap_report"
+			querySumReqClaim = "select sum(req_claim::int) from crm_model5_recap_report"
+			querySumApprove = "select sum(approved::int) from crm_model5_recap_report"
+			querySumDenined = "select sum(denined::int) from crm_model5_recap_report"
+			queryCountHospSendClaim = "select count(*) from crm_model5_recap_report where approved not in ('0')"
+			queryCountHospNoSendClaim = "select count(*) from crm_model5_recap_report where approved in ('0')"
+			cursor.execute(query)
+			results = cursor.fetchone()
+			cursor.execute(querySumReqClaim)
+			resultsReqClaim = cursor.fetchone()
+			cursor.execute(querySumApprove)
+			resultsApprov = cursor.fetchone()
+			cursor.execute(querySumDenined)
+			resultsDenined = cursor.fetchone()
+			cursor.execute(queryCountHospSendClaim)
+			countHospSendClaim = cursor.fetchone()
+			cursor.execute(queryCountHospNoSendClaim)
+			countHospNoSendClaim = cursor.fetchone()
+			sum_ReqClaimCode  = "{:,}".format(results[0])
+			sum_resultsReqClaim = "{:,}".format(resultsReqClaim[0])
+			sum_Approv  = "{:,}".format(resultsApprov[0])
+			sum_Denined = "{:,}".format(resultsDenined[0])
+			respones = requests.get(url)
+			sum_hosp = respones.json()
+			persentSendClaimcode = "{:.{}f}".format( (int(countHospSendClaim[0])/count_hosp)*100, 0 ) 
+			persentNoSendClaimcode = "{:.{}f}".format( (int(countHospNoSendClaim[0])/count_hosp)*100, 0 ) 
+			context = {'sum_hosp': sum_hosp,'sum_ReqClaimCode':sum_ReqClaimCode,"sum_resultsReqClaim":sum_resultsReqClaim,
+			"sum_Approv":sum_Approv,"sum_Denined":sum_Denined,"max_date":max_date,"count_installApp":count_installApp,
+			"count_training":count_training,"countHospReqClaim":countHospReqClaim,
+			"countHospSendClaim":countHospSendClaim[0],
+			"persentSendClaimcode":persentSendClaimcode,
+			"persentNoSendClaimcode":persentNoSendClaimcode
+			}
+			return render(request, 'dashboard.html', context)
+	except:
+		with connection.cursor() as cursor:
+			recap_report = model5_recap_report.objects.all()
+			count_hosp = model5_recap_report.objects.all().count()
+			count_installApp = Hospitals.objects.filter(install_app='Yes').count()
+			count_training = Hospitals.objects.filter(training='Yes').count()
+			countHospReqClaim = model5_recap_report.objects.filter(~Q(req_claimcode='0')).count()
+			max_date = model5_recap_report.objects.latest("date_created").date_created
+			url = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/get_total_hosp'
+			query = "select sum(req_claimcode::int) from crm_model5_recap_report"
+			querySumReqClaim = "select sum(req_claim::int) from crm_model5_recap_report"
+			querySumApprove = "select sum(approved::int) from crm_model5_recap_report"
+			querySumDenined = "select sum(denined::int) from crm_model5_recap_report"
+			queryCountHospSendClaim = "select count(*) from crm_model5_recap_report where approved not in ('0')"
+			queryCountHospNoSendClaim = "select count(*) from crm_model5_recap_report where approved in ('0')"
+			cursor.execute(query)
+			results = cursor.fetchone()
+			cursor.execute(querySumReqClaim)
+			resultsReqClaim = cursor.fetchone()
+			cursor.execute(querySumApprove)
+			resultsApprov = cursor.fetchone()
+			cursor.execute(querySumDenined)
+			resultsDenined = cursor.fetchone()
+			cursor.execute(queryCountHospSendClaim)
+			countHospSendClaim = cursor.fetchone()
+			cursor.execute(queryCountHospNoSendClaim)
+			countHospNoSendClaim = cursor.fetchone()
+			sum_ReqClaimCode  = "{:,}".format(results[0])
+			sum_resultsReqClaim = "{:,}".format(resultsReqClaim[0])
+			sum_Approv  = "{:,}".format(resultsApprov[0])
+			sum_Denined = "{:,}".format(resultsDenined[0])
+			respones = requests.get(url)
+			sum_hosp = respones.json()
+			persentSendClaimcode = "{:.{}f}".format( (int(countHospSendClaim[0])/count_hosp)*100, 0 ) 
+			persentNoSendClaimcode = "{:.{}f}".format( (int(countHospNoSendClaim[0])/count_hosp)*100, 0 ) 
+			context = {'sum_hosp': sum_hosp,'sum_ReqClaimCode':sum_ReqClaimCode,"sum_resultsReqClaim":sum_resultsReqClaim,
+			"sum_Approv":sum_Approv,"sum_Denined":sum_Denined,"max_date":max_date,"count_installApp":count_installApp,
+			"count_training":count_training,"countHospReqClaim":countHospReqClaim,
+			"countHospSendClaim":countHospSendClaim[0],
+			"persentSendClaimcode":persentSendClaimcode,
+			"persentNoSendClaimcode":persentNoSendClaimcode
+			}
+			return render(request, 'dashboard.html', context)
+
 
 def hosp_model5(request):
 	url = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/get_list_hosp_model5'
@@ -131,46 +197,30 @@ def lookup_error(request):
 	context = {'lookup_err':lookup_err}
 	return render(request, 'lookup_error.html', context)
 
-
+def FnRecapReport(hcode,hname,req_claimcode,req_claim,approved,denined,blank,date_created):
+	with connection.cursor() as cursor:
+		query = "INSERT INTO crm_model5_recap_report(hcode, hname, req_claimcode, req_claim, approved, denined, err_code , date_created) VALUES ('{}', '{}', '{}', '{}', '{}', '{}' ,'{}','{}')".format(hcode,hname,req_claimcode,req_claim,approved,denined,blank,date_created)
+		cursor.execute(query)
 
 def recepreport(request):
-	try:
-		recap_report = model5_recap_report.objects.all()
-		max_date = model5_recap_report.objects.latest("date_created").date_created
-		domain = 'https://bkkapp.nhso.go.th/bkkapp/'
-		list_hosp = domain + 'api/v1/public/HelpdeskReportService/get_list_hosp_model5'
-		# total_hosp = 'api/v1/public/HelpdeskReportService/get_total_hosp'
-		hcodeAppStatus = 'api/v1/public/HelpdeskReportService/get_hosp_approve_status/' # add hcode ex.'api/v1/public/HelpdeskReportService/get_error_detail/41666/01003'
-		responesListHosp = requests.get(list_hosp)
-		url_hcodeAppStatus = list_hosp
-		jsonListHosp = responesListHosp.json()
-		y_jsonListHosp = json.dumps(jsonListHosp)
-		jsonDictListHosp = json.loads(y_jsonListHosp)
-		tz = pytz.timezone('Asia/Bangkok')
-		date_current = datetime.datetime.now(tz=tz)
-		if int(date_current.day) == int(max_date.strftime("%d")): 
-			context = {"recap_report":recap_report}
-			return render(request, 'recepreport.html', context)
-		else:
-			recap_report.delete() # delete data on table
-			for i in range(len(jsonDictListHosp)):
-				hcode = jsonDictListHosp[i]['HSUBOP']
-				hname = jsonDictListHosp[i]['HNAME']
-				url_hcodeAppStatus = domain + hcodeAppStatus + hcode
-				responesHcodeAppStatus= requests.get(url_hcodeAppStatus)
-				jsonListHcodeAppStatus = responesHcodeAppStatus.json()
-				req_claimcode = jsonListHcodeAppStatus[0]['REG_CLAIMCODE']
-				req_claim = jsonListHcodeAppStatus[0]['REG_CLAIM']
-				approved = jsonListHcodeAppStatus[0]['APPROVED']
-				denined = jsonListHcodeAppStatus[0]['DENINED']
-				blank = 'blank'
-				date_created = date_current
-				with connection.cursor() as cursor:
-					query = "INSERT INTO crm_model5_recap_report(hcode, hname, req_claimcode, req_claim, approved, denined, err_code , date_created) VALUES ('{}', '{}', '{}', '{}', '{}', '{}' ,'{}','{}')".format(hcode,hname,req_claimcode,req_claim,approved,denined,blank,date_created)
-					cursor.execute(query)
-			context = {"recap_report":recap_report}
-	except:
-		context = {"recap_report":recap_report}
+	with connection.cursor() as cursor:
+			query_sumErr = """
+					select cr.hcode,ch.install_app,ch.training ,cr.hname ,cr.req_claimcode ,cr.req_claim ,cr.approved,cr.denined 
+					from crm_hospitals ch 
+					right join crm_model5_recap_report cr on ch.code = cr.hcode 
+				"""
+			cursor.execute(query_sumErr)
+			results = cursor.fetchall()
+			x = cursor.description
+			resultsList = []  
+			for r in results:
+				i = 0
+				d = {}
+				while i < len(x):
+					d[x[i][0]] = r[i]
+					i = i+1
+				resultsList.append(d)
+	context = {'recap_report': resultsList}
 	return render(request, 'recepreport.html', context)
 
 

@@ -41,11 +41,49 @@
                 {% for recap_report in recap_report %}
                 <tr role="row" class="odd">
                   <td tabindex="0" class="sorting_1">{{recap_report.hcode}}</td>
-                  <td>{{recap_report.hname}}</td>
-                  <td>{{recap_report.req_claimcode}}</td>
+                  <td>
+                    {{recap_report.hname}}
+                    <p>
+                      {% if recap_report.training == 'Yes' or recap_report.training == 'yes' %}
+                        <small class="badge badge-success"> อบรม </small>
+                        {% elif recap_report.training == 'No' or recap_report.training == 'no' %}
+                        <small class="badge badge-danger"> อบรม </small>
+                        {% else %}
+                        <small class="badge badge-danger"> อบรม </small>
+                      {% endif %}
+
+                      {% if recap_report.install_app == 'Yes' or recap_report.install_app == 'yes' %}
+                      <small class="badge badge-success"> ติดตั้งโปรแกรม </small>
+                      {% elif recap_report.install_app == 'No' or recap_report.install_app == 'no' %}
+                      <small class="badge badge-danger"> ติดตั้งโปรแกรม </small>
+                      {% else %}
+                      <small class="badge badge-danger"> ติดตั้งโปรแกรม </small>
+                    {% endif %}
+                    </p>
+                  </td>
+                  {%if recap_report.req_claimcode == '0' %}
+                    <td><p class="text-danger">{{recap_report.req_claimcode}}</p></td>
+                  {% else %}
+                    <td>{{recap_report.req_claimcode}}</td>
+                  {% endif %}
+
+                  {%if recap_report.req_claim == '0' %}
+                  <td><p class="text-danger">{{recap_report.req_claim}}</p></td>
+                  {% else %}
                   <td>{{recap_report.req_claim}}</td>
+                  {% endif %}
+
+                  {%if recap_report.approved == '0' %}
+                  <td><p class="text-danger">{{recap_report.approved}}</p></td>
+                  {% else %}
                   <td>{{recap_report.approved}}</td>
+                  {% endif %}
+
+                  {%if recap_report.denined == '0' %}
+                  <td><p class="text-danger">{{recap_report.denined}}</p></td>
+                  {% else %}
                   <td>{{recap_report.denined}}</td>
+                  {% endif %}
                 </tr>
                 {% endfor %}
               </tbody>

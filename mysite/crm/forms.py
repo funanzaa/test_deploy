@@ -56,10 +56,19 @@ class editHospitalForm(forms.Form):
         ("3", "ศูนย์บริการสาธารณสุข"),
         ("4", "คลินิก"),
     )
+    InstallApp_choice = (
+        ("Yes", "Yes"),
+        ("No", "No"),
+    )
+
+    active_choice = (
+        ("Yes", "Yes"),
+        ("No", "No"),
+    )
 
     code = forms.CharField( max_length=5,widget=forms.TextInput(attrs={"class":"form-control",'placeholder': 'code'}))
     label = forms.CharField(max_length=50, widget=forms.TextInput(attrs={"class":"form-control",'placeholder': 'Label'}))
     h_type = forms.ChoiceField(label="h_type", choices = type_choice, widget=forms.Select(attrs={"class":"form-control"}))
-    active = forms.CharField(max_length=50, widget=forms.TextInput(attrs={"class":"form-control",'placeholder': 'Yes or No'}))
-    install_app = forms.CharField(max_length=50, widget=forms.TextInput(attrs={"class":"form-control",'placeholder': 'Yes or No'}))
-    training = forms.CharField(max_length=50, widget=forms.TextInput(attrs={"class":"form-control",'placeholder': 'Yes or No'}))
+    active = forms.ChoiceField(label="Active", choices = InstallApp_choice, widget=forms.Select(attrs={"class":"form-control"}))
+    install_app = forms.ChoiceField(label="ติดตั้งโปรแกรม", choices = InstallApp_choice, widget=forms.Select(attrs={"class":"form-control"}))
+    training = forms.ChoiceField(label="อบรม", choices = active_choice, widget=forms.Select(attrs={"class":"form-control"}))
