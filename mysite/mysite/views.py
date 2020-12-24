@@ -99,7 +99,8 @@ def model5_dashboard(request):
 			queryCountHospNoSendClaim = "select count(*) from crm_model5_recap_report where approved in ('0')"
 			querySumDataKnow = "select sum(dataknow ::int) from crm_model5_recap_report"
 			querySumOver = FnQueryOne("select sum(over5day::int) from crm_dataTimePeriod") 
-			# print(querySumOver[0])
+			querySumUnder = FnQueryOne("select sum(under5day::int) from crm_dataTimePeriod")
+			# print(querySumUnder[0])
 			cursor.execute(query)
 			results = cursor.fetchone()
 			cursor.execute(querySumReqClaim)
@@ -120,6 +121,7 @@ def model5_dashboard(request):
 			sum_Denined = "{:,}".format(resultsDenined[0])
 			SumDataKnow = "{:,}".format(_SumDataKnow[0])
 			_querySumOver ="{:,}".format(querySumOver[0]) 
+			_querySumUnder ="{:,}".format(querySumUnder[0]) 
 			respones = requests.get(url)
 			sum_hosp = respones.json()
 			persentSendClaimcode = "{:.{}f}".format( (int(countHospSendClaim[0])/count_hosp)*100, 0 ) 
@@ -130,7 +132,7 @@ def model5_dashboard(request):
 			"countHospSendClaim":countHospSendClaim[0],
 			"persentSendClaimcode":persentSendClaimcode,
 			"persentNoSendClaimcode":persentNoSendClaimcode,
-			"SumDataKnow":SumDataKnow,"querySumOver":_querySumOver
+			"SumDataKnow":SumDataKnow,"querySumOver":_querySumOver,"querySumUnder":_querySumUnder
 			}
 			return render(request, 'dashboard.html', context)
 	except:
@@ -525,3 +527,9 @@ def dataTimePeriodOver(request):
 	timeperiod = datatimeperiod.objects.all()
 	context = {"timeperiod":timeperiod}
 	return render(request, 'dataTimePeriodOver.html', context)
+
+def dataTimePeriodUnder(request):
+	timeperiod = datatimeperiod.objects.all()
+	context = {"timeperiod":timeperiod}
+	return render(request, 'dataTimePeriodUnder.html', context)
+

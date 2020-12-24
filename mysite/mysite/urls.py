@@ -42,6 +42,7 @@ urlpatterns = [
     path('model5/ListHospNotClaim', views.ListHospNotClaim, name="ListHospNotClaim"),
     path('model5/dataKnowReqClaimCode', views.dataKnowReqClaimCode, name="dataKnowReqClaimCode"),
     path('model5/dataTimePeriodOver', views.dataTimePeriodOver, name="dataTimePeriodOver"),
+    path('model5/dataTimePeriodUnder', views.dataTimePeriodUnder, name="dataTimePeriodUnder"),
     # chart
     path('api/model5HospSendClaimCode/data/', views.ChartHospSendClaimCode.as_view(), name='api-model5HospSendClaimCode'),
     path('api/model5AmountHospSendClaim/data/', views.ChartAmountHospSendClaim.as_view(), name='api-model5HospSendAmountClaim'),
