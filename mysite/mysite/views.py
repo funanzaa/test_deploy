@@ -77,9 +77,9 @@ def model5_dashboard(request):
 				req_claim = jsonListHcodeAppStatus[0]['REG_CLAIM']
 				approved = jsonListHcodeAppStatus[0]['APPROVED']
 				denined = jsonListHcodeAppStatus[0]['DENINED']
-				blank = 'blank'
+				dataknow = jsonListHcodeAppStatus[0]['REG_CLAIMCODE_ADDNONCC']
 				date_created = date_current
-				FnRecapReport(hcode,hname,req_claimcode,req_claim,approved,denined,blank,date_created)
+				FnRecapReport(hcode,hname,req_claimcode,req_claim,approved,denined,dataknow,date_created)
 		with connection.cursor() as cursor:
 			recap_report = model5_recap_report.objects.all()
 			count_hosp = model5_recap_report.objects.all().count()
@@ -94,6 +94,7 @@ def model5_dashboard(request):
 			querySumDenined = "select sum(denined::int) from crm_model5_recap_report"
 			queryCountHospSendClaim = "select count(*) from crm_model5_recap_report where approved not in ('0')"
 			queryCountHospNoSendClaim = "select count(*) from crm_model5_recap_report where approved in ('0')"
+			querySumDataKnow = "select sum(dataknow ::int) from crm_model5_recap_report"
 			cursor.execute(query)
 			results = cursor.fetchone()
 			cursor.execute(querySumReqClaim)
@@ -106,10 +107,13 @@ def model5_dashboard(request):
 			countHospSendClaim = cursor.fetchone()
 			cursor.execute(queryCountHospNoSendClaim)
 			countHospNoSendClaim = cursor.fetchone()
+			cursor.execute(querySumDataKnow)
+			_SumDataKnow = cursor.fetchone()
 			sum_ReqClaimCode  = "{:,}".format(results[0])
 			sum_resultsReqClaim = "{:,}".format(resultsReqClaim[0])
 			sum_Approv  = "{:,}".format(resultsApprov[0])
 			sum_Denined = "{:,}".format(resultsDenined[0])
+			SumDataKnow = "{:,}".format(_SumDataKnow[0])
 			respones = requests.get(url)
 			sum_hosp = respones.json()
 			persentSendClaimcode = "{:.{}f}".format( (int(countHospSendClaim[0])/count_hosp)*100, 0 ) 
@@ -119,7 +123,8 @@ def model5_dashboard(request):
 			"count_training":count_training,"countHospReqClaim":countHospReqClaim,
 			"countHospSendClaim":countHospSendClaim[0],
 			"persentSendClaimcode":persentSendClaimcode,
-			"persentNoSendClaimcode":persentNoSendClaimcode
+			"persentNoSendClaimcode":persentNoSendClaimcode,
+			"SumDataKnow":SumDataKnow,
 			}
 			return render(request, 'dashboard.html', context)
 	except:
@@ -197,9 +202,9 @@ def lookup_error(request):
 	context = {'lookup_err':lookup_err}
 	return render(request, 'lookup_error.html', context)
 
-def FnRecapReport(hcode,hname,req_claimcode,req_claim,approved,denined,blank,date_created):
+def FnRecapReport(hcode,hname,req_claimcode,req_claim,approved,denined,dataknow,date_created):
 	with connection.cursor() as cursor:
-		query = "INSERT INTO crm_model5_recap_report(hcode, hname, req_claimcode, req_claim, approved, denined, err_code , date_created) VALUES ('{}', '{}', '{}', '{}', '{}', '{}' ,'{}','{}')".format(hcode,hname,req_claimcode,req_claim,approved,denined,blank,date_created)
+		query = "INSERT INTO crm_model5_recap_report(hcode, hname, req_claimcode, req_claim, approved, denined, dataknow , date_created) VALUES ('{}', '{}', '{}', '{}', '{}', '{}' ,'{}','{}')".format(hcode,hname,req_claimcode,req_claim,approved,denined,dataknow,date_created)
 		cursor.execute(query)
 
 def recepreport(request):
@@ -432,9 +437,52 @@ class ChartHospSendClaimCode(APIView):
 
 				countHospSendNoClaim = results[0]
 				countHospSendClaim = results_[0]
-		labels = ['ส่งได้', 'ส่งไม่ได้']
+		labels = ['ส่งเบิก', 'ไม่ส่งเบิก']
 		default_items = [countHospSendNoClaim,countHospSendClaim]
 		data = {"labels": labels,
             "default": default_items,
         }
 		return Response(data)
+
+
+
+class ChartAmountHospSendClaim(APIView):
+		def get(self, request, format=None):
+			with connection.cursor() as cursor:
+				query = """
+	 					select sum(req_claim::int) as claim ,sum(approved::int) as approved ,sum(denined::int) as denined
+						from crm_model5_recap_report cmrr 
+	 				"""
+				cursor.execute(query)
+				results = cursor.fetchall()
+				print(results)
+				countHospSendNoClaim = 0
+				countHospSendClaim = 0
+				labels = ['ผ่านการตรวจสอบ', 'ไม่ผ่านการตรวจสอบ']
+				default_items = [countHospSendNoClaim,countHospSendClaim]
+				data = {"labels": labels,
+					"default": default_items,
+				}
+			return Response(data)
+
+
+def dataKnowReqClaimCode(request):
+	with connection.cursor() as cursor:
+				query = """
+	 					select hcode,hname,dataknow 
+						from crm_model5_recap_report
+						order by hcode::int
+	 				"""
+				cursor.execute(query)
+				results = cursor.fetchall()
+				x = cursor.description
+				resultsList = []  
+				for r in results:
+					i = 0
+					d = {}
+					while i < len(x):
+						d[x[i][0]] = r[i]
+						i = i+1
+					resultsList.append(d)
+				context = {"DataKnowReqClaimCode":resultsList}
+	return render(request, 'DataKnowReqClaimCode.html', context)

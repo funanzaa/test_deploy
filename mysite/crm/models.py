@@ -92,7 +92,7 @@ class model5_recap_report(models.Model):
     req_claim = models.CharField(max_length=255)
     approved = models.CharField(max_length=255)
     denined = models.CharField(max_length=255)
-    err_code = models.CharField(max_length=255)
+    dataknow = models.CharField(max_length=255)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return self.hcode + ' : ' + self.hname
