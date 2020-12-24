@@ -106,3 +106,13 @@ class error_detail(models.Model):
 
     def __str__(self):
         return self.hcode + ' : ' + self.err_detail
+
+class datatimeperiod(models.Model):
+
+    hcode = models.CharField(max_length=255)
+    hname = models.CharField(max_length=255)
+    over5day =  models.CharField(max_length=255)
+    under5day  =  models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.hcode + ' : ' + self.over5day

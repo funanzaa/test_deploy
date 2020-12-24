@@ -53,11 +53,13 @@ from django.db.models import Q
 def model5_dashboard(request):
 
 	try:
+		timeperiod = datatimeperiod.objects.all()
 		recap_report = model5_recap_report.objects.all()
 		max_date = model5_recap_report.objects.latest("date_created").date_created
 		domain = 'https://bkkapp.nhso.go.th/bkkapp/'
 		list_hosp = domain + 'api/v1/public/HelpdeskReportService/get_list_hosp_model5'
 		hcodeAppStatus = 'api/v1/public/HelpdeskReportService/get_hosp_approve_status/'
+		apiTimeperiod = 'api/v1/public/DataService/query/Time_period'
 		responesListHosp = requests.get(list_hosp)
 		url_hcodeAppStatus = list_hosp
 		jsonListHosp = responesListHosp.json()
@@ -65,7 +67,7 @@ def model5_dashboard(request):
 		jsonDictListHosp = json.loads(y_jsonListHosp)
 		tz = pytz.timezone('Asia/Bangkok')
 		date_current = datetime.datetime.now(tz=tz)
-		if int(date_current.day) != int(max_date.strftime("%d")): 
+		if int(date_current.day) != int(max_date.strftime("%d")): #insert data
 			recap_report.delete() # delete data on table
 			for i in range(len(jsonDictListHosp)):
 				hcode = jsonDictListHosp[i]['HSUBOP']
@@ -80,6 +82,7 @@ def model5_dashboard(request):
 				dataknow = jsonListHcodeAppStatus[0]['REG_CLAIMCODE_ADDNONCC']
 				date_created = date_current
 				FnRecapReport(hcode,hname,req_claimcode,req_claim,approved,denined,dataknow,date_created)
+			CreateTimePeriod()
 		with connection.cursor() as cursor:
 			recap_report = model5_recap_report.objects.all()
 			count_hosp = model5_recap_report.objects.all().count()
@@ -95,6 +98,8 @@ def model5_dashboard(request):
 			queryCountHospSendClaim = "select count(*) from crm_model5_recap_report where approved not in ('0')"
 			queryCountHospNoSendClaim = "select count(*) from crm_model5_recap_report where approved in ('0')"
 			querySumDataKnow = "select sum(dataknow ::int) from crm_model5_recap_report"
+			querySumOver = FnQueryOne("select sum(over5day::int) from crm_dataTimePeriod") 
+			# print(querySumOver[0])
 			cursor.execute(query)
 			results = cursor.fetchone()
 			cursor.execute(querySumReqClaim)
@@ -114,6 +119,7 @@ def model5_dashboard(request):
 			sum_Approv  = "{:,}".format(resultsApprov[0])
 			sum_Denined = "{:,}".format(resultsDenined[0])
 			SumDataKnow = "{:,}".format(_SumDataKnow[0])
+			_querySumOver ="{:,}".format(querySumOver[0]) 
 			respones = requests.get(url)
 			sum_hosp = respones.json()
 			persentSendClaimcode = "{:.{}f}".format( (int(countHospSendClaim[0])/count_hosp)*100, 0 ) 
@@ -124,7 +130,7 @@ def model5_dashboard(request):
 			"countHospSendClaim":countHospSendClaim[0],
 			"persentSendClaimcode":persentSendClaimcode,
 			"persentNoSendClaimcode":persentNoSendClaimcode,
-			"SumDataKnow":SumDataKnow,
+			"SumDataKnow":SumDataKnow,"querySumOver":_querySumOver
 			}
 			return render(request, 'dashboard.html', context)
 	except:
@@ -206,6 +212,33 @@ def FnRecapReport(hcode,hname,req_claimcode,req_claim,approved,denined,dataknow,
 	with connection.cursor() as cursor:
 		query = "INSERT INTO crm_model5_recap_report(hcode, hname, req_claimcode, req_claim, approved, denined, dataknow , date_created) VALUES ('{}', '{}', '{}', '{}', '{}', '{}' ,'{}','{}')".format(hcode,hname,req_claimcode,req_claim,approved,denined,dataknow,date_created)
 		cursor.execute(query)
+
+def FnInsertTimePeriod(hcode,hname,over,under):
+	with connection.cursor() as cursor:
+		query = "INSERT INTO public.crm_datatimeperiod(hcode, hname, over5day, under5day) VALUES ('{}', '{}', '{}', '{}')".format(hcode,hname,over,under)
+		cursor.execute(query)
+
+def CreateTimePeriod():
+		TimePeriod = datatimeperiod.objects.all()
+		TimePeriod.delete()
+		urlTimePeriod = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/DataService/query/Time_period'
+		respones = requests.get(urlTimePeriod)
+		jsonTimePeriod = respones.json()
+		for i in range(len(jsonTimePeriod['data'])):
+			hcode = jsonTimePeriod['data'][i]['HCODE']
+			hname = jsonTimePeriod['data'][i]['HNAME']
+			over =  jsonTimePeriod['data'][i]['OVER_5DAY']
+			under = jsonTimePeriod['data'][i]['UNDER_5DAY']
+			FnInsertTimePeriod(hcode,hname,over,under)
+
+
+def FnQueryOne(query):
+	with connection.cursor() as cursor:
+		cursor.execute(query)
+		results = cursor.fetchone()
+		return results
+
+
 
 def recepreport(request):
 	with connection.cursor() as cursor:
@@ -486,3 +519,9 @@ def dataKnowReqClaimCode(request):
 					resultsList.append(d)
 				context = {"DataKnowReqClaimCode":resultsList}
 	return render(request, 'DataKnowReqClaimCode.html', context)
+
+
+def dataTimePeriodOver(request):
+	timeperiod = datatimeperiod.objects.all()
+	context = {"timeperiod":timeperiod}
+	return render(request, 'dataTimePeriodOver.html', context)

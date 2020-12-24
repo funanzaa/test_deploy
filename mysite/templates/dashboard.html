@@ -99,7 +99,7 @@
                       <p>6.จำนวนที่สปสช. รับรู้ว่ามีการบริการ</p>
                     </div>
                     <div class="icon">
-                      <i class="ion-radio-waves"></i>
+                      <i class="ion-android-bulb"></i>
                       
                     </div>
                     <a href="{% url 'dataKnowReqClaimCode'%}" target="_blank" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
@@ -168,20 +168,23 @@
                 </div>
                 <div class="col-lg-4 col-12">
                   <!-- small box -->
-                  <div class="small-box bg-warning-demo">
+                  <div class="small-box bg-warning">
                     <div class="inner">
                       <!-- <h3>53<sup style="font-size: 20px">%</sup></h3> -->
-                      <h3> None <sup style="font-size: 20px"></sup></h3>
-                      <p>11.จำนวนที่ขอ Claimcode แต่ยังไม่ส่งเบิก มากกว่า 5 วัน</p>
+                      <h3> {{querySumOver}} <sup style="font-size: 20px"></sup></h3>
+                        <p>11.จำนวนที่ขอ Claimcode แต่ยังไม่ส่งเบิก มากกว่า 5 วัน</p>
+                      <div class="text-center">
                         <small>
-                          (เทียบวันที่ขอ Claimcode vs วันแสดงข้อมูล)
+                          (เทียบวันที่ขอ Claimcode vs วันที่ส่งข้อมูลครั้งแรก)
                         </small>
+                      </div>
+
                     </div>
                     <div class="icon">
-                      <i class="ion-sad"></i>
+                      <i class="ion-chevron-right"></i>
                       
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'dataTimePeriodOver' %}" target="_blank" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12">
