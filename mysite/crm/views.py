@@ -184,7 +184,7 @@ def updateCase(request, pk):
         try:
             tz = pytz.timezone('Asia/Bangkok')
             case_name = request.POST.get("name")
-            # project = request.POST.get("project")
+            project = request.POST.get("project2")
             project_subgroup = request.POST.get("localityUpdate")
             resolution = request.POST.get("resolution")
             service = request.POST.get("service")
@@ -192,7 +192,7 @@ def updateCase(request, pk):
             upload_file = request.FILES['case_image']
             updateCase = Case.objects.get(id=pk)
             updateCase.name = case_name
-            # updateCase.project_id = project
+            updateCase.project_id = project
             updateCase.project_subgroup_id = project_subgroup
             updateCase.created_by_id = request.user.id
             updateCase.resolution = resolution
@@ -210,14 +210,14 @@ def updateCase(request, pk):
         except:
             tz = pytz.timezone('Asia/Bangkok')
             case_name = request.POST.get("name")
-            # project = request.POST.get("project")
+            project = request.POST.get("project2")
             project_subgroup = request.POST.get("localityUpdate")
             resolution = request.POST.get("resolution")
             service = request.POST.get("service")
             hosptial = request.POST.get("hospital")
             updateCase = Case.objects.get(id=pk)
             updateCase.name = case_name
-            # updateCase.project_id = project
+            updateCase.project_id = project
             updateCase.project_subgroup_id = project_subgroup
             updateCase.created_by_id = request.user.id
             updateCase.resolution = resolution
