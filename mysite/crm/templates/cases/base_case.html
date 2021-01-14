@@ -114,38 +114,6 @@
   <!-- AdminLTE for demo purposes -->
   <script src="{% static "dist/js/demo.js" %} "></script>
   <script>
-    $(function() {
-      //Initialize Select2 Elements
-      $('.select2').select2()
-
-      //Initialize Select2 Elements
-      $('.select2bs4').select2({
-        theme: 'bootstrap4'
-      })
-      //Timepicker
-      $('#timepicker').datetimepicker({
-        format: 'LT'
-      })
-
-      //Bootstrap Duallistbox
-      $('.duallistbox').bootstrapDualListbox()
-
-      //Colorpicker
-      $('.my-colorpicker1').colorpicker()
-      //color picker with addon
-      $('.my-colorpicker2').colorpicker()
-
-      $('.my-colorpicker2').on('colorpickerChange', function(event) {
-        $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
-      });
-
-      $("input[data-bootstrap-switch]").each(function() {
-        $(this).bootstrapSwitch('state', $(this).prop('checked'));
-      });
-      bsCustomFileInput.init();
-    })
-  </script>
-  <script>
       $(document).ready(function(){
         let dropdown = document.getElementById('locality-dropdown');
             dropdown.length = 0;
@@ -156,24 +124,20 @@
         $("#project").change(function(){
           let dropdown2 = $('#locality-dropdown')
           dropdown2.empty()
-          // console.log("test")
           var x = document.getElementById("project").value;
-          // console.log(x)
           var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
-          // console.log(endpoint)
             $.ajax({
             method:"GET",
             url: endpoint,
             success: function(data){
                  var mydata = JSON.parse(data);
                  let option;
-                 console.log(mydata)
+                //  console.log(mydata)
                 //  console.log(mydata.length)
                 // let dropdown = $('#locality-dropdown');
                 // dropdown.empty();
                  for (let i = 0; i < mydata.length; i++) {
                   option = document.createElement('option');
-                  // console.log(data[i])
                   option.text = mydata[i].name;
                   option.value = mydata[i].id;
                   dropdown.add(option);
@@ -190,16 +154,74 @@
   </script>
   <script>
     $(document).ready(function(){
+      // getsubproject()
+      let dropdown = document.getElementById('locality-dropdownUpdate');
       $("#project2").change(function(){
-        document.getElementById('locality-dropdownUpdate').disabled = false;
-        var x = document.getElementById("project2").value;
-        console.log(x)
+        // document.getElementById('locality-dropdownUpdate').disabled = false;
+        // var x = document.getElementById("project2").value;
+        getsubproject()
+        // var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
+        // $.ajax({
+        //     method:"GET",
+        //     url: endpoint,
+        //     success: function(data){
+        //          var mydata = JSON.parse(data);
+        //          let option;
+        //         // console.log(mydata)
+        //         //  console.log(mydata.length)
+        //         let dropdown_subproject = $('#locality-dropdownUpdate');
+        //         dropdown_subproject.empty();
+        //          for (let i = 0; i < mydata.length; i++) {
+        //           option = document.createElement('option');
+        //           // console.log(data[i])
+        //           option.text = mydata[i].name;
+        //           option.value = mydata[i].id;
+        //           dropdown.add(option);
+        //           dropdown.selectedIndex = 0;
+        //           }
+        //     },
+        //     error: function(error_data){
+        //       console.log('error')
+        //       console.log(error_data)
+        //     }
+        //   })
         
         // dropdown.options[ dropdown.selectedIndex ].value
         // let dropdown2 = $('#locality-dropdown2')
           // dropdown2.empty()
-          console.log("test")
+          // console.log("test")
       })
+      function getsubproject(){
+        document.getElementById('locality-dropdownUpdate').disabled = false;
+        var x = document.getElementById("project2").value;
+        let dropdown_subproject = $('#locality-dropdownUpdate');
+        dropdown_subproject.empty();
+        var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
+        $.ajax({
+            method:"GET",
+            url: endpoint,
+            success: function(data){
+                 var mydata = JSON.parse(data);
+                 let option;
+                // console.log(mydata)
+                //  console.log(mydata.length)
+                // let dropdown_subproject = $('#locality-dropdownUpdate');
+                // dropdown_subproject.empty();
+                 for (let i = 0; i < mydata.length; i++) {
+                  option = document.createElement('option');
+                  // console.log(data[i])
+                  option.text = mydata[i].name;
+                  option.value = mydata[i].id;
+                  dropdown.add(option);
+                  dropdown.selectedIndex = 0;
+                  }
+            },
+            error: function(error_data){
+              console.log('error')
+              console.log(error_data)
+            }
+          })
+      }
     })
   </script>
 </body>
