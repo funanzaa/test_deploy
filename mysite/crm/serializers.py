@@ -16,3 +16,16 @@ class ControlVersionSerializer(serializers.ModelSerializer):  # ModelSerializer 
         #     'date_created'
         # )
         fields = '__all__'
+
+class subProjectSerializer(serializers.ModelSerializer):  # ModelSerializer not link in url id
+    id = serializers.IntegerField(required=False)
+    name = serializers.CharField(required=False)
+    project = serializers.CharField(required=False)
+    
+    class Meta:
+        model = Project_subgroup
+        fields = (
+            'id',
+            'name',
+            'project'
+        )

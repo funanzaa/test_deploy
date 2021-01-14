@@ -8,14 +8,15 @@ class Project(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return self.name
+        return self.name 
 
 class Project_subgroup(models.Model):
     name = models.CharField(max_length=255)
+    project = models.ForeignKey(Project, null=True,on_delete= models.SET_NULL) # add
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return self.name
+        return self.name + " : " + str(self.project)
 
 class Hospitals(models.Model):
     CATEGORY = (

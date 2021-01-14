@@ -22,28 +22,31 @@
               <input type="text" class="form-control" id="exampleInputName1" placeholder="Case name" name="name" value="{{ case.name }}">
             </div>
             <div class="form-group">
-              <label for="exampleInputEmail1">Project name : {{case.project.id}}</label>
-              <select class="form-control" name="project">
+              <label for="exampleInputEmail1">Project name : </label>
+              <select id="project2" class="form-control" name="project2">
+              <!-- <select id = "project2" class="form-control" name="project"> -->
+                <!-- <option value="{{ case.project.id }}" selected> {{case.project_subgroup.project.name}} {{case.project_subgroup.project.id}} </option> -->
                 {% for project in projects %}
-                    {% if case.project.id == project.id %}
-                    <option value="{{ case.project.id }}" selected> {{case.project}} </option>
-                    {% else %}
-                    <option value="{{ project.id }}">{{ project.name }} </option>
-                    {% endif %}
+                   {% if case.project_subgroup.project.id == project.id %}
+                   <option value="{{ project.id }}" selected> {{project.name}}</option>
+                  {% else %}
+                  <option value="{{ project.id }}"> {{project.name}}</option>
+                  {% endif %} 
                 {% endfor %}
               </select>
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1"> Project Subgroup :</label>
-              <select class="form-control" name="project_subgroup">
+               <!-- <select class="form-control" name="project_subgroup"> -->
+               <select id="locality-dropdownUpdate" disabled class="form-control" name="localityUpdate">
                 {% for subgroup in subgroups %}
-                  {% if case.project_subgroup.id == subgroup.id %}
-                  <option value="{{ case.project_subgroup.id }}" selected> {{case.project_subgroup}} </option>
+                  {% if case.project_subgroup_id == subgroup.id %}
+                  <option value="{{ subgroup.id }}" selected >{{ subgroup.name }} </option>
                   {% else %}
-                  <option value="{{ subgroup.id }}">{{ subgroup.name }} </option>
+                  <option value="{{ subgroup.id}}" > {{subgroup.name}}</option>
                   {% endif %}
                 {% endfor %}
-              </select>
+              </select> 
             </div>
             <div class="form-group">
               <label>Resolution :</label>

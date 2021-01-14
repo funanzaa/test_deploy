@@ -68,10 +68,12 @@
                       </small>
                     </td>
                     <td>
-                      {{ case.project_subgroup}}
+                      {{ case.project_subgroup.name}}
                     </td>
                     <td>
-                      {{case.project}}
+                      {% if case.project_subgroup.project %}
+                      {{case.project_subgroup.project}}
+                      {% endif %}
                     </td>
                     <td>
                       {{case.hospitals}}

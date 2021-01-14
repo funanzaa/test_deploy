@@ -11,6 +11,10 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger  # paginator
 from django.http import HttpResponse, Http404
+import json
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
+
 
 
 @login_required(login_url='login')
@@ -102,22 +106,23 @@ def dashboardPage(request):
 @login_required(login_url='login')
 def createCase(request):
     project = Project.objects.all()
-    subgroup = Project_subgroup.objects.all()
+    # subgroup = Project_subgroup.objects.all()
     service = Service.objects.all()
     hospital = Hospitals.objects.all()
     if request.method == "POST":
         try:
             tz = pytz.timezone('Asia/Bangkok')
             case_name = request.POST.get("name")
-            project = request.POST.get("project")
-            project_subgroup = request.POST.get("project_subgroup")
+            #project = request.POST.get("project")  Cancal save
+            project_subgroup = request.POST.get("locality") # subgroup Project
+            # project("project_subgroup" + str(project_subgroup))
             resolution = request.POST.get("resolution")
             service = request.POST.get("service")
             hosptial = request.POST.get("hospital")
             upload_file = request.FILES['case_image']
             newCase = Case()
             newCase.name = case_name
-            newCase.project_id = project
+            # newCase.project_id = project
             newCase.project_subgroup_id = project_subgroup
             newCase.created_by_id = request.user.id
             newCase.resolution = resolution
@@ -135,14 +140,15 @@ def createCase(request):
         except:
             tz = pytz.timezone('Asia/Bangkok')
             case_name = request.POST.get("name")
-            project = request.POST.get("project")
-            project_subgroup = request.POST.get("project_subgroup")
+            # project = request.POST.get("project") cancal
+            # project_subgroup = request.POST.get("project_subgroup")
+            project_subgroup = request.POST.get("locality")
             resolution = request.POST.get("resolution")
             service = request.POST.get("service")
             hosptial = request.POST.get("hospital")
             newCase = Case()
             newCase.name = case_name
-            newCase.project_id = project
+            # newCase.project_id = project
             newCase.project_subgroup_id = project_subgroup
             newCase.created_by_id = request.user.id
             newCase.resolution = resolution
@@ -152,7 +158,7 @@ def createCase(request):
             newCase.save()
             messages.success(request, 'Your case is added successfully!')
             return HttpResponseRedirect(reverse_lazy('viewcase'))
-    context = {"projects": project, "subgroups": subgroup,
+    context = {"projects": project,
                "services": service, "hospitals": hospital}
     return render(request, 'cases/add_case.html', context)
 
@@ -173,6 +179,7 @@ def updateCase(request, pk):
     subgroup = Project_subgroup.objects.all()
     service = Service.objects.all()
     hospital = Hospitals.objects.all()
+    # print(case)
     if request.method == "POST":
         try:
             tz = pytz.timezone('Asia/Bangkok')
@@ -221,6 +228,7 @@ def updateCase(request, pk):
             messages.success(request, 'Your case is updated successfully!')
             return HttpResponseRedirect(reverse_lazy('viewcase'))
             # return redirect('viewcase')
+            
     context = {'case': case, "projects": project, "subgroups": subgroup,
                "services": service, "hospitals": hospital}
     return render(request, 'cases/update_case.html', context)
@@ -429,3 +437,20 @@ def controlversions(request):
             resultsList.append(d)
         context = {'ControlVersion': resultsList}
         return render(request, 'cases/crontrol_version.html', context)
+
+
+from rest_framework.views import APIView  # rest_framework
+from rest_framework.response import Response  # rest_framework
+from rest_framework.authtoken.views import ObtainAuthToken  # rest_framework
+from rest_framework.authtoken.models import Token  # rest_framework
+from rest_framework import status
+from .serializers import *
+
+
+
+
+def List_Subproject(request, pk):
+    subgroup = Project_subgroup.objects.filter(project=pk).values('id', 'name')
+    list_subgroup = json.dumps(list(subgroup))
+    # print(list_subgroup)
+    return HttpResponse(list_subgroup)

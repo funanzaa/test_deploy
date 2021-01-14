@@ -4,6 +4,10 @@ from rest_framework.authtoken.views import ObtainAuthToken  # rest_framework
 from rest_framework.authtoken.models import Token  # rest_framework
 from rest_framework import status
 
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
+from django.views.generic import View
+
 from .serializers import *
 from .models import *
 
@@ -43,6 +47,7 @@ class ControlVersionDetail(APIView):
         # model = Hospitals.objects.filter(id=pk)
         # serializer = hospitalSerializer(model, many=True)
         # if serializer.data == []:
+        print(pk)
         try:
             model = ControlVersion.objects.get(hcode=pk)
         except ControlVersion.DoesNotExist:
@@ -68,5 +73,16 @@ class ControlVersionDetail(APIView):
         model = ControlVersion.objects.get(hcode=pk)
         model.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ListSubProject(View):
+
+    def get(self, request,pk):
+        SubProject = Project_subgroup.objects.filter(project=pk)
+        serializer = subProjectSerializer(model, many=True)
+        return Response(serializer.data)
+        # return JsonResponse({'model': model_to_dict(model)}, status=200)
+
+
 
 

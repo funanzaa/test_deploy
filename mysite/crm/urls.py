@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .view_charts import get_data, ChartData, ChartDataService, ChartDataCase, MonthlyRecap
-from .api import ControlVersionList, ControlVersionDetail, UserAuthentication
+from .api import ControlVersionList, ControlVersionDetail, UserAuthentication ,ListSubProject
 
 
 urlpatterns = [
@@ -22,6 +22,12 @@ urlpatterns = [
     path('api/chart_service/data/', ChartDataService.as_view(), name='api-data-service'),
     path('api/chart_case/data/', ChartDataCase.as_view(), name='api-data-case'),
     path('api/MonthlyRecap/data/', MonthlyRecap.as_view(), name='api-monthlyrecap'),
+
+
+    # api subproject
+    path('api/List_Subproject/<str:pk>/',views.List_Subproject, name='ListSubProject'),
+
+
     # controlVersions
     path('api/ControlVersionList/', ControlVersionList.as_view(), name='ControlVersion_List'),
     path('api/ControlVersionDetail/<str:pk>/', ControlVersionDetail.as_view(), name='ControlVersionDetail'),
