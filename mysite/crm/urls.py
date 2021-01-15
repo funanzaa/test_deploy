@@ -27,6 +27,8 @@ urlpatterns = [
     # api subproject
     path('api/List_Subproject/<str:pk>/',views.List_Subproject, name='ListSubProject'),
 
+    # Profile Server
+    path('Profile_Server/',views.Profile_Server, name='Profile_Server'),
 
     # controlVersions
     path('api/ControlVersionList/', ControlVersionList.as_view(), name='ControlVersion_List'),

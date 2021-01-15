@@ -107,6 +107,7 @@ class ProfileServer(models.Model):
     ContactEmail = models.CharField(max_length=255,default='')
     datetimeReceiveServer = models.DateTimeField(null=True, blank=True)
     ServerImage = models.ImageField(blank=True)
+    UseServer =  models.CharField(max_length=255,default='')
     update_at =  models.DateTimeField(null=True, blank=True)
 
 

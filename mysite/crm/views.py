@@ -447,10 +447,15 @@ from rest_framework import status
 from .serializers import *
 
 
-
+# List_Subproject
 
 def List_Subproject(request, pk):
     subgroup = Project_subgroup.objects.filter(project=pk).values('id', 'name')
     list_subgroup = json.dumps(list(subgroup))
     # print(list_subgroup)
     return HttpResponse(list_subgroup)
+
+# Profile Server
+def Profile_Server(request):
+    context = {}
+    return render(request, 'cases/ProfileServer.html', context)
