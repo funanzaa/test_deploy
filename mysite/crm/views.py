@@ -457,5 +457,7 @@ def List_Subproject(request, pk):
 
 # Profile Server
 def Profile_Server(request):
-    context = {}
+    hospital = Hospitals.objects.all()
+    serverband = ServerBand.objects.all()
+    context = {"hospitals": hospital,"serverbands":serverband}
     return render(request, 'cases/ProfileServer.html', context)

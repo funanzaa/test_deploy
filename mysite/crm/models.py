@@ -110,6 +110,9 @@ class ProfileServer(models.Model):
     UseServer =  models.CharField(max_length=255,default='')
     update_at =  models.DateTimeField(null=True, blank=True)
 
+    def __str__(self):
+        return self.hospitals.label
+
 
 
 

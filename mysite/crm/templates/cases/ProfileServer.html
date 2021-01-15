@@ -23,17 +23,19 @@
                   <div class="form-group">
                     <label>Hospital</label>
                     <select  class="form-control select2" name="hospital"style="width: 100%;">
-                      <!-- {% for hospital in hospitals %} -->
-                      <option value="1" select >hospital</option>
-                      <!-- {% endfor %} -->
+                      {% for hospital in hospitals %}
+                      <option value="{{ hospital.id }}" >{{hospital.code}} : {{hospital.label}}</option>
+                      {% endfor %}
                     </select>
                   </div>
                 </div>
                 <div class="col-sm-6">
-                  <div class="form-group">
-                    <label> Brand </label>
-                    <input type="text" class="form-control" placeholder="ยี่ห้อ">
-                  </div>
+                  <label>Band</label>
+                  <select  class="form-control select2" name="serverband"style="width: 100%;">
+                    {% for serverband in serverbands %}
+                    <option value="{{ serverband.id }}" >{{serverband.name}}</option>
+                    {% endfor %}
+                  </select>
                 </div>
               </div>
               <div class="row">
@@ -41,13 +43,13 @@
                   <!-- textarea -->
                   <div class="form-group">
                     <label> Contact First Name </label>
-                    <input type="text" class="form-control" placeholder="ชื่อ">
+                    <input type="text" class="form-control" name="FirstName" placeholder="ชื่อ">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label> Contact LastName </label>
-                    <input type="text" class="form-control" placeholder="นามสกุล">
+                    <input type="text" class="form-control" name="LastName"  placeholder="นามสกุล">
                   </div>
                 </div>
               </div>
@@ -56,7 +58,7 @@
                   <!-- Contact -->
                   <div class="form-group">
                     <label> Contact Phone </label>
-                    <input type="text" class="form-control" placeholder="เบอร์โทรศัพท์">
+                    <input type="text" class="form-control" name="ContactPhone" placeholder="เบอร์โทรศัพท์">
                   </div>
                 </div>
                 <div class="col-sm-6">
