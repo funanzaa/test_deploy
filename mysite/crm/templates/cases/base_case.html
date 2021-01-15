@@ -164,10 +164,6 @@
             success: function(data){
                  var mydata = JSON.parse(data);
                  let option;
-                //  console.log(mydata)
-                //  console.log(mydata.length)
-                // let dropdown = $('#locality-dropdown');
-                // dropdown.empty();
                  for (let i = 0; i < mydata.length; i++) {
                   option = document.createElement('option');
                   option.text = mydata[i].name;
@@ -223,6 +219,48 @@
           })
       }
     })
+  </script>
+  <script>
+ $(document).ready(function(){
+      // let dropdown = document.getElementById('locality-dropdownUpdate');
+      $("#project3").change(function(){
+        getsubproject()
+      })
+      function getsubproject(){
+        // document.getElementById('locality-dropdownUpdate').disabled = false;
+        var x = document.getElementById("project3").value;
+        // console.log(x)
+        // let dropdown = $('#locality-dropdown-hospital');
+        // dropdown_subproject.empty();
+        var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
+        $.ajax({
+            method:"GET",
+            url: endpoint,
+            success: function(data){
+                 var mydata = JSON.parse(data);
+                 let option;
+                // console.log(mydata)
+                //  console.log(mydata.length)
+                let dropdown_subproject_hospital = document.getElementById('locality-dropdown-hospital');
+                let dropdown_subproject_hospital2 = $('#locality-dropdown-hospital');
+                dropdown_subproject_hospital2.empty();
+                 for (let i = 0; i < mydata.length; i++) {
+                  option = document.createElement('option');
+                  // console.log(data[i])
+                  option.text = mydata[i].name;
+                  option.value = mydata[i].id;
+                  dropdown_subproject_hospital.add(option);
+                  dropdown_subproject_hospital.selectedIndex = 0;
+                  }
+            },
+            error: function(error_data){
+              console.log('error')
+              console.log(error_data)
+            }
+          })
+      }
+    })
+
   </script>
 </body>
 

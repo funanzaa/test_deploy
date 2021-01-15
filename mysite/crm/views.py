@@ -341,14 +341,14 @@ def create_case_hospital(request, pk):
         try:
             tz = pytz.timezone('Asia/Bangkok')
             case_name = request.POST['name']
-            project = request.POST['project']
-            project_subgroup = request.POST['project_subgroup']
+            # project = request.POST['project']
+            project_subgroup = request.POST['locality-hospital']
             resolution = request.POST['resolution']
             service = request.POST['service']
             upload_file = request.FILES['case_image']
             newCase = Case()
             newCase.name = case_name
-            newCase.project_id = project
+            # newCase.project_id = project
             newCase.project_subgroup_id = project_subgroup
             newCase.created_by_id = request.user.id
             newCase.resolution = resolution
@@ -364,13 +364,13 @@ def create_case_hospital(request, pk):
             return HttpResponseRedirect(reverse_lazy('viewcase'))
         except:
             case_name = request.POST['name']
-            project = request.POST['project']
-            project_subgroup = request.POST['project_subgroup']
+            # project = request.POST['project']
+            project_subgroup = request.POST['locality-hospital']
             resolution = request.POST['resolution']
             service = request.POST['service']
             newCase = Case()
             newCase.name = case_name
-            newCase.project_id = project
+            # newCase.project_id = project
             newCase.project_subgroup_id = project_subgroup
             newCase.created_by_id = request.user.id
             newCase.resolution = resolution
