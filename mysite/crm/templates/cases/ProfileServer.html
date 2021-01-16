@@ -16,7 +16,8 @@
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            <form role="form">
+            <form role="form" method="POST" class="form-group" enctype="multipart/form-data">
+              {% csrf_token %}
               <div class="row">
                 <div class="col-sm-6">
                   <!-- text input -->
@@ -42,13 +43,13 @@
                 <div class="col-sm-6">
                   <!-- textarea -->
                   <div class="form-group">
-                    <label> Contact First Name </label>
+                    <label> First Name </label>
                     <input type="text" class="form-control" name="FirstName" placeholder="ชื่อ">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label> Contact LastName </label>
+                    <label> LastName </label>
                     <input type="text" class="form-control" name="LastName"  placeholder="นามสกุล">
                   </div>
                 </div>
@@ -57,14 +58,14 @@
                 <div class="col-sm-6">
                   <!-- Contact -->
                   <div class="form-group">
-                    <label> Contact Phone </label>
+                    <label> Phone </label>
                     <input type="text" class="form-control" name="ContactPhone" placeholder="เบอร์โทรศัพท์">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label> Contact Phone </label>
-                    <input type="text" class="form-control" placeholder="อีเมลล์">
+                    <label> E-mail </label>
+                    <input type="text" class="form-control" name="ContactEmail" placeholder="อีเมลล์">
                   </div>
                 </div>
               </div>
@@ -73,7 +74,7 @@
                   <!-- checkbox -->
                   <div class="form-group">
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="radio1">
+                      <input class="form-check-input" value="New" type="radio" name="radioUseServer">
                       <label class="form-check-label">เครื่องใหม่</label>
                     </div>
                   </div>
@@ -82,7 +83,7 @@
                   <!-- checkbox -->
                   <div class="form-group">
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="radio1">
+                      <input class="form-check-input" value="Old" type="radio" name="radioUseServer">
                       <label class="form-check-label">เครื่องเก่า</label>
                     </div>
                   </div>

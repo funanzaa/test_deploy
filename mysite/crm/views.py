@@ -459,5 +459,31 @@ def List_Subproject(request, pk):
 def Profile_Server(request):
     hospital = Hospitals.objects.all()
     serverband = ServerBand.objects.all()
+    if request.method == "POST":
+        tz = pytz.timezone('Asia/Bangkok')
+        hosptial = request.POST.get("hospital")
+        serverBand = request.POST.get("serverband")
+        firstName = request.POST.get("FirstName")
+        lastName = request.POST.get("LastName")
+        contactPhone = request.POST.get("ContactPhone")
+        contactEmail = request.POST.get("ContactEmail")
+        radioUseServer = request.POST.get("radioUseServer")
+        # datetimeSendServer = datetime.datetime.now(tz=tz)
+        newProfileServer = ProfileServer()
+        newProfileServer.hospitals_id = hosptial
+        newProfileServer.ServerBand_id = serverBand
+        newProfileServer.ContactFirstName = firstName
+        newProfileServer.ContactLastName = lastName
+        newProfileServer.ContactPhone = contactPhone
+        newProfileServer.ContactEmail = contactEmail
+        newProfileServer.UseServer = radioUseServer
+        newProfileServer.ServerServiceStatus_id = 1 # status recive server
+        newProfileServer.datetimeSendServer = datetime.datetime.now(tz=tz)
+        newProfileServer.save()
+        # messages.success(request, 'Your case is added successfully!')
+        return HttpResponseRedirect(reverse_lazy('home'))
+
+
+        # print(datetimeSendServer)
     context = {"hospitals": hospital,"serverbands":serverband}
     return render(request, 'cases/ProfileServer.html', context)
