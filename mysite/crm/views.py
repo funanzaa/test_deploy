@@ -14,6 +14,7 @@ from django.http import HttpResponse, Http404
 import json
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
+from django.db import connection
 
 
 
@@ -490,8 +491,17 @@ def Profile_Server(request):
     context = {"hospitals": hospital,"serverbands":serverband}
     return render(request, 'cases/ProfileServer.html', context)
 
-def ListProfileServer(request):
+def ListAllProfileServer(request):
     ProfileServers = ProfileServer.objects.all()
+    countProfileServers1 = ProfileServer.objects.filter(ServerServiceStatus_id=1).count()
+    countProfileServers2 = ProfileServer.objects.filter(ServerServiceStatus_id=2).count()
+    context = {"ProfileServer":ProfileServers,
+    "countProfileServers1":countProfileServers1,
+    "countProfileServers2":countProfileServers2}
+    return render(request, 'cases/ListAllProfileServer.html', context)
+
+def ListProfileServer(request,pk):
+    ProfileServers = ProfileServer.objects.filter(ServerServiceStatus_id=pk)
     countProfileServers1 = ProfileServer.objects.filter(ServerServiceStatus_id=1).count()
     countProfileServers2 = ProfileServer.objects.filter(ServerServiceStatus_id=2).count()
     context = {"ProfileServer":ProfileServers,
@@ -537,3 +547,31 @@ def SetupServer(request,pk):
     return render(request, 'cases/SetupServer.html', context)
 
 
+def receiveServer(request):
+    # if request.method == "POST":
+    #     search_hcode = request.POST.get('table_search')
+    #     with connection.cursor() as cursor:
+    #         # query = "select p.*,h.code,h.label from crm_ProfileServer p inner join crm_hospitals h ON p.hospitals_id = h.id where h.code = '{0}'".format(search_hcode)
+    #         query = """
+    #            select h.code,h.label,crm_serverservicestatus."name" ,h.code,h.label ,crm_serverservicestatus."name" 
+    #             from crm_ProfileServer
+    #             inner join crm_hospitals h ON crm_ProfileServer.hospitals_id = h.id 
+    #             inner join crm_serverservicestatus on crm_ProfileServer."ServerServiceStatus_id" = crm_serverservicestatus.id 
+    #             and crm_ProfileServer."ServerServiceStatus_id"= 2
+    #             where h.code = '{0}'
+    #         """.format(search_hcode)
+    #         cursor.execute(query)
+    #         results = cursor.fetchone()
+    #         x = cursor.description
+    #         resultsList = []  
+    #         for r in results:
+    #             i = 0
+    #             d = {}
+    #             while i < len(x):
+    #                 d[x[i][0]] = r[i]
+    #                 i = i+1
+    #                 resultsList.append(d)
+    # context = {'resultsLists': resultsList}
+    context = {}
+    # print(context)
+    return render(request, 'cases/receiveServer.html', context)

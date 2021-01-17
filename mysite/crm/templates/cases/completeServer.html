@@ -12,15 +12,15 @@
               <div class="card-header">
                 <a class="btn btn-app">
                   <span class="badge badge-warning navbar-badge">{{countProfileServers1}}</span>
-                  <i class="fas fa-arrow-circle-down" ></i> เข้าระบบ
+                  <i class="fas fa-arrow-circle-down"></i> เข้าระบบ
                 </a>
-                <a class="btn btn-app" href="{% url 'ListProfileServer' 2 %}">
+                <a class="btn btn-app">
                   <span class="badge badge-success navbar-badge">{{countProfileServers2}}</span>
                   <i class="fas fa-check-square"></i> ติดตั้งเสร็จสิ้น
                 </a>
-                <a class="btn btn-app" href="{% url 'ListProfileServer' 3 %}">
-                  <span class="badge badge-success navbar-badge">{{countProfileServers3}}</span>
-                  <i class="fas fa-check-square"></i> รับเครื่อง
+                <a class="btn btn-app">
+                  <span class="badge badge-info navbar-badge">67</span>
+                  <i class="fas fa-handshake"></i> รับเครื่อง
                 </a>
               </div>
               <!-- /.card-header -->
@@ -77,7 +77,7 @@
                     </td>
                     {% elif ProfileServers.ServerServiceStatus_id == 2 %}
                     <td class="text-center">
-                      <a class="btn btn-success btn-sm" href="#">ติดตั้งเสร็จสิ้น / รอรับเครื่อง</a>
+                      <span class="badge badge-success">ติดตั้งเสร็จสิ้น</span>
                     </td>
                     {% elif ProfileServers.ServerServiceStatus_id == 3 %}
                     <td class="text-center">

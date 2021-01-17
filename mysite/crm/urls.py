@@ -29,8 +29,10 @@ urlpatterns = [
 
     # Profile Server
     path('Profile_Server/',views.Profile_Server, name='Profile_Server'),
-    path('ListProfileServer/',views.ListProfileServer, name='ListProfileServer'),
+    path('ListProfileServer/<str:pk>/',views.ListProfileServer, name='ListProfileServer'),
+    path('ListAllProfileServer/',views.ListAllProfileServer, name='ListAllProfileServer'),
     path('SetupServer/<str:pk>/',views.SetupServer, name='SetupServer'),
+    path('receiveServer/',views.receiveServer, name='receiveServer'),
 
 
     # controlVersions

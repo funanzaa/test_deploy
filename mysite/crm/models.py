@@ -102,7 +102,7 @@ class ProfileServer(models.Model):
     FixIpAddress = models.CharField(max_length=255,default='')
     hospitals = models.ForeignKey(Hospitals, null=True, on_delete= models.SET_NULL)
     datetimeSendServer = models.DateTimeField(null=True, blank=True)
-    case = models.ForeignKey(Case, null=True,on_delete= models.SET_NULL)
+    # case = models.ForeignKey(Case, null=True,on_delete= models.SET_NULL)
     ServerServiceStatus = models.ForeignKey(ServerServiceStatus, null=True,on_delete= models.SET_NULL)
     Memo = models.CharField(max_length=255,default='')
     ContactFirstName = models.CharField(max_length=255,default='')
