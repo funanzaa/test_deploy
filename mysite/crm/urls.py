@@ -29,6 +29,9 @@ urlpatterns = [
 
     # Profile Server
     path('Profile_Server/',views.Profile_Server, name='Profile_Server'),
+    path('ListProfileServer/',views.ListProfileServer, name='ListProfileServer'),
+    path('SetupServer/<str:pk>/',views.SetupServer, name='SetupServer'),
+
 
     # controlVersions
     path('api/ControlVersionList/', ControlVersionList.as_view(), name='ControlVersion_List'),

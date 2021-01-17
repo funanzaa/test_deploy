@@ -457,7 +457,7 @@ def List_Subproject(request, pk):
 
 # Profile Server
 def Profile_Server(request):
-    hospital = Hospitals.objects.all()
+    hospital = Hospitals.objects.filter(h_type=4)
     serverband = ServerBand.objects.all()
     if request.method == "POST":
         tz = pytz.timezone('Asia/Bangkok')
@@ -468,6 +468,10 @@ def Profile_Server(request):
         contactPhone = request.POST.get("ContactPhone")
         contactEmail = request.POST.get("ContactEmail")
         radioUseServer = request.POST.get("radioUseServer")
+        upload_file = request.FILES['case_image']
+        fs = FileSystemStorage()
+        name = fs.save(upload_file.name, upload_file)
+        url = fs.url(name)
         # datetimeSendServer = datetime.datetime.now(tz=tz)
         newProfileServer = ProfileServer()
         newProfileServer.hospitals_id = hosptial
@@ -479,11 +483,57 @@ def Profile_Server(request):
         newProfileServer.UseServer = radioUseServer
         newProfileServer.ServerServiceStatus_id = 1 # status recive server
         newProfileServer.datetimeSendServer = datetime.datetime.now(tz=tz)
+        newProfileServer.ServerImage = url
         newProfileServer.save()
         # messages.success(request, 'Your case is added successfully!')
         return HttpResponseRedirect(reverse_lazy('home'))
-
-
-        # print(datetimeSendServer)
     context = {"hospitals": hospital,"serverbands":serverband}
     return render(request, 'cases/ProfileServer.html', context)
+
+def ListProfileServer(request):
+    ProfileServers = ProfileServer.objects.all()
+    countProfileServers1 = ProfileServer.objects.filter(ServerServiceStatus_id=1).count()
+    countProfileServers2 = ProfileServer.objects.filter(ServerServiceStatus_id=2).count()
+    context = {"ProfileServer":ProfileServers,
+    "countProfileServers1":countProfileServers1,
+    "countProfileServers2":countProfileServers2}
+    return render(request, 'cases/ListProfileServer.html', context)
+
+def SetupServer(request,pk):
+    ProfileServers = ProfileServer.objects.get(id=pk)
+    OperationSystems = OperationSystem.objects.all()
+    databases = database.objects.all()
+    WebServers = WebServer.objects.all()
+    if request.method == "POST":
+        tz = pytz.timezone('Asia/Bangkok')
+        os = request.POST.get("os")
+        ip = request.POST.get("ip")
+        db = request.POST.get("database")
+        webserver = request.POST.get("webserver")
+        backupdbd = request.POST.get("backupdb")
+        ProfileServers = ProfileServer.objects.get(id=pk)
+        ProfileServers.OperationSystem_id = os
+        ProfileServers.FixIpAddress = ip
+        ProfileServers.database_id = db
+        ProfileServers.webServer_id = webserver
+        ProfileServers.dbBackup = backupdbd
+        ProfileServers.datetimeCompleteServer = datetime.datetime.now(tz=tz)
+        ProfileServers.ServerServiceStatus_id = 2
+        # print(ProfileServers.hospitals_id)
+        ProfileServers.save()
+        newCase = Case()
+        newCase.name = "ติดตั้ง Server (เข้าระบบ)"
+        newCase.project_subgroup_id = 14
+        newCase.created_by_id = request.user.id
+        newCase.resolution = "ติดตั้ง Server (เข้าระบบ)"
+        newCase.service_id = 6
+        newCase.date_entered = datetime.datetime.now(tz=tz)
+        newCase.hospitals_id = ProfileServers.hospitals_id
+        newCase.save()
+        return HttpResponseRedirect(reverse_lazy('ListProfileServer'))
+        # updateProfileServers
+    context = {"OperationSystem":OperationSystems,"database":databases,
+    "WebServer":WebServers}
+    return render(request, 'cases/SetupServer.html', context)
+
+

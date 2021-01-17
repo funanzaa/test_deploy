@@ -1,0 +1,84 @@
+{% extends 'cases/base_case.html' %}
+{% block page_title %}
+<!-- Create Case -->
+{% endblock page_title %}
+{% block main_content %}
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="col-md-6 offset-md-3">
+      <!-- general form elements -->
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Profile Server </h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form role="form" method="POST" class="form-group" enctype="multipart/form-data">
+          <div class="card-body">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="exampleInputEmail1">OS :</label>
+              <select id = "os" class="form-control" name="os">
+                {% for OperationSystems in OperationSystem %}
+                <option value="{{ OperationSystems.id }}">{{ OperationSystems.name }} </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label>IP mask:</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                </div>
+                <input name='ip' type="text" class="form-control" data-inputmask="'alias': 'ip'" data-mask="" im-insert="true" >
+              </div>
+              <!-- /.input group -->
+            </div>
+            <div  class="form-group">
+              <label for="exampleInputEmail1"> Database :</label>
+              <select id="locality-dropdown" class="form-control" name="database">
+                {% for databases in database %}
+                <option value="{{ databases.id }}">{{ databases.name }} </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div  class="form-group">
+              <label for="exampleInputEmail1"> WebServer :</label>
+              <select id="locality-dropdown" class="form-control" name="webserver">
+                {% for WebServers in WebServer %}
+                <option value="{{ WebServers.id }}">{{ WebServers.name }} </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group clearfix">
+              <div class="icheck-primary d-inline">
+                <input type="checkbox" id="checkboxPrimary1" name ='backupdb' value="Yes">
+                <label for="checkboxPrimary1">
+                  Backup Database
+                </label>
+              </div>
+              <!-- <div class="icheck-primary d-inline">
+                <input type="checkbox" id="checkboxPrimary1" ์name ='backupdb'>
+                <label for="checkboxPrimary1">
+                  agte
+                </label>
+              </div> -->
+            </div>
+            <!-- <div class="form-group">
+              <label>Memo :</label>
+              <textarea name="memo" required class="form-control" rows="5"></textarea>
+            </div> -->
+            <!-- /.form-group -->
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary" value="Yes">Submit</button>
+          </div>
+        </form>
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+</section>
+{% endblock main_content %}

@@ -36,14 +36,7 @@ class Hospitals(models.Model):
         return self.code + " : " + self.label
 
 class Service(models.Model):
-    CATEGORY = (
-        ('Call','Call'),
-        ('Line','Line'),
-        ('Facebook','Facebook'),
-        ('Email','Email'),
-        ('Line_official','Line Official'),
-    )
-    name = models.CharField(max_length=255,null=True, choices=CATEGORY)
+    name = models.CharField(max_length=255,null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
@@ -92,6 +85,16 @@ class ServerServiceStatus(models.Model):
     def __str__(self):
         return self.name
 
+class database(models.Model):
+    name = models.CharField(max_length=255)
+    def __str__(self):
+        return self.name
+
+class WebServer(models.Model):
+    name = models.CharField(max_length=255)
+    def __str__(self):
+        return self.name
+
 class ProfileServer(models.Model):
     ServerBand = models.ForeignKey(ServerBand, null=True,on_delete= models.SET_NULL)
     OperationSystem  = models.ForeignKey(OperationSystem, null=True,on_delete= models.SET_NULL)
@@ -108,6 +111,10 @@ class ProfileServer(models.Model):
     datetimeReceiveServer = models.DateTimeField(null=True, blank=True)
     ServerImage = models.ImageField(blank=True)
     UseServer =  models.CharField(max_length=255,default='')
+    dbBackup =  models.CharField(max_length=255,default='')
+    database  = models.ForeignKey(database, null=True,on_delete= models.SET_NULL)
+    webServer  = models.ForeignKey(WebServer, null=True,on_delete= models.SET_NULL)
+    datetimeCompleteServer =  models.DateTimeField(null=True, blank=True)
     update_at =  models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
