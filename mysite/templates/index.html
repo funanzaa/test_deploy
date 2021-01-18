@@ -106,6 +106,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
+        <!-- msg -->
+        {% include 'cases/messages.html'%}
     <div class="content-header">
       <div class="container">
         <div class="row mb-2">
@@ -230,5 +232,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/static/dist/js/adminlte.min.js"></script>
+<script>
+  setTimeout(function() {
+    if ($('#msg').length > 0) {
+      $('#msg').remove();
+    }
+  }, 2000)
+</script>
 </body>
 </html>

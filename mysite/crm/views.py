@@ -491,7 +491,7 @@ def Profile_Server(request):
             newProfileServer.datetimeSendServer = datetime.datetime.now(tz=tz)
             newProfileServer.ServerImage = url
             newProfileServer.save()
-            # messages.success(request, 'Your case is added successfully!')
+            messages.success(request, 'รับเข้าระบบแล้ว')
             return HttpResponseRedirect(reverse_lazy('home'))
         except:
             tz = pytz.timezone('Asia/Bangkok')
@@ -516,7 +516,7 @@ def Profile_Server(request):
             newProfileServer.ServerServiceStatus_id = 1 # status recive server
             newProfileServer.datetimeSendServer = datetime.datetime.now(tz=tz)
             newProfileServer.save()
-            # messages.success(request, 'Your case is added successfully!')
+            messages.success(request, 'รับเข้าระบบแล้ว')
             return HttpResponseRedirect(reverse_lazy('home'))
     context = {"hospitals": hospital,"serverbands":serverband}
     return render(request, 'cases/ProfileServer.html', context)
