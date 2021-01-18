@@ -392,20 +392,6 @@ def create_case_hospital(request, pk):
 def viewCase(request):
     current_user = request.user.id
     case = Case.objects.filter(created_by=current_user).order_by('-id')
-    # page = request.GET.get('page', 1)
-    # paginator = Paginator(case_list, 10)
-    # try:
-    #     case = paginator.page(page)
-    # except PageNotAnInteger:
-    #     case = paginator.page(page)
-    # except EmptyPage:
-    #     case = paginator.page(paginator.num_pages)
-    # if request.method == 'GET':
-    #     search_query = request.GET.get('text_find', None)
-    #     if search_query:
-    #         case = Case.objects.filter(name__icontains=search_query, created_by=current_user)
-    #         context = {'case': case}
-    #         return render(request, 'cases/case.html', context)
     context = {'case': case}
     return render(request, 'cases/case.html', context)
 

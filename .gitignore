@@ -15,5 +15,7 @@ backup
 .config
 .bashrc
 .bash*
+.bash*
 mysite/crm/migrations/*
 mysite/crm/__pycache__/*
+mysite/crm/__pycache__/
