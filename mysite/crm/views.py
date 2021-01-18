@@ -388,7 +388,7 @@ def create_case_hospital(request, pk):
 
 # viewCase
 
-
+@login_required(login_url='login')
 def viewCase(request):
     current_user = request.user.id
     case_list = Case.objects.filter(created_by=current_user).order_by('-id')
@@ -412,6 +412,7 @@ def viewCase(request):
 
 from django.db import connection
 
+@login_required(login_url='login')
 def controlversions(request):
     with connection.cursor() as cursor:
         query = """
@@ -449,7 +450,7 @@ from .serializers import *
 
 
 # List_Subproject
-
+@login_required(login_url='login')
 def List_Subproject(request, pk):
     subgroup = Project_subgroup.objects.filter(project=pk).values('id', 'name')
     list_subgroup = json.dumps(list(subgroup))
@@ -457,40 +458,70 @@ def List_Subproject(request, pk):
     return HttpResponse(list_subgroup)
 
 # Profile Server
+
 def Profile_Server(request):
     hospital = Hospitals.objects.filter(h_type=4)
     serverband = ServerBand.objects.all()
     if request.method == "POST":
-        tz = pytz.timezone('Asia/Bangkok')
-        hosptial = request.POST.get("hospital")
-        serverBand = request.POST.get("serverband")
-        firstName = request.POST.get("FirstName")
-        lastName = request.POST.get("LastName")
-        contactPhone = request.POST.get("ContactPhone")
-        contactEmail = request.POST.get("ContactEmail")
-        radioUseServer = request.POST.get("radioUseServer")
-        upload_file = request.FILES['case_image']
-        fs = FileSystemStorage()
-        name = fs.save(upload_file.name, upload_file)
-        url = fs.url(name)
-        # datetimeSendServer = datetime.datetime.now(tz=tz)
-        newProfileServer = ProfileServer()
-        newProfileServer.hospitals_id = hosptial
-        newProfileServer.ServerBand_id = serverBand
-        newProfileServer.ContactFirstName = firstName
-        newProfileServer.ContactLastName = lastName
-        newProfileServer.ContactPhone = contactPhone
-        newProfileServer.ContactEmail = contactEmail
-        newProfileServer.UseServer = radioUseServer
-        newProfileServer.ServerServiceStatus_id = 1 # status recive server
-        newProfileServer.datetimeSendServer = datetime.datetime.now(tz=tz)
-        newProfileServer.ServerImage = url
-        newProfileServer.save()
-        # messages.success(request, 'Your case is added successfully!')
-        return HttpResponseRedirect(reverse_lazy('home'))
+        try:
+            tz = pytz.timezone('Asia/Bangkok')
+            hosptial = request.POST.get("hospital")
+            serverBand = request.POST.get("serverband")
+            firstName = request.POST.get("FirstName")
+            lastName = request.POST.get("LastName")
+            contactPhone = request.POST.get("ContactPhone")
+            contactEmail = request.POST.get("ContactEmail")
+            radioUseServer = request.POST.get("radioUseServer")
+            _memo = request.POST.get("memo")
+            upload_file = request.FILES['case_image']
+            fs = FileSystemStorage()
+            name = fs.save(upload_file.name, upload_file)
+            url = fs.url(name)
+            # datetimeSendServer = datetime.datetime.now(tz=tz)
+            newProfileServer = ProfileServer()
+            newProfileServer.hospitals_id = hosptial
+            newProfileServer.ServerBand_id = serverBand
+            newProfileServer.ContactFirstName = firstName
+            newProfileServer.ContactLastName = lastName
+            newProfileServer.ContactPhone = contactPhone
+            newProfileServer.ContactEmail = contactEmail
+            newProfileServer.UseServer = radioUseServer
+            newProfileServer.Memo = _memo
+            newProfileServer.ServerServiceStatus_id = 1 # status recive server
+            newProfileServer.datetimeSendServer = datetime.datetime.now(tz=tz)
+            newProfileServer.ServerImage = url
+            newProfileServer.save()
+            # messages.success(request, 'Your case is added successfully!')
+            return HttpResponseRedirect(reverse_lazy('home'))
+        except:
+            tz = pytz.timezone('Asia/Bangkok')
+            hosptial = request.POST.get("hospital")
+            serverBand = request.POST.get("serverband")
+            firstName = request.POST.get("FirstName")
+            lastName = request.POST.get("LastName")
+            contactPhone = request.POST.get("ContactPhone")
+            contactEmail = request.POST.get("ContactEmail")
+            radioUseServer = request.POST.get("radioUseServer")
+            _memo = request.POST.get("memo")
+            # datetimeSendServer = datetime.datetime.now(tz=tz)
+            newProfileServer = ProfileServer()
+            newProfileServer.hospitals_id = hosptial
+            newProfileServer.ServerBand_id = serverBand
+            newProfileServer.ContactFirstName = firstName
+            newProfileServer.ContactLastName = lastName
+            newProfileServer.ContactPhone = contactPhone
+            newProfileServer.ContactEmail = contactEmail
+            newProfileServer.UseServer = radioUseServer
+            newProfileServer.Memo = _memo
+            newProfileServer.ServerServiceStatus_id = 1 # status recive server
+            newProfileServer.datetimeSendServer = datetime.datetime.now(tz=tz)
+            newProfileServer.save()
+            # messages.success(request, 'Your case is added successfully!')
+            return HttpResponseRedirect(reverse_lazy('home'))
     context = {"hospitals": hospital,"serverbands":serverband}
     return render(request, 'cases/ProfileServer.html', context)
 
+@login_required(login_url='login')
 def ListAllProfileServer(request):
     ProfileServers = ProfileServer.objects.all()
     countProfileServers1 = ProfileServer.objects.filter(ServerServiceStatus_id=1).count()
@@ -500,17 +531,23 @@ def ListAllProfileServer(request):
     "countProfileServers2":countProfileServers2}
     return render(request, 'cases/ListAllProfileServer.html', context)
 
+@login_required(login_url='login')
 def ListProfileServer(request,pk):
     ProfileServers = ProfileServer.objects.filter(ServerServiceStatus_id=pk)
     countProfileServers1 = ProfileServer.objects.filter(ServerServiceStatus_id=1).count()
     countProfileServers2 = ProfileServer.objects.filter(ServerServiceStatus_id=2).count()
+    countProfileServers3 = ProfileServer.objects.filter(ServerServiceStatus_id=3).count()
     context = {"ProfileServer":ProfileServers,
     "countProfileServers1":countProfileServers1,
-    "countProfileServers2":countProfileServers2}
+    "countProfileServers2":countProfileServers2,
+    "countProfileServers3":countProfileServers3}
     return render(request, 'cases/ListProfileServer.html', context)
 
+
+@login_required(login_url='login')
 def SetupServer(request,pk):
     ProfileServers = ProfileServer.objects.get(id=pk)
+    ProfileServerslist = ProfileServer.objects.filter(id=pk)
     OperationSystems = OperationSystem.objects.all()
     databases = database.objects.all()
     WebServers = WebServer.objects.all()
@@ -521,14 +558,17 @@ def SetupServer(request,pk):
         db = request.POST.get("database")
         webserver = request.POST.get("webserver")
         backupdbd = request.POST.get("backupdb")
+        _memo = request.POST.get("memo")
         ProfileServers = ProfileServer.objects.get(id=pk)
         ProfileServers.OperationSystem_id = os
         ProfileServers.FixIpAddress = ip
         ProfileServers.database_id = db
         ProfileServers.webServer_id = webserver
         ProfileServers.dbBackup = backupdbd
+        ProfileServers.Memo = _memo
         ProfileServers.datetimeCompleteServer = datetime.datetime.now(tz=tz)
         ProfileServers.ServerServiceStatus_id = 2
+        ProfileServers.created_by_id = request.user.id
         # print(ProfileServers.hospitals_id)
         ProfileServers.save()
         newCase = Case()
@@ -540,10 +580,11 @@ def SetupServer(request,pk):
         newCase.date_entered = datetime.datetime.now(tz=tz)
         newCase.hospitals_id = ProfileServers.hospitals_id
         newCase.save()
-        return HttpResponseRedirect(reverse_lazy('ListProfileServer'))
+        return HttpResponseRedirect(reverse_lazy('ListAllProfileServer'))
         # updateProfileServers
+    # print(ProfileServerslist)
     context = {"OperationSystem":OperationSystems,"database":databases,
-    "WebServer":WebServers}
+    "WebServer":WebServers,"ProfileServerslists":ProfileServerslist}
     return render(request, 'cases/SetupServer.html', context)
 
 
@@ -553,7 +594,7 @@ def receiveServer(request):
         search_hcode = request.POST.get('table_search')
         with connection.cursor() as cursor:
             cursor.execute(""" 
-          select h.code,h.label ,crm_serverservicestatus."name",crm_ProfileServer."datetimeSendServer" ,crm_ProfileServer."datetimeReceiveServer" ,crm_ProfileServer."datetimeCompleteServer",crm_ProfileServer."Memo" 
+            select crm_ProfileServer.id as pro_id,h.code,h.label ,crm_serverservicestatus.id,crm_serverservicestatus."name" ,crm_ProfileServer."datetimeSendServer" ,crm_ProfileServer."datetimeReceiveServer" ,crm_ProfileServer."datetimeCompleteServer",crm_ProfileServer."Memo" 
             from crm_ProfileServer
             inner join crm_hospitals h ON crm_ProfileServer.hospitals_id = h.id 
             inner join crm_serverservicestatus on crm_ProfileServer."ServerServiceStatus_id" = crm_serverservicestatus.id 
@@ -572,3 +613,12 @@ def receiveServer(request):
         context = {'resultsLists': resultsList}
     # print(context)
     return render(request, 'cases/receiveServer.html', context)
+
+def userReceiveServer(request,pk):
+    tz = pytz.timezone('Asia/Bangkok')
+    ProfileServers = ProfileServer.objects.get(id=pk)
+    ProfileServers.ServerServiceStatus_id = 3
+    ProfileServers.datetimeReceiveServer = datetime.datetime.now(tz=tz)
+    ProfileServers.save()
+    return render(request, 'cases/receiveServer.html')
+

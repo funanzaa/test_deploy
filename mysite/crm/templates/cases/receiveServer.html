@@ -45,8 +45,33 @@
                   
                     <td>{{resultsList.code}}</td>
                     <td>{{resultsList.label}}</td>
-                    <td>{{resultsList.datetimeSendServer|add_datetime}}</td>
-                    <td>{{resultsList.name}}</td>
+                    {% if resultsList.datetimeCompleteServer %}
+                      <td>{{resultsList.datetimeCompleteServer|add_datetime}}</td>
+                    {% else %}
+                    <td> {{resultsList.datetimeSendServer|add_datetime}}</td>
+                    {% endif %}
+                    {% if resultsList.id == 1  %}
+                    <td>
+                      <a class="btn btn-warning btn-sm" >
+                        <!-- <i class="fas fa-check-square"></i> -->
+                        เข้าระบบ / อยู่ระหว่างดำเนินการ
+                      </a>
+                    </td>
+                    {% elif resultsList.id == 2 %}
+                    <td>
+                      <a class="btn btn-success btn-sm" href="{% url 'userReceiveServer' resultsList.pro_id %}">
+                        <!-- <i class="fas fa-check-square"></i> -->
+                        ติดตั้งเสร็จสิ้น / รอรับเครื่อง
+                      </a>
+                    </td>
+                    {% elif resultsList.id == 3 %}
+                    <td>
+                      <a class="btn btn-info btn-sm">
+                        <!-- <i class="fas fa-check-square"></i> -->
+                        รับเครื่องแล้ว
+                      </a>
+                    </td>
+                    {% endif %}
                     <td>{{resultsList.Memo}}</td>
                     
                 </tr>

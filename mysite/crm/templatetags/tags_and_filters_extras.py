@@ -10,6 +10,8 @@ register = template.Library()
 def round_number(number):
     if number == 0 :
         return 0
+    elif number == None :
+        return 0
     else:
         tz = pytz.timezone('Asia/Bangkok')
         now = (datetime.datetime.now(tz=tz))

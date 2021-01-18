@@ -33,6 +33,7 @@ urlpatterns = [
     path('ListAllProfileServer/',views.ListAllProfileServer, name='ListAllProfileServer'),
     path('SetupServer/<str:pk>/',views.SetupServer, name='SetupServer'),
     path('receiveServer/',views.receiveServer, name='receiveServer'),
+    path('userReceiveServer/<str:pk>/',views.userReceiveServer, name='userReceiveServer'),
 
 
     # controlVersions

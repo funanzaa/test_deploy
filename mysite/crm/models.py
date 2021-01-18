@@ -115,6 +115,7 @@ class ProfileServer(models.Model):
     database  = models.ForeignKey(database, null=True,on_delete= models.SET_NULL)
     webServer  = models.ForeignKey(WebServer, null=True,on_delete= models.SET_NULL)
     datetimeCompleteServer =  models.DateTimeField(null=True, blank=True)
+    created_by = models.ForeignKey(User, null=True, on_delete= models.SET_NULL)
     update_at =  models.DateTimeField(null=True, blank=True)
 
     def __str__(self):

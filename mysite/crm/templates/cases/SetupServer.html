@@ -65,10 +65,12 @@
                 </label>
               </div> -->
             </div>
-            <!-- <div class="form-group">
+             <div class="form-group">
               <label>Memo :</label>
-              <textarea name="memo" required class="form-control" rows="5"></textarea>
-            </div> -->
+              {% for ProfileServerslist in ProfileServerslists %}
+              <textarea name="memo" required class="form-control" rows="2">{{ProfileServerslist.Memo}}</textarea>
+              {% endfor %}
+            </div> 
             <!-- /.form-group -->
           </div>
           <!-- /.card-body -->

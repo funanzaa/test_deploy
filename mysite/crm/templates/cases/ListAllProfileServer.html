@@ -10,7 +10,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <a class="btn btn-app">
+                <a class="btn btn-app" href="{% url 'ListProfileServer' 1 %}">
                   <span class="badge badge-warning navbar-badge">{{countProfileServers1}}</span>
                   <i class="fas fa-arrow-circle-down" ></i> เข้าระบบ
                 </a>
@@ -77,11 +77,11 @@
                     </td>
                     {% elif ProfileServers.ServerServiceStatus_id == 2 %}
                     <td class="text-center">
-                        <a class="btn btn-success btn-sm" href="#">ติดตั้งเสร็จสิ้น / รอรับเครื่อง</a>
+                        <a class="btn btn-success btn-sm">ติดตั้งเสร็จสิ้น / รอรับเครื่อง</a>
                     </td>
                     {% elif ProfileServers.ServerServiceStatus_id == 3 %}
                     <td class="text-center">
-                      <span class="badge badge-success">รับเครื่อง</span>
+                      <span class="btn btn-info btn-sm">รับเครื่อง</span>
                     </td>
                     {% else %} 
                     <td class="text-center">
