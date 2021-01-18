@@ -61,7 +61,7 @@
                     <td>
                       <a class="btn btn-success btn-sm" href="{% url 'userReceiveServer' resultsList.pro_id %}">
                         <!-- <i class="fas fa-check-square"></i> -->
-                        ติดตั้งเสร็จสิ้น / รอรับเครื่อง
+                        ติดตั้งเสร็จสิ้น / กดยืนยันรับเครื่อง
                       </a>
                     </td>
                     {% elif resultsList.id == 3 %}
@@ -72,7 +72,9 @@
                       </a>
                     </td>
                     {% endif %}
+                    {% if resultsList.id == 2  %}
                     <td>{{resultsList.Memo}}</td>
+                    {% endif %}
                     
                 </tr>
                 {% endfor%}
