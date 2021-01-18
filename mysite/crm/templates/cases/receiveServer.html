@@ -1,4 +1,5 @@
 {% extends 'cases/base_serverProfile.html' %}
+{% load tags_and_filters_extras %}
 {% load static %}
 {% block page_title %}
 <h1 class="m-0 text-dark"> <small> </small></h1>
@@ -17,7 +18,7 @@
               {% csrf_token %}
               <div class="card-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control float-right" placeholder="Hcode">
+                  <input type="text" name="table_search" class="form-control float-right" placeholder="Hcode" required>
 
                   <div class="input-group-append">
                     <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
@@ -33,21 +34,25 @@
                 <tr>
                   <th>รหัสสถาพยาบาล</th>
                   <th>ชื่อสถาพยาบาล</th>
+                  <th>วันที่</th>
                   <th>สถานะ</th>
-                  <th>วันที่ติดตั้ง</th>
                   <th>หมายเหตุ</th>
                 </tr>
               </thead>
               <tbody>
-
+                {% for resultsList in resultsLists %}
                 <tr>
-                  <td>{{resultsList.hcode}}</td>
-                  <td>John Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="tag tag-success">Approved</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                  
+                    <td>{{resultsList.code}}</td>
+                    <td>{{resultsList.label}}</td>
+                    <td>{{resultsList.datetimeSendServer|add_datetime}}</td>
+                    <td>{{resultsList.name}}</td>
+                    <td>{{resultsList.Memo}}</td>
+                    
                 </tr>
+                {% endfor%}
                 
+               
               </tbody>
             </table>
           </div>

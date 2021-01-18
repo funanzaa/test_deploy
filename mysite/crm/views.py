@@ -548,30 +548,27 @@ def SetupServer(request,pk):
 
 
 def receiveServer(request):
-    # if request.method == "POST":
-    #     search_hcode = request.POST.get('table_search')
-    #     with connection.cursor() as cursor:
-    #         # query = "select p.*,h.code,h.label from crm_ProfileServer p inner join crm_hospitals h ON p.hospitals_id = h.id where h.code = '{0}'".format(search_hcode)
-    #         query = """
-    #            select h.code,h.label,crm_serverservicestatus."name" ,h.code,h.label ,crm_serverservicestatus."name" 
-    #             from crm_ProfileServer
-    #             inner join crm_hospitals h ON crm_ProfileServer.hospitals_id = h.id 
-    #             inner join crm_serverservicestatus on crm_ProfileServer."ServerServiceStatus_id" = crm_serverservicestatus.id 
-    #             and crm_ProfileServer."ServerServiceStatus_id"= 2
-    #             where h.code = '{0}'
-    #         """.format(search_hcode)
-    #         cursor.execute(query)
-    #         results = cursor.fetchone()
-    #         x = cursor.description
-    #         resultsList = []  
-    #         for r in results:
-    #             i = 0
-    #             d = {}
-    #             while i < len(x):
-    #                 d[x[i][0]] = r[i]
-    #                 i = i+1
-    #                 resultsList.append(d)
-    # context = {'resultsLists': resultsList}
     context = {}
+    if request.method == "POST":
+        search_hcode = request.POST.get('table_search')
+        with connection.cursor() as cursor:
+            cursor.execute(""" 
+          select h.code,h.label ,crm_serverservicestatus."name",crm_ProfileServer."datetimeSendServer" ,crm_ProfileServer."datetimeReceiveServer" ,crm_ProfileServer."datetimeCompleteServer",crm_ProfileServer."Memo" 
+            from crm_ProfileServer
+            inner join crm_hospitals h ON crm_ProfileServer.hospitals_id = h.id 
+            inner join crm_serverservicestatus on crm_ProfileServer."ServerServiceStatus_id" = crm_serverservicestatus.id 
+                where h.code = %(hcode)s
+            """, {'hcode': search_hcode})
+            results = cursor.fetchall()
+            x = cursor.description
+            resultsList = []  
+            for r in results:
+                i = 0
+                d = {}
+                while i < len(x):
+                    d[x[i][0]] = r[i]
+                    i = i+1
+                resultsList.append(d)
+        context = {'resultsLists': resultsList}
     # print(context)
     return render(request, 'cases/receiveServer.html', context)
