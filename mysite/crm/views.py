@@ -523,17 +523,19 @@ def Profile_Server(request):
 
 @login_required(login_url='login')
 def ListAllProfileServer(request):
-    ProfileServers = ProfileServer.objects.all()
+    ProfileServers = ProfileServer.objects.all().order_by('id')
     countProfileServers1 = ProfileServer.objects.filter(ServerServiceStatus_id=1).count()
     countProfileServers2 = ProfileServer.objects.filter(ServerServiceStatus_id=2).count()
+    countProfileServers3 = ProfileServer.objects.filter(ServerServiceStatus_id=3).count()
     context = {"ProfileServer":ProfileServers,
     "countProfileServers1":countProfileServers1,
-    "countProfileServers2":countProfileServers2}
+    "countProfileServers2":countProfileServers2,
+    "countProfileServers3":countProfileServers3}
     return render(request, 'cases/ListAllProfileServer.html', context)
 
 @login_required(login_url='login')
 def ListProfileServer(request,pk):
-    ProfileServers = ProfileServer.objects.filter(ServerServiceStatus_id=pk)
+    ProfileServers = ProfileServer.objects.filter(ServerServiceStatus_id=pk).order_by('id')
     countProfileServers1 = ProfileServer.objects.filter(ServerServiceStatus_id=1).count()
     countProfileServers2 = ProfileServer.objects.filter(ServerServiceStatus_id=2).count()
     countProfileServers3 = ProfileServer.objects.filter(ServerServiceStatus_id=3).count()
@@ -620,5 +622,5 @@ def userReceiveServer(request,pk):
     ProfileServers.ServerServiceStatus_id = 3
     ProfileServers.datetimeReceiveServer = datetime.datetime.now(tz=tz)
     ProfileServers.save()
-    return render(request, 'cases/receiveServer.html')
+    return HttpResponseRedirect(reverse_lazy('home'))
 
