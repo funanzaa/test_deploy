@@ -1,6 +1,6 @@
     $(document).ready(function(){
             // var endpoint = 'http://61.19.253.23/api/model5HospSendClaimCode/data/'
-            var endpoint = 'http://localhost:8000/api/model5HospSendClaimCode/data/'
+            var endpoint = 'http://bkk.hospital-os.com/api/model5HospSendClaimCode/data/'
             var defaultData = []
             var labels = [];
             $.ajax({
