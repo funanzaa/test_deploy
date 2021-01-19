@@ -65,7 +65,13 @@
                     <td>
                       <small> {{ProfileServers.ContactFirstName}} &nbsp;  {{ProfileServers.ContactLastName}} &nbsp; Tel. {{ProfileServers.ContactPhone}} </small>
                       <br>
-                      <small> วันที่ส่ง {{ProfileServers.datetimeSendServer|add_datetime}} </small>
+                      {% if ProfileServers.ServerServiceStatus_id == 1  %}
+                      <small> เข้าระบบ {{ProfileServers.datetimeSendServer|add_datetime}} </small>
+                      {% elif ProfileServers.ServerServiceStatus_id == 2 %}
+                      <small> ติดตั้งเสร็จ {{ProfileServers.datetimeCompleteServer|add_datetime}} </small>
+                      {% elif ProfileServers.ServerServiceStatus_id == 3 %}
+                      <small> รับเครื่อง{{ProfileServers.datetimeReceiveServer|add_datetime}} </small>
+                      {% endif %}
                     </td>
                     {% if ProfileServers.ServerServiceStatus_id == 1  %}
                     <td class="text-center">

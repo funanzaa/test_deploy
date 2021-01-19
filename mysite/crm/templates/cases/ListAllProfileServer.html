@@ -31,10 +31,10 @@
                   <thead>
                     
                   <tr>
-                    <th>Hcode </th>
+                    <th>Hcode</th>
                     <th>Brand</th>
                     <th>Contact</th>
-                    <th>Status</th>
+                    <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -70,9 +70,9 @@
                     {% if ProfileServers.ServerServiceStatus_id == 1  %}
                     <td class="text-center">
                       <!-- <button type="button" class="btn btn-block btn-outline-success btn-flat" >ติดตั้ง</button> -->
-                      <a class="btn btn-warning btn-sm" href="{% url 'SetupServer' ProfileServers.id %}">
-                        <!-- <i class="fas fa-check-square"></i> -->
-                        ติดตั้ง
+                      <a class="btn btn-info btn-sm" href="{% url 'SetupServer' ProfileServers.id %}">
+                        <i class="fas fa-eye"></i>
+                        View
                       </a>
                     </td>
                     {% elif ProfileServers.ServerServiceStatus_id == 2 %}
@@ -85,9 +85,10 @@
                     </td>
                     {% else %} 
                     <td class="text-center">
-                      <a class="btn btn-warning btn-sm" href="{% url 'SetupServer' ProfileServers.id %}">
-                        <!-- <i class="fas fa-check-square"></i> -->
-                        ติดตั้ง
+                      <a class="btn btn-danger btn-sm" href="{% url 'SetupServer' ProfileServers.id %}">
+                        <i class="fas fa-eye">
+                        </i>
+                        ติดตั้งไม่สำเร็จ
                       </a>
                   </td>
                     {% endif %}
