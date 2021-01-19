@@ -602,6 +602,8 @@ def receiveServer(request):
     # print(context)
     return render(request, 'cases/receiveServer.html', context)
 
+
+
 def userReceiveServer(request,pk):
     tz = pytz.timezone('Asia/Bangkok')
     ProfileServers = ProfileServer.objects.get(id=pk)
@@ -611,6 +613,9 @@ def userReceiveServer(request,pk):
     messages.success(request, 'ยืนยันรับเครื่อง')
     return HttpResponseRedirect(reverse_lazy('home'))
 
+
+
+@login_required(login_url='login')
 def detailServerProfile(request,pk):
     ProfileServers = ProfileServer.objects.get(id=pk)
     context = {"ProfileServer":ProfileServers}
