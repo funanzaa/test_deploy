@@ -55,11 +55,9 @@
                       {% else %}
                       <small class="badge badge-secondary"> {{ProfileServers.UseServer}} </small>
                       {% endif %}
-                      &nbsp;  &nbsp;
-                      {% if ProfileServers.ServerImage  %} &nbsp;
-                      <a href="{{ ProfileServers.ServerImage}}" target="_blank" >
-                        <button type="submit" class="btn btn-default"><i class="fas fa-image"></i></button>
-                      </a>
+                      &nbsp;
+                      {% if ProfileServers.ServerImage  %}
+                        <i class="fas fa-image"></i>
                     {% endif %}
                     </td>
                     <td>

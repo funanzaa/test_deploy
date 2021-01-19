@@ -615,7 +615,7 @@ def userReceiveServer(request,pk):
 
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def detailServerProfile(request,pk):
     ProfileServers = ProfileServer.objects.get(id=pk)
     context = {"ProfileServer":ProfileServers}
