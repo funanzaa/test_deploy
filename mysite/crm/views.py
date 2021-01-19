@@ -615,10 +615,15 @@ def userReceiveServer(request,pk):
 
 
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def detailServerProfile(request,pk):
     ProfileServers = ProfileServer.objects.get(id=pk)
     context = {"ProfileServer":ProfileServers}
     return render(request, 'cases/detailServerProfile.html', context)
+
+def userDetailServerProfile(request,pk):
+    ProfileServers = ProfileServer.objects.get(id=pk)
+    context = {"ProfileServer":ProfileServers}
+    return render(request, 'cases/userDetailServerProfile.html', context)
 
 
