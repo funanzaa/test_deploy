@@ -34,6 +34,7 @@
                     <th>Hcode</th>
                     <th>Brand</th>
                     <th>Contact</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                   </thead>
@@ -55,11 +56,8 @@
                       {% else %}
                       <small class="badge badge-secondary"> {{ProfileServers.UseServer}} </small>
                       {% endif %}
-                      &nbsp;  &nbsp;
-                      {% if ProfileServers.ServerImage  %} &nbsp;
-                      <a href="{{ ProfileServers.ServerImage}}" target="_blank" >
-                        <button type="submit" class="btn btn-default"><i class="fas fa-image"></i></button>
-                      </a>
+                      {% if ProfileServers.ServerImage  %}
+                        <i class="fas fa-image"></i>
                     {% endif %}
                     </td>
                     <td>
@@ -67,31 +65,33 @@
                       <br>
                       <small> วันที่ส่ง {{ProfileServers.datetimeSendServer|add_datetime}} </small>
                     </td>
-                    {% if ProfileServers.ServerServiceStatus_id == 1  %}
                     <td class="text-center">
-                      <!-- <button type="button" class="btn btn-block btn-outline-success btn-flat" >ติดตั้ง</button> -->
-                      <a class="btn btn-info btn-sm" href="{% url 'SetupServer' ProfileServers.id %}">
-                        <i class="fas fa-eye"></i>
-                        View
+                      {% if ProfileServers.ServerServiceStatus_id == 1  %}
+                      <a class="badge badge-warning">
+                        เข้าระบบ
                       </a>
-                    </td>
-                    {% elif ProfileServers.ServerServiceStatus_id == 2 %}
-                    <td class="text-center">
-                        <a class="btn btn-success btn-sm">ติดตั้งเสร็จสิ้น</a>
-                    </td>
-                    {% elif ProfileServers.ServerServiceStatus_id == 3 %}
-                    <td class="text-center">
-                      <span class="btn btn-info btn-sm">รับเครื่อง</span>
-                    </td>
-                    {% else %} 
-                    <td class="text-center">
-                      <a class="btn btn-danger btn-sm" href="{% url 'SetupServer' ProfileServers.id %}">
-                        <i class="fas fa-eye">
-                        </i>
+                      {% elif ProfileServers.ServerServiceStatus_id == 2  %}
+                      <a class="badge badge-success">
+                        ติดตั้งเสร็จสิ้น
+                      </a>
+                      {% elif ProfileServers.ServerServiceStatus_id == 3  %}
+                      <a class="badge badge-info">
+                        รับเครื่อง
+                      </a>
+                      {% elif ProfileServers.ServerServiceStatus_id == 4  %}
+                      <a class="badge badge-danger">
                         ติดตั้งไม่สำเร็จ
                       </a>
-                  </td>
-                    {% endif %}
+                      {% endif %}
+                    </td>
+                    <td class="text-center">
+                      <!-- <button type="button" class="btn btn-block btn-outline-success btn-flat" >ติดตั้ง</button> -->
+                      </a>
+                      <a class="btn btn-info btn-sm" href="{% url 'detailServerProfile' ProfileServers.id %}" target="_blank">
+                        <i class="fas fa-eye"></i>
+                        Detail
+                      </a>
+                    </td>
                   </tr>
                   {% endfor %}
                   </tbody>

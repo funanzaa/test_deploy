@@ -611,3 +611,9 @@ def userReceiveServer(request,pk):
     messages.success(request, 'ยืนยันรับเครื่อง')
     return HttpResponseRedirect(reverse_lazy('home'))
 
+def detailServerProfile(request,pk):
+    ProfileServers = ProfileServer.objects.get(id=pk)
+    context = {"ProfileServer":ProfileServers}
+    return render(request, 'cases/detailServerProfile.html', context)
+
+
