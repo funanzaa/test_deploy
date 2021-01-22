@@ -111,7 +111,7 @@ def dashboardPage(request):
 @login_required(login_url='login')
 def createCase(request):
     project = Project.objects.all()
-    # subgroup = Project_subgroup.objects.all()
+    statusCase = StatusCase.objects.all()
     service = Service.objects.all()
     hospital = Hospitals.objects.all()
     if request.method == "POST":
@@ -164,7 +164,7 @@ def createCase(request):
             messages.success(request, 'Your case is added successfully!')
             return HttpResponseRedirect(reverse_lazy('viewcase'))
     context = {"projects": project,
-               "services": service, "hospitals": hospital}
+               "services": service, "hospitals": hospital,"statusCases":statusCase}
     return render(request, 'cases/add_case.html', context)
 
 # detailCase

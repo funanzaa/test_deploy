@@ -57,6 +57,13 @@ class Case(models.Model):
     def __str__(self):
         return self.name
 
+class StatusCase(models.Model):
+    name = models.CharField(max_length=255,null=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return self.name
+
 
 class ControlVersion(models.Model):
     hcode = models.CharField(max_length=140, default='')
