@@ -15,10 +15,14 @@ import json
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.db import connection
+from .decorators import allowed_users , admin_only
+from django.contrib.auth.models import Group
 
 
 
 @login_required(login_url='login')
+# @allowed_users(allowed_roles=['helpdesk','programmer']) # permission
+# @admin_only
 def dashboardPage(request):
     current_user = request.user.id
     tz = pytz.timezone('Asia/Bangkok')
