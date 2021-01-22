@@ -46,15 +46,12 @@
                 <p>&nbsp;Control Version</p>
               </a>
             </li>
-
-          {% if request.user.is_staff %}  
           <li class="nav-item">
             <a href="{% url 'ListAllProfileServer' %}" class="nav-link">
               <i class="fas fa-server"></i>
               <p>&nbsp;Server</p>
             </a>
           </li>
-          {% endif %}
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

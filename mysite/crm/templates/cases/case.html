@@ -21,6 +21,7 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
+                    <th>#Id</th>
                     <th>Case Name</th>
                     <th>Project</th>
                     <th>Hospital</th>
@@ -30,6 +31,11 @@
                   <tbody>
                     {% for case in case %}
                   <tr>
+                    <td>
+                      <a>
+                        {{ case.id}}
+                      </a>
+                    </td>
                     <td>
                       <a>
                         <!-- {{case.name}} -->
