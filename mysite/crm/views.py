@@ -3,6 +3,7 @@ import pytz
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from .models import *
 from .forms import *
 from django.core.files.storage import FileSystemStorage
@@ -17,7 +18,7 @@ from django.forms.models import model_to_dict
 from django.db import connection
 from .decorators import allowed_users , admin_only
 from django.contrib.auth.models import Group
-
+from django.db.models import Q
 
 
 @login_required(login_url='login')
@@ -110,8 +111,12 @@ def dashboardPage(request):
 
 @login_required(login_url='login')
 def createCase(request):
+    # print(request.user.id)
+    # .objects.get(id=pk)
     project = Project.objects.all()
     statusCase = StatusCase.objects.all()
+    # staff  = User.objects.all()
+    staff  = User.objects.filter(~Q(id = request.user.id )).filter(~Q(username = 'admin' )).filter(~Q(is_active = False ))
     service = Service.objects.all()
     hospital = Hospitals.objects.all()
     if request.method == "POST":
@@ -164,7 +169,7 @@ def createCase(request):
             messages.success(request, 'Your case is added successfully!')
             return HttpResponseRedirect(reverse_lazy('viewcase'))
     context = {"projects": project,
-               "services": service, "hospitals": hospital,"statusCases":statusCase}
+               "services": service, "hospitals": hospital,"statusCases":statusCase,"staffs":staff}
     return render(request, 'cases/add_case.html', context)
 
 # detailCase

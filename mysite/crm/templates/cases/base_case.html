@@ -31,8 +31,11 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   </head>
-
-
+  <style>
+    #locality-dropdown-assign {
+       display: none;
+    }
+ </style>
 <body class="hold-transition sidebar-mini sidebar-collapse">
   <!-- Site wrapper -->
   <div class="wrapper">
@@ -310,5 +313,43 @@
     bsCustomFileInput.init();
   });
   </script>
+  <script>
+    function checkedAssign() {
+      var x = document.getElementById("chkAssign").value
+      if (document.getElementById('chkAssign').checked)
+      document.getElementById("locality-dropdown-assign").style.display = "block";
+        else
+        document.getElementById("locality-dropdown-assign").style.display = "none";
+      }
+    </script>
+<!-- list user for assign -->
+<script>
+  $(document).ready(function(){
+      let dropdown2 = $('#locality-dropdown')
+      dropdown2.empty()
+      var x = document.getElementById("project").value;
+      // var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
+       var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
+        $.ajax({
+        method:"GET",
+        url: endpoint,
+        success: function(data){
+             var mydata = JSON.parse(data);
+             let option;
+             for (let i = 0; i < mydata.length; i++) {
+              option = document.createElement('option');
+              option.text = mydata[i].name;
+              option.value = mydata[i].id;
+              dropdown.add(option);
+              dropdown.selectedIndex = 0;
+              }
+        },
+        error: function(error_data){
+          console.log('error')
+          console.log(error_data)
+        }
+      })
+  })
+</script>
 </body>
 </html>
