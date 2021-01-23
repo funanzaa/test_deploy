@@ -53,6 +53,11 @@ class Case(models.Model):
     date_entered = models.DateTimeField(null=True, blank=True)
     update_at =  models.DateTimeField(null=True, blank=True)
     case_pic = models.ImageField(blank=True)
+    assign = models.CharField(max_length=255, default='')
+    assign_at = models.DateTimeField(null=True, blank=True)
+    assign_by = models.CharField(max_length=255, default='')
+
+
 
     def __str__(self):
         return self.name

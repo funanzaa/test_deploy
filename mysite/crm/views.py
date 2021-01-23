@@ -120,54 +120,110 @@ def createCase(request):
     service = Service.objects.all()
     hospital = Hospitals.objects.all()
     if request.method == "POST":
-        try:
-            tz = pytz.timezone('Asia/Bangkok')
-            case_name = request.POST.get("name")
-            #project = request.POST.get("project")  Cancal save
-            project_subgroup = request.POST.get("locality") # subgroup Project
-            # project("project_subgroup" + str(project_subgroup))
-            resolution = request.POST.get("resolution")
-            service = request.POST.get("service")
-            hosptial = request.POST.get("hospital")
-            upload_file = request.FILES['case_image']
-            newCase = Case()
-            newCase.name = case_name
-            # newCase.project_id = project
-            newCase.project_subgroup_id = project_subgroup
-            newCase.created_by_id = request.user.id
-            newCase.resolution = resolution
-            newCase.service_id = service
-            newCase.date_entered = datetime.datetime.now(tz=tz)
-            newCase.hospitals_id = hosptial
-            fs = FileSystemStorage()
-            name = fs.save(upload_file.name, upload_file)
-            url = fs.url(name)
-            # print('url:'+ url)
-            newCase.case_pic = url
-            newCase.save()
-            messages.success(request, 'Your case is added successfully!')
-            return HttpResponseRedirect(reverse_lazy('viewcase'))
-        except:
-            tz = pytz.timezone('Asia/Bangkok')
-            case_name = request.POST.get("name")
-            # project = request.POST.get("project") cancal
-            # project_subgroup = request.POST.get("project_subgroup")
-            project_subgroup = request.POST.get("locality")
-            resolution = request.POST.get("resolution")
-            service = request.POST.get("service")
-            hosptial = request.POST.get("hospital")
-            newCase = Case()
-            newCase.name = case_name
-            # newCase.project_id = project
-            newCase.project_subgroup_id = project_subgroup
-            newCase.created_by_id = request.user.id
-            newCase.resolution = resolution
-            newCase.service_id = service
-            newCase.date_entered = datetime.datetime.now(tz=tz)
-            newCase.hospitals_id = hosptial
-            newCase.save()
-            messages.success(request, 'Your case is added successfully!')
-            return HttpResponseRedirect(reverse_lazy('viewcase'))
+        chkAssign = request.POST.get("chkAssign")
+        if chkAssign == 'yes':
+            try:
+                tz = pytz.timezone('Asia/Bangkok')
+                case_name = request.POST.get("name")
+                project_subgroup = request.POST.get("locality") # subgroup Project
+                resolution = request.POST.get("resolution")
+                service = request.POST.get("service")
+                hosptial = request.POST.get("hospital")
+                chkAssign = request.POST.get("chkAssign")
+                userAssign = request.POST.get("locality-assign")
+                upload_file = request.FILES['case_image']
+                newCase = Case()
+                newCase.name = case_name
+                newCase.project_subgroup_id = project_subgroup
+                newCase.created_by_id = int(userAssign)
+                newCase.resolution = resolution
+                newCase.service_id = service
+                newCase.date_entered = datetime.datetime.now(tz=tz)
+                newCase.hospitals_id = hosptial
+                newCase.assign = chkAssign
+                newCase.assign_at = datetime.datetime.now(tz=tz)
+                newCase.assign_by = request.user.id
+                fs = FileSystemStorage()
+                name = fs.save(upload_file.name, upload_file)
+                url = fs.url(name)
+                newCase.case_pic = url
+                newCase.save()
+                messages.success(request, 'Your case is added successfully!')
+                return HttpResponseRedirect(reverse_lazy('viewcase'))
+            except:
+                tz = pytz.timezone('Asia/Bangkok')
+                case_name = request.POST.get("name")
+                chkAssign = request.POST.get("chkAssign")
+                userAssign = request.POST.get("locality-assign")
+                project_subgroup = request.POST.get("locality")
+                resolution = request.POST.get("resolution")
+                service = request.POST.get("service")
+                hosptial = request.POST.get("hospital")
+                newCase = Case()
+                newCase.name = case_name
+                newCase.project_subgroup_id = project_subgroup
+                newCase.created_by_id = int(userAssign)
+                newCase.resolution = resolution
+                newCase.service_id = service
+                newCase.date_entered = datetime.datetime.now(tz=tz)
+                newCase.hospitals_id = hosptial
+                newCase.assign = chkAssign
+                newCase.assign_at = datetime.datetime.now(tz=tz)
+                newCase.assign_by = request.user.id
+                newCase.save()
+                messages.success(request, 'Your case is added successfully!')
+                return HttpResponseRedirect(reverse_lazy('viewcase'))
+        else:
+            try:
+                tz = pytz.timezone('Asia/Bangkok')
+                case_name = request.POST.get("name")
+                #project = request.POST.get("project")  Cancal save
+                project_subgroup = request.POST.get("locality") # subgroup Project
+                # project("project_subgroup" + str(project_subgroup))
+                resolution = request.POST.get("resolution")
+                service = request.POST.get("service")
+                hosptial = request.POST.get("hospital")
+                upload_file = request.FILES['case_image']
+                newCase = Case()
+                newCase.name = case_name
+                # newCase.project_id = project
+                newCase.project_subgroup_id = project_subgroup
+                newCase.created_by_id = request.user.id
+                newCase.resolution = resolution
+                newCase.service_id = service
+                newCase.date_entered = datetime.datetime.now(tz=tz)
+                newCase.hospitals_id = hosptial
+                fs = FileSystemStorage()
+                name = fs.save(upload_file.name, upload_file)
+                url = fs.url(name)
+                # print('url:'+ url)
+                newCase.case_pic = url
+                # newCase.save()
+                messages.success(request, 'Your case is added successfully!')
+                return HttpResponseRedirect(reverse_lazy('viewcase'))
+            except:
+                tz = pytz.timezone('Asia/Bangkok')
+                case_name = request.POST.get("name")
+                # project = request.POST.get("project") cancal
+                # project_subgroup = request.POST.get("project_subgroup")
+                project_subgroup = request.POST.get("locality")
+                resolution = request.POST.get("resolution")
+                service = request.POST.get("service")
+                hosptial = request.POST.get("hospital")
+                # print(chkAssign)
+                newCase = Case()
+                newCase.name = case_name
+                # newCase.project_id = project
+                newCase.project_subgroup_id = project_subgroup
+                newCase.created_by_id = request.user.id
+                newCase.resolution = resolution
+                newCase.service_id = service
+                newCase.date_entered = datetime.datetime.now(tz=tz)
+                newCase.hospitals_id = hosptial
+                # newCase.save()
+                messages.success(request, 'Your case is added successfully!')
+                return HttpResponseRedirect(reverse_lazy('viewcase'))
+        
     context = {"projects": project,
                "services": service, "hospitals": hospital,"statusCases":statusCase,"staffs":staff}
     return render(request, 'cases/add_case.html', context)
