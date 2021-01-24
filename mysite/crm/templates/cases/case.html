@@ -9,6 +9,7 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
+              {% if request.user.is_staff %}
               <div class="card-header">
                 <a class="btn btn-success btn-sm" href="{% url 'create_case' %}">
                   <i class="fas fa-plus">
@@ -16,6 +17,7 @@
                   Add
                 </a>
               </div>
+              {% endif %}
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
