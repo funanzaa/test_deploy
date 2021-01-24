@@ -111,11 +111,8 @@ def dashboardPage(request):
 
 @login_required(login_url='login')
 def createCase(request):
-    # print(request.user.id)
-    # .objects.get(id=pk)
     project = Project.objects.all()
     statusCase = StatusCase.objects.all()
-    # staff  = User.objects.all()
     staff  = User.objects.filter(~Q(id = request.user.id )).filter(~Q(username = 'admin' )).filter(~Q(is_active = False ))
     service = Service.objects.all()
     hospital = Hospitals.objects.all()
@@ -245,26 +242,29 @@ def updateCase(request, pk):
     subgroup = Project_subgroup.objects.all()
     service = Service.objects.all()
     hospital = Hospitals.objects.all()
-    # print(case)
+    statusCase = StatusCase.objects.all()
     if request.method == "POST":
         try:
             tz = pytz.timezone('Asia/Bangkok')
             case_name = request.POST.get("name")
-            project = request.POST.get("project2")
+            # project = request.POST.get("project2")
             project_subgroup = request.POST.get("localityUpdate")
             resolution = request.POST.get("resolution")
             service = request.POST.get("service")
             hosptial = request.POST.get("hospital")
+            statusCase = request.POST.get("statusCase")
             upload_file = request.FILES['case_image']
             updateCase = Case.objects.get(id=pk)
             updateCase.name = case_name
-            updateCase.project_id = project
+            # updateCase.project_id = project
             updateCase.project_subgroup_id = project_subgroup
             updateCase.created_by_id = request.user.id
             updateCase.resolution = resolution
             updateCase.service_id = service
             updateCase.update_at = datetime.datetime.now(tz=tz)
             updateCase.hospitals_id = hosptial
+            updateCase.status_Case_id = statusCase
+            updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
             fs = FileSystemStorage()
             name = fs.save(upload_file.name, upload_file)
             url = fs.url(name)
@@ -276,27 +276,30 @@ def updateCase(request, pk):
         except:
             tz = pytz.timezone('Asia/Bangkok')
             case_name = request.POST.get("name")
-            project = request.POST.get("project2")
+            # project = request.POST.get("project2")
             project_subgroup = request.POST.get("localityUpdate")
             resolution = request.POST.get("resolution")
             service = request.POST.get("service")
             hosptial = request.POST.get("hospital")
+            statusCase = request.POST.get("statusCase")
             updateCase = Case.objects.get(id=pk)
             updateCase.name = case_name
-            updateCase.project_id = project
+            # updateCase.project_id = project
             updateCase.project_subgroup_id = project_subgroup
             updateCase.created_by_id = request.user.id
             updateCase.resolution = resolution
             updateCase.service_id = service
             updateCase.update_at = datetime.datetime.now(tz=tz)
             updateCase.hospitals_id = hosptial
+            updateCase.status_Case_id = statusCase
+            updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
             updateCase.save()
             messages.success(request, 'Your case is updated successfully!')
             return HttpResponseRedirect(reverse_lazy('viewcase'))
             # return redirect('viewcase')
             
     context = {'case': case, "projects": project, "subgroups": subgroup,
-               "services": service, "hospitals": hospital}
+               "services": service, "hospitals": hospital,"statusCases":statusCase}
     return render(request, 'cases/update_case.html', context)
 
 
@@ -455,9 +458,10 @@ def create_case_hospital(request, pk):
 
 @login_required(login_url='login')
 def viewCase(request):
+    user = User.objects.all()
     current_user = request.user.id
     case = Case.objects.filter(created_by=current_user).order_by('-id')
-    context = {'case': case}
+    context = {'case': case,'users':user}
     return render(request, 'cases/case.html', context)
 
 

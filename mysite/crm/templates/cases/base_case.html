@@ -73,7 +73,7 @@
         </div>
       </div>
       <!-- msg -->
-      {% include 'cases/messages.html'%}
+      <!-- {% include 'cases/messages.html'%} -->
       <!-- Main content -->
       {% block main_content %} {% endblock main_content %}
       <!-- /.content -->
@@ -118,6 +118,10 @@
 <!-- Page script -->
 <script>
   $(function () {
+    $('#project2_assign option:not(:selected)').prop('disabled', true);
+    $('#locality-dropdown_Update_assign option:not(:selected)').prop('disabled', true);
+    $('#service_assign option:not(:selected)').prop('disabled', true);
+    $('#hospital_assign option:not(:selected)').prop('disabled', true);
     //Initialize Select2 Elements
     $('.select2').select2()
 
@@ -237,17 +241,14 @@
       var x = document.getElementById("project2").value;
       let dropdown_subproject = $('#locality-dropdownUpdate');
       dropdown_subproject.empty();
-      var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
+      // var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
+      var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
       $.ajax({
           method:"GET",
           url: endpoint,
           success: function(data){
                var mydata = JSON.parse(data);
                let option;
-              // console.log(mydata)
-              //  console.log(mydata.length)
-              // let dropdown_subproject = $('#locality-dropdownUpdate');
-              // dropdown_subproject.empty();
                for (let i = 0; i < mydata.length; i++) {
                 option = document.createElement('option');
                 // console.log(data[i])

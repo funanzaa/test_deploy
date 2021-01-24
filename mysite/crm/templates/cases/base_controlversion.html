@@ -46,6 +46,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
             </section>
+            {% include 'cases/messages.html'%}
             {% block main_content %} {% endblock main_content %}
         </div>
         <!-- /.content-wrapper -->
@@ -90,6 +91,13 @@
             });
         });
     </script>
+    <script>
+        setTimeout(function() {
+          if ($('#msg').length > 0) {
+            $('#msg').remove();
+          }
+        }, 2000)
+      </script>
 </body>
 
 </html>

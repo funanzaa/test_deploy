@@ -3,7 +3,19 @@ from datetime import timedelta
 import pytz
 from django import template
 from ..models import Case
+from django.contrib.auth.models import User
 register = template.Library()
+
+
+@register.filter
+def getAssignName(pk):
+    if pk == 0 :
+        return ''
+    elif pk == None :
+        return ''
+    else:
+        name = User.objects.get(id=int(pk))
+        return name.first_name + ' ' + name.last_name
 
 
 @register.filter
@@ -50,7 +62,6 @@ def add_datetime(time):
             month = ' ธันวาคม ' + str(hours_added.year + 543)
 
         return hours_added.strftime('%d') + month + hours_added.strftime(' %H:%M')
-
 
 @register.filter
 def formatNumber(number):

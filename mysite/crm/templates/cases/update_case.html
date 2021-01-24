@@ -18,35 +18,60 @@
           <div class="card-body">
             {% csrf_token %}
             <div class="form-group">
-              <label for="exampleInputEmail1">Case name :</label>
-              <input type="text" class="form-control" id="exampleInputName1" placeholder="Case name" name="name" value="{{ case.name }}">
+              <label for="exampleInputEmail1">Case name : </label>
+              {% if case.assign == 'yes' %}
+                <input type="text" class="form-control" id="exampleInputName1" placeholder="Case name" name="name" value="{{ case.name }}" readonly="readonly">
+              {% else %} 
+                <input type="text" class="form-control" id="exampleInputName1" placeholder="Case name" name="name" value="{{ case.name }}">
+              {% endif %} 
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Project name : </label>
-              <select id="project2" class="form-control" name="project2">
-              <!-- <select id = "project2" class="form-control" name="project"> -->
-                <!-- <option value="{{ case.project.id }}" selected> {{case.project_subgroup.project.name}} {{case.project_subgroup.project.id}} </option> -->
-                {% for project in projects %}
-                   {% if case.project_subgroup.project.id == project.id %}
-                   <option value="{{ project.id }}" selected> {{project.name}}</option>
-                  {% else %}
-                  <option value="{{ project.id }}"> {{project.name}}</option>
-                  {% endif %} 
-                {% endfor %}
-              </select>
+              {% if case.assign == 'yes' %}
+                <select id="project2_assign" class="form-control" name="project2">
+                  {% for project in projects %}
+                    {% if case.project_subgroup.project.id == project.id %}
+                    <option value="{{ project.id }}" selected> {{project.name}}</option>
+                    {% else %}
+                    <option value="{{ project.id }}"> {{project.name}}</option>
+                    {% endif %} 
+                  {% endfor %}
+                </select>
+              {% else %}
+                <select id="project2" class="form-control" name="project2">
+                  {% for project in projects %}
+                    {% if case.project_subgroup.project.id == project.id %}
+                    <option value="{{ project.id }}" selected> {{project.name}}</option>
+                    {% else %}
+                    <option value="{{ project.id }}"> {{project.name}}</option>
+                    {% endif %} 
+                  {% endfor %}
+                </select>
+              {% endif %}
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1"> Project Subgroup :</label>
-               <!-- <select class="form-control" name="project_subgroup"> -->
-               <select id="locality-dropdownUpdate"  class="form-control" name="localityUpdate">
-                {% for subgroup in subgroups %}
-                  {% if case.project_subgroup_id == subgroup.id %}
-                  <option value="{{ subgroup.id }}" selected >{{ subgroup.name }} </option>
-                  {% else %}
-                  <option value="{{ subgroup.id}}" > {{subgroup.name}}</option>
-                  {% endif %}
-                {% endfor %}
-              </select> 
+              {% if case.assign == 'yes' %}
+                  <select id="locality-dropdown_Update_assign"  class="form-control" name="localityUpdate">
+                    {% for subgroup in subgroups %}
+                      {% if case.project_subgroup_id == subgroup.id %}
+                      <option value="{{ subgroup.id }}" selected >{{ subgroup.name }} </option>
+                      {% else %}
+                      <option value="{{ subgroup.id}}" > {{subgroup.name}}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select> 
+              {% else %}
+                  <select id="locality-dropdownUpdate"  class="form-control" name="localityUpdate">
+                    {% for subgroup in subgroups %}
+                      {% if case.project_subgroup_id == subgroup.id %}
+                      <option value="{{ subgroup.id }}" selected >{{ subgroup.name }} </option>
+                      {% else %}
+                      <option value="{{ subgroup.id}}" > {{subgroup.name}}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select> 
+              {% endif %}
             </div>
             <div class="form-group">
               <label>Resolution :</label>
@@ -54,37 +79,73 @@
             </div>
             <div class="form-group">
               <label for="inputSpentBudget">Service : </label>
-              <select class="form-control" name="service">
-                {% for service in services %}
-                  {% if case.service.id == service.id %}
-                    <option value="{{ case.service.id }}" selected> {{case.service}} </option>
-                    {% else %}
-                    <option value="{{ service.id }}"> {{ service.name }} </option>
-                  {% endif %}
-                {% endfor %}
-              </select>
+              {% if case.assign == 'yes' %}
+                    <select  id="service_assign" class="form-control" name="service">
+                      {% for service in services %}
+                        {% if case.service.id == service.id %}
+                          <option value="{{ case.service.id }}" selected> {{case.service}} </option>
+                          {% else %}
+                          <option value="{{ service.id }}"> {{ service.name }} </option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+              {% else %}
+                <select  class="form-control" name="service">
+                  {% for service in services %}
+                    {% if case.service.id == service.id %}
+                      <option value="{{ case.service.id }}" selected> {{case.service}} </option>
+                      {% else %}
+                      <option value="{{ service.id }}"> {{ service.name }} </option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              {%endif%}
             </div>
-
             <div class="form-group">
               <label>Hospital</label>
-              <select class="form-control select2" name="hospital" style="width: 100%;">
-                {% for hospital in hospitals %}
-                  {% if case.hospitals.id == hospital.id %}
-                    <option value="{{ case.hospitals.id }}" selected> {{case.hospitals}} </option>
-                  {% else %}
-                    <option value="{{ hospital.id }}">{{hospital}}</option>
-                  {% endif %}
+              {% if case.assign == 'yes' %}
+                  <select id="hospital_assign" class="form-control select2" name="hospital" style="width: 100%;">
+                    {% for hospital in hospitals %}
+                      {% if case.hospitals.id == hospital.id %}
+                        <option value="{{ case.hospitals.id }}" selected> {{case.hospitals}} </option>
+                      {% else %}
+                        <option value="{{ hospital.id }}">{{hospital}}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+              {% else %}
+                  <select class="form-control select2" name="hospital" style="width: 100%;">
+                    {% for hospital in hospitals %}
+                      {% if case.hospitals.id == hospital.id %}
+                        <option value="{{ case.hospitals.id }}" selected> {{case.hospitals}} </option>
+                      {% else %}
+                        <option value="{{ hospital.id }}">{{hospital}}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+              {% endif %}
+            </div>
+            <div class="form-group">
+              <select  class="form-control" name="statusCase">
+                {% for statusCase in statusCases %}
+                    {% if case.status_Case_id == statusCase.id %}
+                        <option value="{{ statusCase.id }}" selected> {{statusCase.name}}</option>
+                    {% else %}
+                        <option value="{{ statusCase.id }}"> {{statusCase.name}}</option>
+                    {% endif %}
                 {% endfor %}
               </select>
             </div>
-            <div class="form-group">
-              <label for="customFile">Case File</label>
-              Currently: <a href="{{case.case_pic}}">{{case.case_pic}}</a>
-              <input type="checkbox" name="case_image">
-              <label for="case_pic-clear_id">Clear</label><br>
-              Change:
-              <input type="file" name="case_image">
-            </div>
+            {% if case.assign != 'yes' %}
+              <div class="form-group">
+                <label for="customFile">Case File</label>
+                Currently: <a href="{{case.case_pic}}">{{case.case_pic}}</a>
+                <input type="checkbox" name="case_image">
+                <label for="case_pic-clear_id">Clear</label><br>
+                Change:
+                <input type="file" name="case_image">
+              </div>
+              {% endif %}
             <!-- /.form-group -->
           </div>
           <!-- /.card-body -->
@@ -99,10 +160,5 @@
       <!-- /.card -->
     </div>
   </div>
-  <div class="row">
-
-
-    <!-- /.row (main row) -->
-  </div><!-- /.container-fluid -->
 </section>
 {% endblock main_content %}

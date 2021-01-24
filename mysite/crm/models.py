@@ -42,16 +42,25 @@ class Service(models.Model):
     def __str__(self):
         return self.name
 
+class StatusCase(models.Model):
+    name = models.CharField(max_length=255,null=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return self.name
+
 class Case(models.Model):
     name = models.CharField(max_length=255)
     project = models.ForeignKey(Project, null=True,on_delete= models.SET_NULL)
     project_subgroup = models.ForeignKey(Project_subgroup, null=True,on_delete= models.SET_NULL)
+    status_Case = models.ForeignKey(StatusCase, null=True,on_delete= models.SET_NULL)
     created_by = models.ForeignKey(User, null=True, on_delete= models.SET_NULL)
     resolution = models.TextField()
     service = models.ForeignKey(Service, null=True, on_delete= models.SET_NULL)
     hospitals = models.ForeignKey(Hospitals, null=True, on_delete= models.SET_NULL)
     date_entered = models.DateTimeField(null=True, blank=True)
     update_at =  models.DateTimeField(null=True, blank=True)
+    statusCaseUpdate_at =  models.DateTimeField(null=True, blank=True)
     case_pic = models.ImageField(blank=True)
     assign = models.CharField(max_length=255, default='')
     assign_at = models.DateTimeField(null=True, blank=True)
@@ -62,12 +71,7 @@ class Case(models.Model):
     def __str__(self):
         return self.name
 
-class StatusCase(models.Model):
-    name = models.CharField(max_length=255,null=True)
-    date_created = models.DateTimeField(auto_now_add=True, null=True)
 
-    def __str__(self):
-        return self.name
 
 
 class ControlVersion(models.Model):

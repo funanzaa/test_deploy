@@ -25,6 +25,7 @@
                     <th>Case Name</th>
                     <th>Project</th>
                     <th>Hospital</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                   </thead>
@@ -68,6 +69,33 @@
                       {% endif %}
                       </small>
                     </td>
+                        {% if case.assign == 'yes' and case.status_Case_id == None %}
+                          <td class="text-center">
+                          <small class="badge badge-info"> Assign </small>
+                          <br>             
+                                <small> {{case.assign_by|getAssignName}} </small>
+                          <br>
+                                <small> {{case.assign_at|add_datetime}} </small>
+                          </td>
+                        {% elif case.assign == 'yes' and case.status_Case_id != None %}
+                          {% if case.status_Case.name == 'Pending' %}
+                            <td class="text-center">
+                            <small class="badge badge-warning"> {{case.status_Case.name}} </small>
+                            <br>
+                            <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
+                            </td>
+                          {% elif case.status_Case.name == 'Close' %}
+                            <td class="text-center">
+                              <small class="badge badge-success"> {{case.status_Case.name}} </small>
+                              <br>
+                              <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
+                              </td>
+                          {% endif %}
+                        {% else %}
+                          <td class="text-center">
+                            <small class="badge badge-danger"> close </small></td>
+                          </td>
+                        {% endif %}
                     <td class="project-actions text-center">
                       <a class="btn btn-warning btn-sm" href="{% url 'detail_case' case.id %}">
                         <i class="fas fa-eye">
@@ -79,10 +107,12 @@
                         </i>
                         Edit
                       </a>
+                      {% if case.assign != 'yes' %}
                       <a class="btn btn-danger btn-sm" href="{% url 'delete_case' case.id %}">
                         <i class="fas fa-trash"></i>
                         Delete
                       </a>
+                      {% endif %}
                     </td>
                   </tr>
                   {% endfor %}
