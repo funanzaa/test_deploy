@@ -7,9 +7,11 @@ from .api import ControlVersionList, ControlVersionDetail, UserAuthentication ,L
 urlpatterns = [
     path('dashboard', views.dashboardPage, name='dashboard-page'),
     path('case/', views.viewCase, name='viewcase'),
+    path('viewCaseAssign/', views.viewCaseAssign, name='viewCaseAssign'),
     path('create_case/', views.createCase, name='create_case'),
     path('update_case/<str:pk>', views.updateCase, name='update_case'),
     path('detail/<str:pk>', views.detailCase, name='detail_case'),
+    path('detailCaseAssign/<str:pk>', views.detailCaseAssign, name='detailCaseAssign'),
     path('delete_case/<str:pk>', views.deleteCase, name='delete_case'),
     path('hospital/', views.hospital, name='hospital-page'),
     path('create_hospital/', views.hospitalAdd, name='create_hospital'),

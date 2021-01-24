@@ -51,7 +51,11 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <button type="submit" class="btn btn-warning">Cancel</button>
+            <!-- <button type="submit" class="btn btn-warning" href="{% url 'viewCaseAssign' %}" >Cancel</button> -->
+            <a class="btn btn-app" href="{% url 'viewCaseAssign' %}">
+              <!-- <i class="fas fa-paper-plane"></i> Assign -->
+              <i class="fas fa-arrow-circle-left"></i> Back
+            </a>
           </div>
         </form>
       </div>

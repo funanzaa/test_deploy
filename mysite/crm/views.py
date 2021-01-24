@@ -225,7 +225,16 @@ def createCase(request):
                "services": service, "hospitals": hospital,"statusCases":statusCase,"staffs":staff}
     return render(request, 'cases/add_case.html', context)
 
+# detailCaseAssign
+
+def detailCaseAssign(request, pk):
+    case = Case.objects.get(id=pk)
+    context = {'case': case}
+    return render(request, 'cases/detailCaseAssign.html', context)
+
+
 # detailCase
+
 
 
 def detailCase(request, pk):
@@ -460,9 +469,19 @@ def create_case_hospital(request, pk):
 def viewCase(request):
     user = User.objects.all()
     current_user = request.user.id
-    case = Case.objects.filter(created_by=current_user).order_by('-id')
-    context = {'case': case,'users':user}
+    case = Case.objects.filter(created_by=current_user)
+    countAssign = Case.objects.filter(assign_by=str(current_user)).count()
+    context = {'case': case,'users':user,'countAssigns': countAssign}
     return render(request, 'cases/case.html', context)
+
+@login_required(login_url='login')
+def viewCaseAssign(request):
+    user = User.objects.all()
+    current_user = request.user.id
+    case = Case.objects.filter(assign_by=str(current_user))
+    countAssign = Case.objects.filter(assign_by=str(current_user)).count()
+    context = {'case': case,'users':user,'countAssigns': countAssign}
+    return render(request, 'cases/viewCaseAssign.html', context)
 
 
 from django.db import connection
