@@ -156,6 +156,7 @@ def createCase(request):
                 resolution = request.POST.get("resolution")
                 service = request.POST.get("service")
                 hosptial = request.POST.get("hospital")
+                priority   = request.POST.get("priority")
                 newCase = Case()
                 newCase.name = case_name
                 newCase.project_subgroup_id = project_subgroup
@@ -167,6 +168,9 @@ def createCase(request):
                 newCase.assign = chkAssign
                 newCase.assign_at = datetime.datetime.now(tz=tz)
                 newCase.assign_by = request.user.id
+
+                newCase.priorityCase = priority
+                
                 newCase.save()
                 messages.success(request, 'Your case is added successfully!')
                 return HttpResponseRedirect(reverse_lazy('viewcase'))
@@ -282,6 +286,10 @@ def updateCase(request, pk):
                 hosptial = request.POST.get("hospital")
                 statusCase = request.POST.get("statusCase")
                 staff   = request.POST.get("locality-assign")
+
+                priority   = request.POST.get("priority")
+                # priority2   = request.POST.get("priority2")
+
                 upload_file = request.FILES['case_image']
                 updateCase = Case.objects.get(id=pk)
                 updateCase.name = case_name
@@ -297,7 +305,10 @@ def updateCase(request, pk):
                 fs = FileSystemStorage()
                 name = fs.save(upload_file.name, upload_file)
                 url = fs.url(name)
-                # print('url:'+ url)
+                
+                updateCase.priorityCase = priority
+                # updateCase.priorityCase = priority2
+
                 updateCase.case_pic = url
                 updateCase.save()
                 messages.success(request, 'Your case is updated successfully!')
@@ -311,6 +322,9 @@ def updateCase(request, pk):
                 hosptial = request.POST.get("hospital")
                 statusCase = request.POST.get("statusCase")
                 staff   = request.POST.get("locality-assign")
+
+                priority   = request.POST.get("priority")
+
                 updateCase = Case.objects.get(id=pk)
                 updateCase.name = case_name
                 updateCase.project_subgroup_id = project_subgroup
@@ -324,6 +338,7 @@ def updateCase(request, pk):
                 updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
                 updateCase.assign_at = datetime.datetime.now(tz=tz)
                 updateCase.forward_at = datetime.datetime.now(tz=tz)
+                updateCase.priorityCase = priority
                 updateCase.save()
                 messages.success(request, 'Your case is updated successfully!')
                 return HttpResponseRedirect(reverse_lazy('viewcase'))

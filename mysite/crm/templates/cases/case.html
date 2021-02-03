@@ -52,7 +52,13 @@
                         <!-- {{case.name}} -->
                         <!-- {{ case.date_entered|add_datetime }} -->
                         {{ case.project_subgroup.name}}
-                      </a>
+                          {% if case.priorityCase == '1' %}
+                            <small class="badge badge-warning"> ด่วน </small>
+                          {% elif case.priorityCase == '2' %}
+                             <small class="badge badge-danger"> ด่วนที่สุด </small>
+                          {% endif %}
+                        </a>
+                      
                       <br>
                       <small>
                         <!-- {{ case.date_entered}} -->

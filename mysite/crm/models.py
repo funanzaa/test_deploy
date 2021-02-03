@@ -63,10 +63,11 @@ class Case(models.Model):
     statusCaseUpdate_at =  models.DateTimeField(null=True, blank=True)
     case_pic = models.ImageField(blank=True)
     assign = models.CharField(max_length=255, default='')
-    assign_at = models.DateTimeField(null=True, blank=True)
-    assign_by = models.CharField(max_length=255, default='')
-    forward_by = models.CharField(max_length=255, default='')
-    forward_at = models.DateTimeField(null=True, blank=True)
+    assign_at = models.DateTimeField(null=True, blank=True) 
+    assign_by = models.CharField(max_length=255, default='') 
+    forward_by = models.CharField(max_length=255, default='') #add
+    forward_at = models.DateTimeField(null=True, blank=True) #add
+    priorityCase = models.CharField(max_length=255, default='') #add
 
 
 

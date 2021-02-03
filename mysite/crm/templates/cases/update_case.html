@@ -10,7 +10,13 @@
       <!-- general form elements -->
       <div class="card card-info">
         <div class="card-header">
-          <h3 class="card-title">Edit Case </h3>
+          <h3 class="card-title">Edit Case </h3> 
+          &nbsp;&nbsp;
+          {% if case.priorityCase == '1' %}
+          <small class="badge badge-warning"> ด่วน </small>
+        {% elif case.priorityCase == '2' %}
+           <small class="badge badge-danger"> ด่วนที่สุด </small>
+        {% endif %}
         </div>
         <!-- /.card-header -->
         <!-- form start -->
@@ -24,6 +30,7 @@
               {% else %} 
                 <input type="text" class="form-control" id="exampleInputName1" placeholder="Case name" name="name" value="{{ case.name }}">
               {% endif %} 
+              <input type="hidden" class="form-control" id="exampleInputName1" placeholder="Case name" name="priority" value="{{ case.priorityCase }}">
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Project name : </label>
