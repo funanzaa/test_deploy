@@ -197,11 +197,28 @@
 <script>
   $(document).ready(function(){
     let dropdown = document.getElementById('locality-dropdown');
-        dropdown.length = 0;
-        let defaultOption = document.createElement('option');
-        defaultOption.text = '-- Choose --';
-        dropdown.add(defaultOption);
-        dropdown.selectedIndex = 0;
+      var x = document.getElementById("project").value;
+      // var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
+       var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
+        $.ajax({
+        method:"GET",
+        url: endpoint,
+        success: function(data){
+             var mydata = JSON.parse(data);
+             let option;
+             for (let i = 0; i < mydata.length; i++) {
+              option = document.createElement('option');
+              option.text = mydata[i].name;
+              option.value = mydata[i].id;
+              dropdown.add(option);
+              dropdown.selectedIndex = 0;
+              }
+        },
+        error: function(error_data){
+          console.log('error')
+          console.log(error_data)
+        }
+      })
     $("#project").change(function(){
       let dropdown2 = $('#locality-dropdown')
       dropdown2.empty()

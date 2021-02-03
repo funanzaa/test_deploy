@@ -65,6 +65,8 @@ class Case(models.Model):
     assign = models.CharField(max_length=255, default='')
     assign_at = models.DateTimeField(null=True, blank=True)
     assign_by = models.CharField(max_length=255, default='')
+    forward_by = models.CharField(max_length=255, default='')
+    forward_at = models.DateTimeField(null=True, blank=True)
 
 
 

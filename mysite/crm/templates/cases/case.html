@@ -1,8 +1,10 @@
+
 {% extends 'cases/base_controlversion.html' %}
 {% load tags_and_filters_extras %}
 <!-- {% block page_title %}
 {% endblock page_title %} -->
 {% block main_content %}
+{% load static %}
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -78,13 +80,25 @@
                       </small>
                     </td>
                         {% if case.assign == 'yes' and case.status_Case_id == None %}
-                          <td class="text-center">
-                          <small class="badge badge-info"> Assign </small>
-                          <br>             
-                                <small> {{case.assign_by|getAssignName}} </small>
-                          <br>
-                                <small> {{case.assign_at|add_datetime}} </small>
-                          </td>
+                            {% if case.forward_by %}
+                                <td class="text-center">
+
+                                <small class="badge badge-info"> Forward </small> <small> {{case.forward_by|getAssignName}}</small>
+                                <br>             
+                                <small class="badge badge-info"> To </small> <small> {{case.created_by.first_name}}  </small>
+                                      <small> {{case.created_by.first_name}} </small>
+                                <br>
+                                      <small> {{case.forward_at|add_datetime}} </small>
+                                </td>
+                            {% else %}
+                              <td class="text-center">
+                                <small class="badge badge-info"> Assign </small>
+                                <br>             
+                                      <small> {{case.assign_by|getAssignName}} </small>
+                                <br>
+                                      <small> {{case.assign_at|add_datetime}} </small>
+                                </td>
+                            {% endif %}
                         {% elif case.assign == 'yes' and case.status_Case_id != None %}
                           {% if case.status_Case.name == 'Pending' %}
                             <td class="text-center">

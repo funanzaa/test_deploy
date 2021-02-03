@@ -281,17 +281,18 @@ def updateCase(request, pk):
                 service = request.POST.get("service")
                 hosptial = request.POST.get("hospital")
                 statusCase = request.POST.get("statusCase")
+                staff   = request.POST.get("locality-assign")
                 upload_file = request.FILES['case_image']
                 updateCase = Case.objects.get(id=pk)
                 updateCase.name = case_name
                 # updateCase.project_id = project
                 updateCase.project_subgroup_id = project_subgroup
-                updateCase.created_by_id = request.user.id
+                updateCase.created_by_id = staff
                 updateCase.resolution = resolution
                 updateCase.service_id = service
                 updateCase.update_at = datetime.datetime.now(tz=tz)
                 updateCase.hospitals_id = hosptial
-                updateCase.status_Case_id = statusCase
+                updateCase.status_Case_id = ''
                 updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
                 fs = FileSystemStorage()
                 name = fs.save(upload_file.name, upload_file)
@@ -310,20 +311,19 @@ def updateCase(request, pk):
                 hosptial = request.POST.get("hospital")
                 statusCase = request.POST.get("statusCase")
                 staff   = request.POST.get("locality-assign")
-                # if assignYes == 'yes':
-                #     fnUpdateCaseAssign(pk,tz,case_name,project_subgroup,resolution,service,hosptial,statusCase,staff,request_id)
                 updateCase = Case.objects.get(id=pk)
                 updateCase.name = case_name
                 updateCase.project_subgroup_id = project_subgroup
                 updateCase.created_by_id = staff
-                updateCase.assign_by = request.user.id
+                updateCase.forward_by = request.user.id # forward by
                 updateCase.resolution = resolution
                 updateCase.service_id = service
                 updateCase.update_at = datetime.datetime.now(tz=tz)
                 updateCase.hospitals_id = hosptial
                 updateCase.status_Case_id = ''
-                # updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
+                updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
                 updateCase.assign_at = datetime.datetime.now(tz=tz)
+                updateCase.forward_at = datetime.datetime.now(tz=tz)
                 updateCase.save()
                 messages.success(request, 'Your case is updated successfully!')
                 return HttpResponseRedirect(reverse_lazy('viewcase'))
@@ -539,7 +539,9 @@ def viewCase(request):
     user = User.objects.all()
     current_user = request.user.id
     case = Case.objects.filter(created_by=current_user)
-    countAssign = Case.objects.filter(assign_by=str(current_user)).count()
+    countAssignSend = Case.objects.filter(assign_by=str(current_user)).count()
+    countAssignForward = Case.objects.filter(forward_by=str(current_user)).count()
+    countAssign = countAssignSend + countAssignForward
     context = {'case': case,'users':user,'countAssigns': countAssign}
     return render(request, 'cases/case.html', context)
 
@@ -547,8 +549,10 @@ def viewCase(request):
 def viewCaseAssign(request):
     user = User.objects.all()
     current_user = request.user.id
-    case = Case.objects.filter(assign_by=str(current_user))
-    countAssign = Case.objects.filter(assign_by=str(current_user)).count()
+    case = Case.objects.filter(assign_by=str(current_user)) | Case.objects.filter(forward_by=str(current_user))
+    countAssignSend = Case.objects.filter(assign_by=str(current_user)).count()
+    countAssignForward = Case.objects.filter(forward_by=str(current_user)).count()
+    countAssign = countAssignSend + countAssignForward
     context = {'case': case,'users':user,'countAssigns': countAssign}
     return render(request, 'cases/viewCaseAssign.html', context)
 
