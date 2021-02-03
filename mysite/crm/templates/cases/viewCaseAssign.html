@@ -107,6 +107,8 @@
                             <td class="text-center">
                             <small class="badge badge-warning"> {{case.status_Case.name}} </small>
                             <br>
+                            <small> {{case.created_by.first_name }}  {{case.created_by.last_name }}  </small>
+                            <br>
                             <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
                             </td>
                           {% elif case.status_Case.name == 'Close' %}
@@ -122,6 +124,7 @@
                           <td class="text-center">
                             <small class="badge badge-danger"> close </small></td>
                           </td>
+                          
                         {% endif %}
                     <td class="project-actions text-center">
                       <a class="btn btn-warning btn-sm" href="{% url 'detailCaseAssign' case.id %}">
