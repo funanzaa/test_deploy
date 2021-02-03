@@ -17,5 +17,7 @@ backup
 .bash*
 .bash*
 mysite/crm/migrations/*
-mysite/crm/__pycache__/*
-mysite/crm/__pycache__/
+__pycache__
+migrations
+mysite/__pycache__
+mysite/crm/migrations

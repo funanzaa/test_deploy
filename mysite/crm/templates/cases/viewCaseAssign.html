@@ -9,17 +9,19 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
-              {% if request.user.is_staff %}
               <div class="card-header">
+                {% if perms.crm.add_case %}
                 <a class="btn btn-app" href="{% url 'create_case' %}">
                   <i class="fas fa-plus"></i> Case
                 </a>
+                {% endif %}
+                {% if perms.crm.view_case %}
                 <a class="btn btn-app" href="{% url 'viewCaseAssign' %}">
                   <span class="badge badge-warning navbar-badge">{{countAssigns}}</span>
                   <i class="fas fa-paper-plane"></i> Assign
                 </a>
+                {% endif %}
               </div>
-              {% endif %}
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">

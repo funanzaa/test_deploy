@@ -125,8 +125,32 @@
                   </select>
               {% endif %}
             </div>
+            {% if perms.crm.view_case %}
+              <div class="row">
+                <div class="col-sm-3">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <div class="form-check">
+                      <input class="form-check-input" id="chkAssign" name="chkAssign" type="checkbox" value="yes" onchange="checkedAssign(this)">
+                      <label class="form-check-label">Assign to</label>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-sm-9">
+                  <div class="form-group">
+                    <!-- <input type="text" class="form-control" placeholder="Enter ...">  statusCases -->
+                    <select id="locality-dropdown-assign" class="form-control" name="locality-assign"> 
+                      {% for staff in staffs %}
+                      <option value="{{ staff.id }}" >{{staff.first_name}} {{staff.last_name}}</option>
+                      {% endfor %}
+                    </select>
+                  </div> 
+                </div> 
+              </div>
+            {% endif %}
             <div class="form-group">
-              <select  class="form-control" name="statusCase">
+              <select id="dropdown-status" class="form-control" name="statusCase">
                 {% for statusCase in statusCases %}
                     {% if case.status_Case_id == statusCase.id %}
                         <option value="{{ statusCase.id }}" selected> {{statusCase.name}}</option>
@@ -150,10 +174,18 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <!-- <button type="submit" class="btn btn-info">Submit</button> -->
-            <button type="submit" class="btn btn-info toastrDefaultSuccess">
+            <button type="submit" class="btn btn-info">
                   Submit
             </button>
+           <!-- {% if case.assign == 'yes' %}
+                {% if perms.crm.view_case %} 
+            <button class="btn btn-danger float-right"  data-toggle="modal" data-target="#modal-default">
+              <i class="fas fa-paper-plane">
+              </i>
+              Assign To
+            </button>
+                {% endif %}
+          {% endif %}  -->
           </div>
         </form>
       </div>

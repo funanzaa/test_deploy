@@ -61,7 +61,7 @@
                 <!-- text input -->
                 <div class="form-group">
                   <div class="form-check">
-                    <input class="form-check-input" id="chkAssign" name="chkAssign" type="checkbox" value="yes" onclick="checkedAssign()">
+                    <input class="form-check-input" id="chkAssign" name="chkAssign" type="checkbox" value="yes" onchange="checkedAssignAdd(this)">
                     <label class="form-check-label">Assign to</label>
                   </div>
 
@@ -69,7 +69,6 @@
               </div>
                <div class="col-sm-9">
                 <div class="form-group">
-                  <!-- <input type="text" class="form-control" placeholder="Enter ...">  statusCases -->
                   <select id="locality-dropdown-assign" class="form-control" name="locality-assign"> 
                     {% for staff in staffs %}
                     <option value="{{ staff.id }}" >{{staff.first_name}} {{staff.last_name}}</option>

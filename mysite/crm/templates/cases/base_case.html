@@ -278,8 +278,8 @@
          // console.log(x)
          // let dropdown = $('#locality-dropdown-hospital');
          // dropdown_subproject.empty();
-        //  var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
-         var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
+         var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
+        //  var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
          $.ajax({
              method:"GET",
              url: endpoint,
@@ -315,15 +315,26 @@
   });
   </script>
   <script>
-    function checkedAssign() {
-      var x = document.getElementById("chkAssign").value
-      if (document.getElementById('chkAssign').checked)
-      document.getElementById("locality-dropdown-assign").style.display = "block";
-        else
-        document.getElementById("locality-dropdown-assign").style.display = "none";
+    function checkedAssign(checkboxElem) {
+      // console.log(checkboxElem)
+      if (checkboxElem.checked) {
+          document.getElementById("locality-dropdown-assign").style.display = "block";
+          document.getElementById("dropdown-status").style.display = "none"
+        } else {
+          document.getElementById("dropdown-status").style.display = "block"
+          document.getElementById("locality-dropdown-assign").style.display = "none";
+        }
       }
+    function checkedAssignAdd(checkboxElem) {
+      // console.log(checkboxElem)
+      if (checkboxElem.checked) {
+          document.getElementById("locality-dropdown-assign").style.display = "block";
+        } else {
+          document.getElementById("locality-dropdown-assign").style.display = "none";
+        }
+      }
+
     </script>
-<!-- list user for assign -->
 <script>
   $(document).ready(function(){
       let dropdown2 = $('#locality-dropdown')

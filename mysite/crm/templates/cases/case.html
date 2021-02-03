@@ -9,17 +9,21 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
-              {% if request.user.is_staff %}
-              <div class="card-header">
-                <a class="btn btn-app" href="{% url 'create_case' %}">
-                  <i class="fas fa-plus"></i> Case
-                </a>
-                <a class="btn btn-app" href="{% url 'viewCaseAssign' %}">
-                  <span class="badge badge-warning navbar-badge">{{countAssigns}}</span>
-                  <i class="fas fa-paper-plane"></i> Assign
-                </a>
-              </div>
-              {% endif %}
+              
+                <div class="card-header">
+                  {% if perms.crm.add_case %}
+                  <a class="btn btn-app" href="{% url 'create_case' %}">
+                    <i class="fas fa-plus"></i> Case
+                  </a>
+                  {% endif %}
+                  {% if perms.crm.view_case %}
+                  <a class="btn btn-app" href="{% url 'viewCaseAssign' %}">
+                    <span class="badge badge-warning navbar-badge">{{countAssigns}}</span>
+                    <i class="fas fa-paper-plane"></i> Assign
+                  </a>
+                  {% endif %}
+                </div>
+              
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
@@ -93,6 +97,8 @@
                               <small class="badge badge-success"> {{case.status_Case.name}} </small>
                               <br>
                               <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
+                              <br>
+                              <small>{{case.created_by.first_name}} {{case.created_by.last_name}} </small>
                               </td>
                           {% endif %}
                         {% else %}
@@ -106,6 +112,15 @@
                         </i>
                         View
                       </a>
+                      <!-- {% if case.assign == 'yes' %}
+                        {% if perms.crm.view_case %} 
+                          <a class="btn btn-danger btn-sm" href="{% url 'detail_case' case.id %}" data-toggle="modal" data-target="#modal-default">
+                            <i class="fas fa-paper-plane">
+                            </i>
+                            Assign
+                          </a>
+                        {% endif %}
+                      {% endif %} -->
                       <a class="btn btn-info btn-sm" href="{% url 'update_case' case.id %}">
                         <i class="fas fa-pencil-alt">
                         </i>
@@ -132,6 +147,8 @@
         <!-- /.row -->
       </div>
       <!-- /.container-fluid -->
+
+      <!-- /.modal -->
     </section>
     <!-- /.content -->
 
