@@ -49,7 +49,7 @@
       </div> -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Case Assign Staff</h3>
+          <h3 class="card-title">Recap Report Case Assign </h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -73,11 +73,11 @@
                   <div class="progress progress-xs">
                     <div class="progress-bar bg-info" style="width: {{resultsList.percent_status_assign}}%"></div>
                   </div>
-                  <small>                   
-                    {{resultsList.percent_status_assign}}%
-                 </small>
-                  <small class="text-info">                   
-                    {{resultsList.status_assign}} Case
+                  <small class="text-info">
+                    <a href="{% url 'monitorStatusAssignCase' resultsList.userid %}">
+                      {{resultsList.status_assign}} Case
+                    </a>                   
+                    
                 </small>
                 <br>
                 {% if resultsList.check_urgent > 0 %}
@@ -91,9 +91,6 @@
                   <div class="progress progress-xs">
                     <div class="progress-bar bg-warning" style="width: {{resultsList.percent_status_pending}}%"></div>
                   </div>
-                  <small>
-                    {{resultsList.percent_status_pending}}%  
-                </small>
                 <small class="text-warning">                   
                   {{resultsList.status_pending}} Case
                 </small>
@@ -109,9 +106,6 @@
                   <div class="progress progress-xs">
                     <div class="progress-bar bg-success" style="width: {{resultsList.percent_status_close}}%"></div>
                   </div>
-                  <small>
-                    {{resultsList.percent_status_close}}%  
-                </small>
                 <small class="text-success">                   
                   {{resultsList.status_close}} Case
                 </small>

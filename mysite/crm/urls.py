@@ -47,5 +47,5 @@ urlpatterns = [
 
     # AssignMonitorCase
     path('monitorAssignCase/',views.AssignMonitor, name='monitorAssignCase'),
-
+    path('monitorStatusAssignCase/<str:pk>',views.monitorStatusAssignCase, name='monitorStatusAssignCase')
 ]

@@ -759,23 +759,24 @@ def userDetailServerProfile(request,pk):
 def AssignMonitor(request):
     with connection.cursor() as cursor:
         cursor.execute(""" 
-            select ROW_NUMBER () OVER (ORDER BY auth_user.first_name) as rowNumber
-            ,auth_user.first_name,auth_user.last_name
-            ,sum(case when crm_case."status_Case_id" is null then 1 else 0 end) as status_assign
-            ,(((sum(case when crm_case."status_Case_id" is null then 1 else 0 end)) * 100 )::real / (sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)))::numeric(5,2)as percent_status_assign
-            ,sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) as status_close
-            ,((sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) * 100 )::real / (sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)))::numeric(5,2) as percent_status_close
-            ,sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end) as status_pending
-            ,((sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)*100)::real / (sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)))::numeric(5,2) as percent_status_pending
-            ,(sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)) as total_case
-            ,sum(case when (crm_case."status_Case_id" is null and crm_case."priorityCase" = '1'  ) then 1 else 0 end) as check_urgent
-            ,sum(case when (crm_case."status_Case_id" is null and crm_case."priorityCase" = '2'  ) then 1 else 0 end) as check_very_urgent
-            ,sum(case when (crm_case."status_Case_id" = 5 and crm_case."priorityCase" = '1'  ) then 1 else 0 end) as check_status_pending_urgent
-            ,sum(case when (crm_case."status_Case_id" = 5 and crm_case."priorityCase" = '2'  ) then 1 else 0 end) as check_status_pending_very_urgent
-            from crm_case
-            inner join auth_user ON crm_case.created_by_id = auth_user.id
-            where crm_case.assign = 'yes'
-            group by auth_user.first_name,auth_user.last_name
+        select ROW_NUMBER () OVER (ORDER BY auth_user.first_name) as rowNumber
+        ,auth_user.id as userId
+        ,auth_user.first_name,auth_user.last_name
+        ,sum(case when crm_case."status_Case_id" is null then 1 else 0 end) as status_assign
+        ,(((sum(case when crm_case."status_Case_id" is null then 1 else 0 end)) * 100 )::real / (sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)))::numeric(5,2)as percent_status_assign
+        ,sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) as status_close
+        ,((sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) * 100 )::real / (sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)))::numeric(5,2) as percent_status_close
+        ,sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end) as status_pending
+        ,((sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)*100)::real / (sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)))::numeric(5,2) as percent_status_pending
+        ,(sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)) as total_case
+        ,sum(case when (crm_case."status_Case_id" is null and crm_case."priorityCase" = '1'  ) then 1 else 0 end) as check_urgent
+        ,sum(case when (crm_case."status_Case_id" is null and crm_case."priorityCase" = '2'  ) then 1 else 0 end) as check_very_urgent
+        ,sum(case when (crm_case."status_Case_id" = 5 and crm_case."priorityCase" = '1'  ) then 1 else 0 end) as check_status_pending_urgent
+        ,sum(case when (crm_case."status_Case_id" = 5 and crm_case."priorityCase" = '2'  ) then 1 else 0 end) as check_status_pending_very_urgent
+        from crm_case
+        inner join auth_user ON crm_case.created_by_id = auth_user.id
+        where crm_case.assign = 'yes'
+        group by userId,auth_user.first_name,auth_user.last_name
                 """)
         results = cursor.fetchall()
         x = cursor.description
@@ -789,3 +790,10 @@ def AssignMonitor(request):
             resultsList.append(d)
         context = {'resultsLists': resultsList}
     return render(request, 'cases/assignMonitor.html', context)
+
+
+def monitorStatusAssignCase(request,pk):
+    case = Case.objects.filter(created_by=int(pk)).filter(status_Case_id=None)
+    # print(case)
+    context = {'case': case}
+    return render(request, 'cases/monitorStatusAssignCase.html', context)
