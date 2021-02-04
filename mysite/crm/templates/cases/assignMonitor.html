@@ -1,0 +1,116 @@
+{% extends 'cases/base_case.html' %}
+{% block page_title %}
+<!-- Create Case -->
+{% endblock page_title %}
+{% block main_content %}
+
+<section class="content">
+  <div class="container-fluid">
+    <!-- <div class="col-md-6 offset-md-3"> -->
+    <div class="col-md-12">
+      <!-- <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Cases Assign Staff</h3>
+        </div>
+        <div class="card-body p-0">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Staff</th>
+                <th>Assign</th>
+                <th>Pending</th>
+                <th>Close</th>
+                <th style="width: 70px">Label</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Update software</td>
+                <td>
+                  <div class="progress progress-xs">
+                    <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="progress progress-xs">
+                    <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="progress progress-xs">
+                    <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                  </div>
+                </td>
+                <td><span class="badge bg-danger">55%</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div> -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Case Assign Staff</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>                  
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>Staff</th>
+                <th>Assign</th>
+                <th>Pending</th>
+                <th>Close</th>
+                <th style="width: 40px">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for resultsList in resultsLists %}
+              <tr>
+                <td>{{resultsList.rownumber}}</td>
+                <td>{{resultsList.first_name}} {{resultsList.last_name}} </td>
+                <td>
+                  <div class="progress progress-xs">
+                    <div class="progress-bar bg-info" style="width: {{resultsList.percent_status_assign}}%"></div>
+                  </div>
+                  <small>                   
+                    {{resultsList.percent_status_assign}}%
+                 </small>
+                  <small class="text-info">                   
+                    {{resultsList.status_assign}} Case
+                </small>
+                </td>
+                <td>
+                  <div class="progress progress-xs">
+                    <div class="progress-bar bg-warning" style="width: {{resultsList.percent_status_pending}}%"></div>
+                  </div>
+                  <small>
+                    {{resultsList.percent_status_pending}}%  
+                </small>
+                <small class="text-warning">                   
+                  {{resultsList.status_pending}} Case
+                </small>
+                </td>
+                <td>
+                  <div class="progress progress-xs">
+                    <div class="progress-bar bg-success" style="width: {{resultsList.percent_status_close}}%"></div>
+                  </div>
+                  <small>
+                    {{resultsList.percent_status_close}}%  
+                </small>
+                <small class="text-success">                   
+                  {{resultsList.status_close}} Case
+                </small>
+                </td>
+                <td class="text-center"><span class="badge bg-danger">{{resultsList.total_case}}</span></td>
+              </tr>
+              {% endfor%}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock main_content %}

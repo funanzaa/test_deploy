@@ -67,3 +67,15 @@ def add_datetime(time):
 def formatNumber(number):
     fnumber = format(int(number), ',d')
     return fnumber
+
+
+@register.filter
+def calAssingCase(number):
+    if number == 0 :
+        return 0
+    elif number == None :
+        return 0
+    else:
+        now = (datetime.datetime.now(tz=tz))
+        count_case_total = Case.objects.filter(date_entered__month=now.month).count()
+        return round((number*100)/count_case_total)

@@ -47,51 +47,7 @@ def dashboardPage(request):
     count_facebook = Case.objects.filter(date_entered__month=now.month, service_id=3).count()
     count_email = Case.objects.filter(date_entered__month=now.month, service_id=4).count()
     count_Line_official = Case.objects.filter(date_entered__month=now.month, service_id=5).count()
-    # sub setup
-    count_sub_hos = Case.objects.filter(
-        date_entered__month=now.month, project_id=1, project_subgroup_id=1).count()
-    count_sub_opbkk = Case.objects.filter(
-        date_entered__month=now.month, project_id=2, project_subgroup_id=1).count()
-    count_sub_erefer = Case.objects.filter(
-        date_entered__month=now.month, project_id=3, project_subgroup_id=1).count()
-    count_sub_ehhc = Case.objects.filter(
-        date_entered__month=now.month, project_id=4, project_subgroup_id=1).count()
-    count_sub_hshv = Case.objects.filter(
-        date_entered__month=now.month, project_id=5, project_subgroup_id=1).count()
-    count_sub_smartcard = Case.objects.filter(
-        date_entered__month=now.month, project_id=6, project_subgroup_id=1).count()
-    count_sub_server = Case.objects.filter(
-        date_entered__month=now.month, project_id=7, project_subgroup_id=1).count()
-    # sub use program
-    count_use_sub_hos = Case.objects.filter(
-        date_entered__month=now.month, project_id=1, project_subgroup_id=3).count()
-    count_use_sub_opbkk = Case.objects.filter(
-        date_entered__month=now.month, project_id=2, project_subgroup_id=3).count()
-    count_use_sub_erefer = Case.objects.filter(
-        date_entered__month=now.month, project_id=3, project_subgroup_id=3).count()
-    count_use_sub_ehhc = Case.objects.filter(
-        date_entered__month=now.month, project_id=4, project_subgroup_id=3).count()
-    count_use_sub_hshv = Case.objects.filter(
-        date_entered__month=now.month, project_id=5, project_subgroup_id=3).count()
-    count_use_sub_smartcard = Case.objects.filter(
-        date_entered__month=now.month, project_id=6, project_subgroup_id=3).count()
-    count_use_sub_server = Case.objects.filter(
-        date_entered__month=now.month, project_id=7, project_subgroup_id=3).count()
-    # sub process
-    count_process_sub_hos = Case.objects.filter(
-        date_entered__month=now.month, project_id=1, project_subgroup_id=2).count()
-    count_process_sub_opbkk = Case.objects.filter(
-        date_entered__month=now.month, project_id=2, project_subgroup_id=2).count()
-    count_process_sub_erefer = Case.objects.filter(
-        date_entered__month=now.month, project_id=3, project_subgroup_id=2).count()
-    count_process_sub_ehhc = Case.objects.filter(
-        date_entered__month=now.month, project_id=4, project_subgroup_id=2).count()
-    count_process_sub_hshv = Case.objects.filter(
-        date_entered__month=now.month, project_id=5, project_subgroup_id=2).count()
-    count_process_sub_smartcard = Case.objects.filter(
-        date_entered__month=now.month, project_id=6, project_subgroup_id=2).count()
-    count_process_sub_server = Case.objects.filter(
-        date_entered__month=now.month, project_id=7, project_subgroup_id=2).count()
+
 
     context = {
         "dates": now, "count_hospital": count_hospital, "count_hc": count_hc, "count_clinic": count_clinic,
@@ -99,9 +55,6 @@ def dashboardPage(request):
         "count_case_erefer": count_case_erefer, "count_case_ehhc": count_case_ehhc, "count_case_hshv": count_case_hshv, "count_case_smartcard": count_case_smartcard,
         "count_case_server": count_case_server, "count_case_other": count_case_other, "count_case_total": count_case_total,
         "count_call": count_call, "count_line": count_line, "count_facebook": count_facebook, "count_email": count_email, "count_Line_official": count_Line_official,
-        "count_sub_hos": count_sub_hos, "count_sub_opbkk": count_sub_opbkk, "count_sub_erefer": count_sub_erefer, "count_sub_ehhc": count_sub_ehhc, "count_sub_hshv": count_sub_hshv, "count_sub_smartcard": count_sub_smartcard, "count_sub_server": count_sub_server,
-        "count_use_sub_hos": count_use_sub_hos, "count_use_sub_opbkk": count_use_sub_opbkk, "count_use_sub_erefer": count_use_sub_erefer, "count_use_sub_ehhc": count_use_sub_ehhc, "count_use_sub_hshv": count_use_sub_hshv, "count_use_sub_smartcard": count_use_sub_smartcard, "count_use_sub_server": count_use_sub_server,
-        "count_process_sub_hos": count_process_sub_hos, "count_process_sub_opbkk": count_process_sub_opbkk, "count_process_sub_erefer": count_process_sub_erefer, "count_process_sub_ehhc": count_process_sub_ehhc, "count_process_sub_hshv": count_process_sub_hshv, "count_process_sub_smartcard": count_process_sub_smartcard, "count_process_sub_server": count_process_sub_server
 
     }
     return render(request, 'cases/dashboard.html', context)
@@ -803,3 +756,32 @@ def userDetailServerProfile(request,pk):
     return render(request, 'cases/userDetailServerProfile.html', context)
 
 
+def AssignMonitor(request):
+    with connection.cursor() as cursor:
+        cursor.execute(""" 
+            select ROW_NUMBER () OVER (ORDER BY auth_user.first_name) as rowNumber
+            ,auth_user.first_name,auth_user.last_name
+            ,sum(case when crm_case."status_Case_id" is null then 1 else 0 end) as status_assign
+            ,(((sum(case when crm_case."status_Case_id" is null then 1 else 0 end)) * 100 )::real / (sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)))::numeric(5,2)as percent_status_assign
+            ,sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) as status_close
+            ,((sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) * 100 )::real / (sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)))::numeric(5,2) as percent_status_close
+            ,sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end) as status_pending
+            ,((sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)*100)::real / (sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)))::numeric(5,2) as percent_status_pending
+            ,(sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)) as total_case
+            from crm_case
+            inner join auth_user ON crm_case.created_by_id = auth_user.id
+            where crm_case.assign = 'yes'
+            group by auth_user.first_name,auth_user.last_name
+                """)
+        results = cursor.fetchall()
+        x = cursor.description
+        resultsList = []  
+        for r in results:
+            i = 0
+            d = {}
+            while i < len(x):
+                d[x[i][0]] = r[i]
+                i = i+1
+            resultsList.append(d)
+        context = {'resultsLists': resultsList}
+    return render(request, 'cases/assignMonitor.html', context)

@@ -43,5 +43,9 @@ urlpatterns = [
     path('api/ControlVersionList/', ControlVersionList.as_view(), name='ControlVersion_List'),
     path('api/ControlVersionDetail/<str:pk>/', ControlVersionDetail.as_view(), name='ControlVersionDetail'),
     # Auth
-    path('api/auth/', UserAuthentication.as_view(), name='User Authentication API')
+    path('api/auth/', UserAuthentication.as_view(), name='User Authentication API'),
+
+    # AssignMonitorCase
+    path('monitorAssignCase/',views.AssignMonitor, name='monitorAssignCase'),
+
 ]
