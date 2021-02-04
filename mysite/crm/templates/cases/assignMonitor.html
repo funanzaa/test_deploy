@@ -79,6 +79,13 @@
                   <small class="text-info">                   
                     {{resultsList.status_assign}} Case
                 </small>
+                <br>
+                {% if resultsList.check_urgent > 0 %}
+                  <span class="badge bg-warning"> ด่วน </span>  
+                {% endif %}
+                {% if resultsList.check_very_urgent > 0 %}
+                  <span class="badge bg-danger"> ด่วนที่สุด </span>  
+                {% endif %}      
                 </td>
                 <td>
                   <div class="progress progress-xs">
@@ -90,6 +97,13 @@
                 <small class="text-warning">                   
                   {{resultsList.status_pending}} Case
                 </small>
+                <br> 
+                {% if resultsList.check_status_pending_urgent > 0 %}        
+                <span class="badge bg-warning"> ด่วน </span>  
+                {% endif %}
+                {% if resultsList.check_status_pending_very_urgent > 0 %} 
+                <span class="badge bg-danger">  ด่วนที่สุด </span>  
+                {% endif %}  
                 </td>
                 <td>
                   <div class="progress progress-xs">
