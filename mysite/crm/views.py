@@ -201,22 +201,6 @@ def detailCase(request, pk):
 
 # update Case
 
-def fnUpdateCaseAssign(pk,tz,case_name,project_subgroup,resolution,service,hosptial,statusCase,staff,request_id):
-    updateCase = Case.objects.get(id=pk)
-    updateCase.name = case_name
-    updateCase.project_subgroup_id = project_subgroup
-    print('staff : ' + str(staff))
-    updateCase.created_by_id = staff
-    updateCase.assign_by = request_id
-    updateCase.resolution = resolution
-    updateCase.service_id = service
-    updateCase.update_at = datetime.datetime.now(tz=tz)
-    updateCase.hospitals_id = hosptial 
-    updateCase.status_Case_id = None
-    updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
-    updateCase.save()
-    # messages.success( 'Your case is updated successfully!')
-    return HttpResponseRedirect(reverse_lazy('viewcase'))
 
 def updateCase(request, pk):
     case = Case.objects.get(id=pk)
@@ -504,9 +488,18 @@ def create_case_hospital(request, pk):
 
 @login_required(login_url='login')
 def viewCase(request):
+    tz = pytz.timezone('Asia/Bangkok')
+    now = (datetime.datetime.now(tz=tz))
     user = User.objects.all()
     current_user = request.user.id
-    case = Case.objects.filter(created_by=current_user)
+    # case = Case.objects.filter(created_by=current_user)
+    if len(str(now)[5:7]) == 2:
+        # case = Case.objects.filter(created_by=current_user)
+        case = Case.objects.filter(date_entered__month=str(now)[5:7], created_by=current_user, date_entered__year=str(now)[:4])
+    else:
+        # case = Case.objects.filter(created_by=current_user)
+        case = count_case_hos = Case.objects.filter(date_entered__month=str(now)[6:7], created_by=current_user, date_entered__year=str(now)[:4])
+
     countAssignSend = Case.objects.filter(assign_by=str(current_user)).count()
     countAssignForward = Case.objects.filter(forward_by=str(current_user)).count()
     countAssign = countAssignSend + countAssignForward
@@ -755,7 +748,7 @@ def userDetailServerProfile(request,pk):
     context = {"ProfileServer":ProfileServers}
     return render(request, 'cases/userDetailServerProfile.html', context)
 
-
+@login_required(login_url='login')
 def AssignMonitor(request):
     with connection.cursor() as cursor:
         cursor.execute(""" 
@@ -792,8 +785,24 @@ def AssignMonitor(request):
     return render(request, 'cases/assignMonitor.html', context)
 
 
+# Monitor Case
+
+@login_required(login_url='login')
 def monitorStatusAssignCase(request,pk):
     case = Case.objects.filter(created_by=int(pk)).filter(status_Case_id=None)
-    # print(case)
     context = {'case': case}
     return render(request, 'cases/monitorStatusAssignCase.html', context)
+
+@login_required(login_url='login')
+def monitorStatusPendingCase(request,pk):
+    case = Case.objects.filter(created_by=int(pk)).filter(status_Case_id=5)
+    context = {'case': case}
+    return render(request, 'cases/monitorStatusPendingCase.html', context)
+
+@login_required(login_url='login')
+def monitorStatusCloseCase(request,pk):
+    case = Case.objects.filter(created_by=int(pk)).filter(status_Case_id=1)
+    context = {'case': case}
+    return render(request, 'cases/monitorStatusCloseCase.html', context)
+
+# End  Monitor Case
