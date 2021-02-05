@@ -31,6 +31,10 @@ def AboutPage(request):
     return render(request,'about.html')
 
 
+def document(request):
+    return render(request,'download_document.html')
+
+
 @unauthenticated_user
 def loginPage(request):
 

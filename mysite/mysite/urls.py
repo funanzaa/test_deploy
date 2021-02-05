@@ -26,6 +26,11 @@ urlpatterns = [
     path('login/', views.loginPage, name="login"),
     path('logout/', views.logoutUser, name="logout"),
     path('crm/', include('crm.urls')),
+    # download document
+    path('document/', views.document, name="document"),
+
+
+    # model5
     path('model5/dashboard/', views.model5_dashboard, name="model5_dashboard"),
     path('model5/hosp_model5/', views.hosp_model5, name="hosp_model5"),
     path('model5/lookup_error/', views.lookup_error, name="lookup_error"),
