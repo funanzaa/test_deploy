@@ -21,26 +21,42 @@ from django.contrib.auth.models import Group
 from django.db.models import Q
 
 
+from .queryDashboard import *
+
+
 @login_required(login_url='login')
 # @allowed_users(allowed_roles=['helpdesk','programmer']) # permission
 # @admin_only
 def dashboardPage(request):
+
     current_user = request.user.id
     tz = pytz.timezone('Asia/Bangkok')
     now = (datetime.datetime.now(tz=tz))
+    # x = "HospitalOS"
+    # print(queryProjectAll(now.month,x))
+    # print(queryProjectAll("HospitalOS",now.month))
+
     count_hospital = Hospitals.objects.filter(h_type=1).count()
     count_hc = Hospitals.objects.filter(h_type=3).count()
     count_clinic = Hospitals.objects.filter(h_type=4).count()
     count_project_all = Project.objects.all().count()
     count_case_all = Case.objects.all().count()
-    count_case_hos = Case.objects.filter(date_entered__month=now.month, project_id=1).count()
-    count_case_opbkk = Case.objects.filter(date_entered__month=now.month, project_id=2).count()
-    count_case_erefer = Case.objects.filter(date_entered__month=now.month, project_id=3).count()
-    count_case_ehhc = Case.objects.filter(date_entered__month=now.month, project_id=4).count()
-    count_case_hshv = Case.objects.filter(date_entered__month=now.month, project_id=5).count()
-    count_case_smartcard = Case.objects.filter(date_entered__month=now.month, project_id=6).count()
-    count_case_server = Case.objects.filter(date_entered__month=now.month, project_id=7).count()
-    count_case_other = Case.objects.filter(date_entered__month=now.month, project_id=8).count()
+    count_case_hos = queryProjectAll("HospitalOS",now.month)
+    count_case_opbkk = queryProjectAll("OPBKKClaim-Client",now.month)
+    count_case_erefer = queryProjectAll("E-referral",now.month)
+    count_case_ehhc = queryProjectAll("eHHC",now.month)
+    count_case_hshv = queryProjectAll("HSHV",now.month)
+    count_case_smartcard = queryProjectAll("SmartCard",now.month)
+    count_case_server = queryProjectAll("Server",now.month)
+    count_case_other = queryProjectAll("ประชาชน",now.month)
+    count_case_bkkApp = queryProjectAll("BkkApp",now.month)
+    count_case_eClaim = queryProjectAll("E-claim",now.month)
+    count_case_hosAdmin = queryProjectAll("HospitalOS-Admin",now.month)
+    count_case_hosReport = queryProjectAll("HospitalOS-Report",now.month)
+    count_case_opbkkWeb = queryProjectAll("OPBKKClaim - Web",now.month)
+    count_case_bppds = queryProjectAll("BPPDS",now.month)
+    count_case_ktb = queryProjectAll("กรุงไทย APP",now.month)
+
     count_case_total = Case.objects.filter(date_entered__month=now.month).count()
     count_call = Case.objects.filter(date_entered__month=now.month, service_id=1).count()
     count_line = Case.objects.filter(date_entered__month=now.month, service_id=2).count()
@@ -53,6 +69,8 @@ def dashboardPage(request):
         "dates": now, "count_hospital": count_hospital, "count_hc": count_hc, "count_clinic": count_clinic,
         "count_project_all": count_project_all, "count_case_all": count_case_all, "count_case_hos": count_case_hos, "count_case_opbkk": count_case_opbkk,
         "count_case_erefer": count_case_erefer, "count_case_ehhc": count_case_ehhc, "count_case_hshv": count_case_hshv, "count_case_smartcard": count_case_smartcard,
+        "count_case_bkkapp": count_case_bkkApp,"count_case_eClaim": count_case_eClaim,"count_case_hosAdmin": count_case_hosAdmin,"count_case_hosReport": count_case_hosReport,
+        "count_case_opbkkWeb": count_case_opbkkWeb,"count_case_bppds": count_case_bppds,"count_case_ktb": count_case_ktb,
         "count_case_server": count_case_server, "count_case_other": count_case_other, "count_case_total": count_case_total,
         "count_call": count_call, "count_line": count_line, "count_facebook": count_facebook, "count_email": count_email, "count_Line_official": count_Line_official,
 

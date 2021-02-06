@@ -47,7 +47,7 @@ Dashboard
                                 <!-- /.chart-responsive -->
                             </div>
                             <!-- /.col -->
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <p class="text-center">
                                     <strong>Project </strong>
                                 </p>
@@ -56,12 +56,12 @@ Dashboard
                                     HospitalOS
                                     <span class="float-right"><b>{{count_case_hos}}</b>/{{count_case_total}}</span>
                                     <div class="progress progress-sm">
-                                        <div class="progress-bar bg-primary" style="width: {{count_case_hos|round_number }}%"></div>
+                                        <div class="progress-bar bg-info" style="width: {{count_case_hos|round_number }}%"></div>
                                     </div>
                                 </div>
                                 <!-- /.progress-group -->
                                 <div class="progress-group">
-                                    OPBKKClaim
+                                    OPBKKClaim-Client
                                     <span class="float-right"><b>{{count_case_opbkk}}</b>/{{count_case_total}}</span>
                                     <div class="progress progress-sm">
                                         <div class="progress-bar bg-danger" style="width: {{count_case_opbkk|round_number }}%"></div>
@@ -101,18 +101,79 @@ Dashboard
                                 </div>
                                 <!-- /.progress-group -->
                                 <div class="progress-group">
-                                    Server
+                                    <span class="progress-text">Server</span>
                                     <span class="float-right"><b>{{count_case_server}}</b>/{{count_case_total}}</span>
                                     <div class="progress progress-sm">
-                                        <div class="progress-bar bg-danger" style="width: {{count_case_server|round_number }} %"></div>
+                                        <div class="progress-bar bg-info" style="width: {{count_case_server|round_number }}%"></div>
                                     </div>
                                 </div>
                                 <!-- /.progress-group -->
                                 <div class="progress-group">
-                                    <span class="progress-text">Other</span>
+                                    <span class="progress-text">ประชาชน</span>
                                     <span class="float-right"><b>{{count_case_other}}</b>/{{count_case_total}}</span>
                                     <div class="progress progress-sm">
                                         <div class="progress-bar bg-success" style="width: {{count_case_other|round_number }}%"></div>
+                                    </div>
+                                </div>
+                                <!-- /.progress-group -->
+
+                            </div>
+                            <div class="col-md-2">
+                                <p class="text-center">
+                                    <strong>Project </strong>
+                                </p>
+
+                                <div class="progress-group">
+                                    BkkApp
+                                    <span class="float-right"><b>{{count_case_bkkapp}}</b>/{{count_case_total}}</span>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-primary" style="width: {{count_case_bkkapp|round_number }}%"></div>
+                                    </div>
+                                </div>
+                                <!-- /.progress-group -->
+                                <div class="progress-group">
+                                    E-claim
+                                    <span class="float-right"><b>{{count_case_eClaim}}</b>/{{count_case_total}}</span>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-danger" style="width: {{count_case_eClaim|round_number }}%"></div>
+                                    </div>
+                                </div>
+                                <!-- /.progress-group -->
+                                <div class="progress-group">
+                                    HospitalOS-Admin
+                                    <span class="float-right"><b>{{count_case_hosAdmin}}</b>/{{count_case_total}}</span>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-info" style="width: {{count_case_hosAdmin|round_number }}%"></div>
+                                    </div>
+                                </div>
+                                <!-- /.progress-group -->
+                                <div class="progress-group">
+                                    HospitalOS-Report
+                                    <span class="float-right"><b>{{count_case_hosReport}}</b>/{{count_case_total}}</span>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-info" style="width: {{count_case_hosReport|round_number }}%"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-group">
+                                    OPBKKClaim - Web
+                                    <span class="float-right"><b>{{count_case_opbkkWeb}}</b>/{{count_case_total}}</span>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-danger" style="width: {{count_case_opbkkWeb|round_number }}%"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-group">
+                                    Bppds
+                                    <span class="float-right"><b>{{count_case_bppds}}</b>/{{count_case_total}}</span>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-warning" style="width: {{count_case_bppds|round_number }}%"></div>
+                                    </div>
+                                </div>
+                                <!-- /.progress-group -->
+                                <div class="progress-group">
+                                    <span class="progress-text">กรุงไทย APP</span>
+                                    <span class="float-right"><b>{{count_case_ktb}}</b>/{{count_case_total}}</span>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-success" style="width: {{count_case_ktb|round_number }}%"></div>
                                     </div>
                                 </div>
                                 <!-- /.progress-group -->
