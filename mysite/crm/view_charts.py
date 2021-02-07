@@ -72,6 +72,7 @@ class ChartData(APIView):
                   'EHHC', 'HsHv', 'SmartCard', 'Server', 'Other']
         default_items = [count_case_hos, count_project_opbkk, count_project_erefer,
                          count_project_ehhc, count_project_hshv, count_project_smartcard, count_server, count_other]
+
         data = {
             "labels": labels,
             "default": default_items,

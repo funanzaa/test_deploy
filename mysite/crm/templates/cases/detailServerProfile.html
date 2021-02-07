@@ -25,9 +25,6 @@
                 {{ProfileServer.hospitals.code}} : {{ProfileServer.hospitals.label}}
               </h2>
             </div>
-            <!-- <h3 class="my-3">{{ProfileServer.hospitals.code}} : {{ProfileServer.hospitals.label}}</h3> -->
-            <!-- <h5> OS : {{ProfileServer.OperationSystem.name}}  </h5> -->
-            <!-- <hr> -->
             <h5 class="my-3">OperationSystem : {{ProfileServer.OperationSystem.name}}</h5>
             <hr>
             <h5> Band : {{ProfileServer.ServerBand.name}}  </h5>
@@ -57,17 +54,9 @@
             {% endif %}
             <hr>
             <h5> ผูัรับผิดชอบ : {{ProfileServer.created_by.first_name}} &nbsp; {{ProfileServer.created_by.last_name}}  </h5>
-            <!-- <div class="mt-4">
-              <div class="btn btn-primary btn-lg btn-flat">
-                <i class="fas fa-cart-plus fa-lg mr-2"></i> 
-                Add to Cart
-              </div>
-
-              <div class="btn btn-default btn-lg btn-flat">
-                <i class="fas fa-heart fa-lg mr-2"></i> 
-                Add to Wishlist
-              </div>
-            </div> -->
+            <hr>
+            <h5> Memo  </h5>
+            <textarea name="resolution" required class="form-control" rows="5" disabled>{{ProfileServer.Memo}}</textarea>
           </div>
           <!-- /.col -->
         </div>

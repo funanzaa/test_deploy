@@ -32,10 +32,6 @@ def dashboardPage(request):
     current_user = request.user.id
     tz = pytz.timezone('Asia/Bangkok')
     now = (datetime.datetime.now(tz=tz))
-    # x = "HospitalOS"
-    # print(queryProjectAll(now.month,x))
-    # print(queryProjectAll("HospitalOS",now.month))
-
     count_hospital = Hospitals.objects.filter(h_type=1).count()
     count_hc = Hospitals.objects.filter(h_type=3).count()
     count_clinic = Hospitals.objects.filter(h_type=4).count()

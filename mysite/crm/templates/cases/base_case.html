@@ -202,8 +202,8 @@
   $(document).ready(function(){
     let dropdown = document.getElementById('locality-dropdown');
       var x = document.getElementById("project").value;
-      // var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
-       var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
+      var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
+      //  var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
         $.ajax({
         method:"GET",
         url: endpoint,
@@ -227,8 +227,8 @@
       let dropdown2 = $('#locality-dropdown')
       dropdown2.empty()
       var x = document.getElementById("project").value;
-      // var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
-       var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
+      var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
+      //  var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
         $.ajax({
         method:"GET",
         url: endpoint,
@@ -263,8 +263,8 @@
       var x = document.getElementById("project2").value;
       let dropdown_subproject = $('#locality-dropdownUpdate');
       dropdown_subproject.empty();
-      // var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
-      var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
+      var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
+      // var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
       $.ajax({
           method:"GET",
           url: endpoint,
@@ -300,8 +300,8 @@
          // console.log(x)
          // let dropdown = $('#locality-dropdown-hospital');
          // dropdown_subproject.empty();
-         var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
-        //  var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
+        //  var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
+         var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
          $.ajax({
              method:"GET",
              url: endpoint,
@@ -362,8 +362,8 @@
       let dropdown2 = $('#locality-dropdown')
       dropdown2.empty()
       var x = document.getElementById("project").value;
-      // var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
-       var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
+      var endpoint = 'http://bkk.hospital-os.com/crm/api/List_Subproject/'+ x + '/'
+      //  var endpoint = 'http://localhost:8000/crm/api/List_Subproject/'+ x + '/'
         $.ajax({
         method:"GET",
         url: endpoint,
