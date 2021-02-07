@@ -3,6 +3,21 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+
+# report
+
+class sqlreport(models.Model):
+
+    name = models.CharField(max_length=255)
+    report_Img = models.ImageField(upload_to='imagesReport/')
+    report_file = models.FileField(upload_to='reportFile/')
+    Memo = models.CharField(max_length=255,default='')
+    update_at =  models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Project(models.Model):
     name = models.CharField(max_length=255)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
@@ -139,7 +154,6 @@ class ProfileServer(models.Model):
 
     def __str__(self):
         return self.hospitals.label
-
 
 
 

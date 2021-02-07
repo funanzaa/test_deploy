@@ -35,6 +35,21 @@ def document(request):
     return render(request,'download_document.html')
 
 
+def sqlReport(request):
+
+	_sqlReport = sqlreport.objects.all()
+
+	if request.method == 'POST':
+		reportId = request.POST.get('name')
+		_sqlReport = sqlreport.objects.filter(id=reportId)
+		context = {"sqlReport":_sqlReport,'check': 'notfound'}
+		return render(request, 'download_queryReport.html', context)
+		
+	context = {"sqlReport":_sqlReport,'check': 'found'}
+
+	return render(request, 'download_queryReport.html', context)
+
+
 @unauthenticated_user
 def loginPage(request):
 

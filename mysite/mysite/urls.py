@@ -28,7 +28,8 @@ urlpatterns = [
     path('crm/', include('crm.urls')),
     # download document
     path('document/', views.document, name="document"),
-
+    # download report center
+    path('download/sqlReport/', views.sqlReport, name="sqlReport"),
 
     # model5
     path('model5/dashboard/', views.model5_dashboard, name="model5_dashboard"),
