@@ -1,0 +1,111 @@
+{% extends 'cases/base_controlversion.html' %}
+{% load tags_and_filters_extras %}
+<!-- {% block page_title %}
+{% endblock page_title %} -->
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <a class="btn btn-app">
+                  <span class="badge badge-warning navbar-badge">{{countProfileServers1}}</span>
+                  <i class="fas fa-arrow-circle-down"></i> เข้าระบบ
+                </a>
+                <a class="btn btn-app">
+                  <span class="badge badge-success navbar-badge">{{countProfileServers2}}</span>
+                  <i class="fas fa-check-square"></i> ติดตั้งเสร็จสิ้น
+                </a>
+                <a class="btn btn-app">
+                  <span class="badge badge-info navbar-badge">67</span>
+                  <i class="fas fa-handshake"></i> รับเครื่อง
+                </a>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                
+                <table id="example1" class="table table-bordered table-striped">
+                  
+                  <thead>
+                    
+                  <tr>
+                    <th>Hcode </th>
+                    <th>Brand</th>
+                    <th>Contact</th>
+                    <th>Status</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    {% for ProfileServers in ProfileServer %}
+                  <tr>
+                    <td>
+                      {{ProfileServers.hospitals.code}}
+                      <br>
+                      <small>
+                        <!-- {{ case.date_entered}} -->
+                        {{ProfileServers.hospitals.label}}
+                      </small>
+                    </td>
+                    <td class="text-center">
+                      {{ProfileServers.ServerBand}}
+                      {% if ProfileServers.UseServer == 'New'   %} 
+                      <small class="badge badge-success"> {{ProfileServers.UseServer}} </small>
+                      {% else %}
+                      <small class="badge badge-secondary"> {{ProfileServers.UseServer}} </small>
+                      {% endif %}
+                      &nbsp;  &nbsp;
+                      {% if ProfileServers.ServerImage  %} &nbsp;
+                      <a href="{{ ProfileServers.ServerImage}}" target="_blank" >
+                        <button type="submit" class="btn btn-default"><i class="fas fa-image"></i></button>
+                      </a>
+                    {% endif %}
+                    </td>
+                    <td>
+                      <small> {{ProfileServers.ContactFirstName}} &nbsp;  {{ProfileServers.ContactLastName}} &nbsp; Tel. {{ProfileServers.ContactPhone}} </small>
+                      <br>
+                      <small> วันที่ส่ง {{ProfileServers.datetimeSendServer|add_datetime}} </small>
+                    </td>
+                    {% if ProfileServers.ServerServiceStatus_id == 1  %}
+                    <td class="text-center">
+                      <!-- <button type="button" class="btn btn-block btn-outline-success btn-flat" >ติดตั้ง</button> -->
+                      <a class="btn btn-warning btn-sm" href="{% url 'SetupServer' ProfileServers.id %}">
+                        <!-- <i class="fas fa-check-square"></i> -->
+                        ติดตั้ง
+                      </a>
+                    </td>
+                    {% elif ProfileServers.ServerServiceStatus_id == 2 %}
+                    <td class="text-center">
+                      <span class="badge badge-success">ติดตั้งเสร็จสิ้น</span>
+                    </td>
+                    {% elif ProfileServers.ServerServiceStatus_id == 3 %}
+                    <td class="text-center">
+                      <span class="badge badge-success">รับเครื่อง</span>
+                    </td>
+                    {% else %} 
+                    <td class="text-center">
+                      <a class="btn btn-warning btn-sm" href="{% url 'SetupServer' ProfileServers.id %}">
+                        <!-- <i class="fas fa-check-square"></i> -->
+                        ติดตั้ง
+                      </a>
+                  </td>
+                    {% endif %}
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+{% endblock main_content %}

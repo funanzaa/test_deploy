@@ -1,0 +1,35 @@
+{% extends 'cases/base.html' %}
+{% block page_title %}
+<!-- Create Case -->
+{% endblock page_title %}
+{% block main_content %}
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="col-md-6 offset-md-3">
+          <!-- general form elements -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Update Hospital</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form role="form" method= "POST" class="form-group">
+              <div class="card-body">
+                {% csrf_token %}
+                    {{form.as_p}}
+              </div>
+              {% for message in messages %}
+              <p id="messages" class="login-box-msg" style="color: crimson;" >{{message}}</p>
+         {% endfor %}
+              <!-- /.card-body -->
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.card -->
+        </div>
+    </div>
+</section>
+{% endblock main_content %}

@@ -1,0 +1,80 @@
+{% extends 'cases/base_showUserProfileServer.html' %}
+{% load static %}
+{% load tags_and_filters_extras %}
+<!-- {% block page_title %}
+{% endblock page_title %} -->
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            {% if ProfileServer.ServerImage %}
+            <div class="col-12">
+              <img src="{{ProfileServer.ServerImage}}" class="product-image" alt="Product Image">
+            </div>
+            {% else %}
+            <div class="col-12">
+              <img src="{% static "dist/img/images_not.png" %}" class="product-image" alt="Product Image">
+            </div>
+            {% endif %}
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="bg-green py-2 px-3 mt-4">
+              <h2 class="mb-0">
+                {{ProfileServer.hospitals.code}} : {{ProfileServer.hospitals.label}}
+              </h2>
+            </div>
+            <!-- <h3 class="my-3">{{ProfileServer.hospitals.code}} : {{ProfileServer.hospitals.label}}</h3> -->
+            <!-- <h5> OS : {{ProfileServer.OperationSystem.name}}  </h5> -->
+            <!-- <hr> -->
+            <h5 class="my-3">OperationSystem : {{ProfileServer.OperationSystem.name}}</h5>
+            <hr>
+            <h5> Band : {{ProfileServer.ServerBand.name}}  </h5>
+            <hr>
+            <h5> Database : {{ProfileServer.database.name}}  </h5>
+            <hr>
+            <h5> WebServer : {{ProfileServer.webServer.name}}  </h5>
+            <hr>
+            <h5> FixIpAddress : {{ProfileServer.FixIpAddress}}  </h5>
+            <hr>
+            <h5> SetDatabaseBackup : {{ProfileServer.dbBackup}} </h5>
+            <hr>
+            <h5> FixIpAddress : {{ProfileServer.FixIpAddress}}  </h5>
+            <hr>
+            <h5> Contact : {{ProfileServer.ContactFirstName}} &nbsp; {{ProfileServer.ContactLastName}}  </h5>
+            <hr>
+            <h5> Tel : {{ProfileServer.ContactPhone}} </h5>
+            <hr>
+            <h5> Email : {{ProfileServer.Email}} </h5>
+            {% if ProfileServer.datetimeCompleteServer  %}
+            <hr>
+            <h5> วันที่ติดตั้ง : {{ProfileServer.datetimeCompleteServer|add_datetime}} </h5>
+            {% endif %}
+            {% if ProfileServer.datetimeReceiveServer %}
+            <hr>
+            <h5> วันที่รับเครื่อง : {{ProfileServer.datetimeReceiveServer|add_datetime}} </h5>
+            {% endif %}
+            <hr>
+            <h5> ผูัรับผิดชอบ : {{ProfileServer.created_by.first_name}} &nbsp; {{ProfileServer.created_by.last_name}}  </h5>
+            <!-- <div class="mt-4">
+              <div class="btn btn-primary btn-lg btn-flat">
+                <i class="fas fa-cart-plus fa-lg mr-2"></i> 
+                Add to Cart
+              </div>
+
+              <div class="btn btn-default btn-lg btn-flat">
+                <i class="fas fa-heart fa-lg mr-2"></i> 
+                Add to Wishlist
+              </div>
+            </div> -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+{% endblock main_content %}

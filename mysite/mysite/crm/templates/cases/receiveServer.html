@@ -1,0 +1,97 @@
+{% extends 'cases/base_serverProfile.html' %}
+{% load tags_and_filters_extras %}
+{% load static %}
+{% block page_title %}
+<h1 class="m-0 text-dark"> <small> </small></h1>
+{% endblock page_title %}
+<!-- Main content -->
+{% block main_content %}
+<div class="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          
+          <div class="card-header">
+            <!-- <h3 class="card-title">Responsive Hover Table</h3> -->
+            <form method="POST">
+              {% csrf_token %}
+              <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control float-right" placeholder="Hcode" required>
+
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover text-nowrap">
+              <thead>
+                <tr>
+                  <th>รหัสสถาพยาบาล</th>
+                  <th>ชื่อสถาพยาบาล</th>
+                  <th>วันที่</th>
+                  <th>สถานะ</th>
+                  <th>หมายเหตุ</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for resultsList in resultsLists %}
+                <tr>
+                  
+                    <td>{{resultsList.code}}</td>
+                    <td>{{resultsList.label}}</td>
+                    {% if resultsList.datetimeCompleteServer %}
+                      <td>{{resultsList.datetimeCompleteServer|add_datetime}}</td>
+                    {% else %}
+                    <td> {{resultsList.datetimeSendServer|add_datetime}}</td>
+                    {% endif %}
+                    {% if resultsList.id == 1  %}
+                    <td>
+                      <a class="btn btn-warning btn-sm" >
+                        <!-- <i class="fas fa-check-square"></i> -->
+                        เข้าระบบ / อยู่ระหว่างดำเนินการ
+                      </a>
+                    </td>
+                    {% elif resultsList.id == 2 %}
+                    <td>
+                      <a class="btn btn-success btn-sm" href="{% url 'userReceiveServer' resultsList.pro_id %}">
+                        <!-- <i class="fas fa-check-square"></i> -->
+                        ติดตั้งเสร็จสิ้น / กดยืนยันรับเครื่อง
+                      </a>
+                    </td>
+                    {% elif resultsList.id == 3 %}
+                    <td>
+                      <a class="btn btn-info btn-sm">
+                        <!-- <i class="fas fa-check-square"></i> -->
+                        รับเครื่องแล้ว
+                      </a>
+                    </td>
+                    {% endif %}
+                    {% if resultsList.id == 2  %}
+                    <td>{{resultsList.Memo}}</td>
+                    {% endif %}
+                    
+                </tr>
+                {% endfor%}
+                
+               
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+{% endblock main_content %}
+<!-- /.content -->
