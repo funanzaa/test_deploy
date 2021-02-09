@@ -22,10 +22,13 @@ from django.db.models import Q
 
 
 def report(request):
-
+    project = Project.objects.all()
     if request.method == "POST":
+        
         dateTime = request.POST.get("date")
+        project = request.POST.get("project")
         print(dateTime)
+        print(project)
 
-    context = {}
+    context = {"projects":project}
     return render(request, 'cases/report_dashboard.html', context)
