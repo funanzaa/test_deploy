@@ -1,0 +1,167 @@
+// var defaultData_m1 = []
+// var defaultData_m2 = []
+// var defaultData_m3 = []
+// opbkkclient
+// var opbkkclient_m1 = []
+// var opbkkclient_m2 = []
+// var opbkkclient_m3 = []
+
+var labels = [];
+domain = 'http://localhost:8000'
+// domain = 'http://bkk.hospital-os.com'
+// var objId = document.getElementById("project").value;
+// var objDate = document.getElementById("reservation").value;
+var dataURLOpbkkWeb = domain + `/crm/report/ReportSubProjectOpbkkWeb`
+// var dataURLOpbkkClient = domain + `/crm/report/ReportSubProjectOpbkkClient`
+$.ajax({
+    method:'GET',
+    url:dataURLOpbkkWeb,
+    success:function(response){
+        // console.log(response)
+        for (var i in response){    
+          // console.log(response)      
+            labels = response.labels
+            defaultData_m1 = response.data_m1
+            defaultData_m2 = response.data_m2
+            defaultData_m3 = response.data_m3
+            // opbkkclinet
+            labelOpbkkClient = response.labelOpbkkClient
+            opbkkclient_m1 = response.opbkkclinet_m1
+            opbkkclient_m2 = response.opbkkclinet_m2
+            opbkkclient_m3 = response.opbkkclinet_m3
+            // console.log(opbkkclient_m1)
+
+
+        }
+        buildChartOpbkkWeb()
+
+    }
+
+})
+
+function buildChartOpbkkWeb(){
+  let OpbkkWeb = {
+    type: 'bar',
+    globals: {
+      fontFamily:"Sarabun",
+      },
+    title: {
+      text: 'OPBKKClaim - Web',
+      fontSize: 20,
+    },
+    legend: {
+      draggable: true,
+    },
+    scaleX: {
+      // Set scale label
+      // label: { text: 'Subgroup Project' },
+      // Convert text on scale indices
+      // labels: [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ]
+      labels:labels,
+      item: {"font-angle":-15}
+    },
+    scaleY: {
+      // Scale label with unicode character
+      // label: { text: 'Temperature (°F)' }
+    },
+    plot: {
+      // Animation docs here:
+      // https://www.zingchart.com/docs/tutorials/styling/animation#effect
+      animation: {
+        effect: 'ANIMATION_EXPAND_BOTTOM',
+        method: 'ANIMATION_STRONG_EASE_OUT',
+        sequence: 'ANIMATION_BY_NODE',
+        speed: 275,
+      }
+    },
+    series: [
+      {
+        // Plot 1 values, linear data
+        // values: [23,20,27,29,25,17,15],
+        values:defaultData_m1,
+        text: 'มกราคม',
+      },
+      {
+        // Plot 2 values, linear data
+        values:defaultData_m2,
+        text: 'กุมภาพันธ์'
+      },
+      {
+        // Plot 2 values, linear data
+        values:defaultData_m3,
+        text: 'มีนาคม'
+      }
+    ]
+  };
+
+  // OpbkkClinet
+  let OpbkkClinet = {
+    type: 'bar',
+    globals: {
+      fontFamily:"Sarabun",
+      },
+    title: {
+      text: 'OPBKKClaim - Client',
+      fontSize: 20,
+    },
+    legend: {
+      draggable: true,
+    },
+    scaleX: {
+      // values: ['Archery - Female', 'Archery - Male', 'Athletics - Male', 'Boxing - Male', 'Cycling - Male', 'Diving - Male', 'Fencing - Male', 'Figure Skating - Female', 'Figure Skating - Male', 'Football - Male', 'Gymnastics - Male', 'Hockey - Male', 'Jeu De Paume - Male', 'Lacrosse - Male', 'Motorboating - Male', 'Polo - Male', 'Racquets - Male', 'Rowing - Male', 'Rugby - Male', 'Sailing - Male', 'Shooting - Male', 'Swimming - Male', 'Tennis - Female', 'Tennis - Male', 'Tug-Of-War - Male', 'Water Polo - Male', 'Wrestling - Male'],
+      // values : ['ติดตั้งโปรแกรม', 'ประมวลผลข้อมูล', 'การใช้งานโปรแกรม','เข้าใช้งาน<br>OPBKKClaimClient', 'นำเข้าข้อมูล','ร้องขอข้อมูลล่าสุด','ตรวจสอบข้อมูล','สถานะข้อมูล<br>ไม่ตรงกับหน้าเว็บ','ส่งข้อมูล','UpdatePatch'],
+      values : labelOpbkkClient,
+      item: {
+        angle: -15,
+        fontSize: '10px'
+      },
+      // itemsOverlap: true,
+      // lineColor: '#0079C4',
+      maxItems: 999,
+    },
+    scaleY: {
+      // Scale label with unicode character
+      // label: { text: 'Temperature (°F)' }
+    },
+    plot: {
+      // Animation docs here:
+      // https://www.zingchart.com/docs/tutorials/styling/animation#effect
+      animation: {
+        effect: 'ANIMATION_EXPAND_BOTTOM',
+        method: 'ANIMATION_STRONG_EASE_OUT',
+        sequence: 'ANIMATION_BY_NODE',
+        speed: 275,
+      }
+    },
+    series: [
+      {
+        // Plot 1 values, linear data
+        // values: [23,5,27,29,25,17,15],
+        values:opbkkclient_m1,
+        text: 'มกราคม',
+      },
+      {
+        // Plot 2 values, linear data
+        // values: [23,20,27,5,25,17,15],
+        values:opbkkclient_m2,
+        text: 'กุมภาพันธ์'
+      },
+      {
+        // Plot 2 values, linear data
+        // values: [23,5,27,29,25,17,10],
+        values:opbkkclient_m3,
+        text: 'มีนาคม'
+      }
+    ]
+  };
+  // Render Method[3]
+  zingchart.render({
+    id: 'ChartOpbkkWeb',
+    data: OpbkkWeb,
+  });
+  zingchart.render({
+    id: 'ChartOpbkkClient',
+    data: OpbkkClinet,
+  });
+}
+

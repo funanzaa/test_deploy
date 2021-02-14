@@ -1,6 +1,8 @@
 from django.db import connection
 from django.shortcuts import render, redirect
-
+from .models import *
+import datetime
+import pytz
 
 def queryProjectAll(project,month):
     with connection.cursor() as cursor:
@@ -15,6 +17,18 @@ def queryProjectAll(project,month):
                         ) project_subgroup on project_subgroup.id = cc.project_subgroup_id
             where date_part('month',cc.date_entered) = %(_month)s
         """
+        cursor.execute(query, {'_project': project,'_month': month})
+        result = cursor.fetchone()
+        return result[0]
+
+def fnReportOpbkkWeb(project,month):
+    with connection.cursor() as cursor:
+        query = """
+                    select count(*)
+                    from crm_case cc 
+                    where cc.project_subgroup_id = %(_project)s
+                    and date_part('month',cc.date_entered) = %(_month)s
+            """
         cursor.execute(query, {'_project': project,'_month': month})
         result = cursor.fetchone()
         return result[0]

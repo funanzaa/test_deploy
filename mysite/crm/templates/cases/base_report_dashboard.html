@@ -30,6 +30,7 @@
   <link rel="stylesheet" href=" {% static "plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css" %} ">
   <!-- Theme style -->
   <link rel="stylesheet" href=" {% static "dist/css/adminlte.min.css" %} ">
+  <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@500&display=swap" rel="stylesheet">
   <style>
     body {
@@ -37,7 +38,6 @@
     }
   </style>
 </head>
-
 <body class="hold-transition sidebar-mini sidebar-collapse">
   <div class="wrapper">
     <!-- Navbar -->
@@ -80,7 +80,7 @@
 
     </div>
     <!-- /.content-wrapper -->
-    {% include 'cases/footer.html' with user=user id=id%}
+    <!-- {% include 'cases/footer.html' with user=user id=id%} -->
   </div>
   <!-- ./wrapper -->
   <!-- jQuery -->
@@ -105,9 +105,11 @@
   <!-- AdminLTE App -->
   <script src=" {% static "dist/js/adminlte.min.js" %} "></script>
   <!-- AdminLTE for demo purposes -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> -->
   <script src=" {% static "dist/js/demo.js" %} "></script>
   <script src="{% static "dist/js/customs/report.js" %} "></script>
- 
-</body>
+  <script src="{% static "dist/js/customs/report_chart.js" %} "></script>
+  <!-- <script src="{% static "dist/js/customs/report_chartOpbkkCilent.js" %} "></script> -->
 
+</body>
 </html>

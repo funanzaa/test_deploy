@@ -27,6 +27,8 @@ urlpatterns = [
     path('api/MonthlyRecap/data/', MonthlyRecap.as_view(), name='api-monthlyrecap'),
     # report
     path('report/', views_report.report, name='report'),
+    path('report/ReportSubProjectOpbkkWeb', views_report.ReportSubProjectOpbkkWeb, name='ReportSubProjectOpbkkWeb'),
+    # path('report/ReportSubProjectOpbkkClient', views_report.ReportSubProjectOpbkkClient, name='ReportSubProjectOpbkkClient'),
 
     # api subproject
     path('api/List_Subproject/<str:pk>/',views.List_Subproject, name='ListSubProject'),
