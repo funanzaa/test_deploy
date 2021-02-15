@@ -228,13 +228,14 @@ def updateCase(request, pk):
     staff  = User.objects.filter(~Q(id = request.user.id )).filter(~Q(username = 'admin' )).filter(~Q(is_active = False ))
     if request.method == "POST":
         chkAssign = request.POST.get("chkAssign")
-        if chkAssign == 'yes':
+        status_assign = request.POST.get("status_assign")
+        if chkAssign == 'yes': # case forward
             try:
                 tz = pytz.timezone('Asia/Bangkok')
                 case_name = request.POST.get("name")
                 # project = request.POST.get("project2")
                 project_subgroup = request.POST.get("localityUpdate")
-                resolution = request.POST.get("resolution")
+                resolution = request.POST.get("solution")
                 service = request.POST.get("service")
                 hosptial = request.POST.get("hospital")
                 statusCase = request.POST.get("statusCase")
@@ -270,7 +271,7 @@ def updateCase(request, pk):
                 tz = pytz.timezone('Asia/Bangkok')
                 case_name = request.POST.get("name")
                 project_subgroup = request.POST.get("localityUpdate")
-                resolution = request.POST.get("resolution")
+                resolution = request.POST.get("solution")
                 service = request.POST.get("service")
                 hosptial = request.POST.get("hospital")
                 statusCase = request.POST.get("statusCase")
@@ -295,13 +296,75 @@ def updateCase(request, pk):
                 updateCase.save()
                 messages.success(request, 'Your case is updated successfully!')
                 return HttpResponseRedirect(reverse_lazy('viewcase'))
+        elif status_assign == 'yes':
+            try:
+                tz = pytz.timezone('Asia/Bangkok')
+                case_name = request.POST.get("name")
+                project_subgroup = request.POST.get("localityUpdate")
+
+                _resolution = request.POST.get("solution")
+                _solution = request.POST.get("ass_resolution")
+
+                service = request.POST.get("service")
+                hosptial = request.POST.get("hospital")
+                statusCase = request.POST.get("statusCase")
+                upload_file = request.FILES['case_image']
+                updateCase = Case.objects.get(id=pk)
+                updateCase.name = case_name
+                updateCase.project_subgroup_id = project_subgroup
+                updateCase.created_by_id = request.user.id
+
+                updateCase.resolution = _resolution
+                updateCase.solution= _solution
+
+                updateCase.service_id = service
+                updateCase.update_at = datetime.datetime.now(tz=tz)
+                updateCase.hospitals_id = hosptial
+                updateCase.status_Case_id = statusCase
+                updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
+                fs = FileSystemStorage()
+                name = fs.save(upload_file.name, upload_file)
+                url = fs.url(name)
+                updateCase.case_pic = url
+                updateCase.save()
+                messages.success(request, 'Your case is updated successfully!')
+                return HttpResponseRedirect(reverse_lazy('viewcase'))
+            except:
+                # print(status_assign)
+                tz = pytz.timezone('Asia/Bangkok')
+                case_name = request.POST.get("name")
+                project_subgroup = request.POST.get("localityUpdate")
+
+                _resolution = request.POST.get("solution")
+                _solution = request.POST.get("ass_resolution")
+
+                service = request.POST.get("service")
+                hosptial = request.POST.get("hospital")
+                statusCase = request.POST.get("statusCase")
+                request_id = request.user.id
+                updateCase = Case.objects.get(id=pk)
+                updateCase.name = case_name
+                updateCase.project_subgroup_id = project_subgroup
+                updateCase.created_by_id = request.user.id
+
+                updateCase.resolution = _resolution
+                updateCase.solution= _solution
+
+                updateCase.service_id = service
+                updateCase.update_at = datetime.datetime.now(tz=tz)
+                updateCase.hospitals_id = hosptial
+                updateCase.status_Case_id = statusCase
+                updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
+                updateCase.save()
+                messages.success(request, 'Your case is updated successfully!')
+                return HttpResponseRedirect(reverse_lazy('viewcase'))
         else:
             try:
                 tz = pytz.timezone('Asia/Bangkok')
                 case_name = request.POST.get("name")
                 project_subgroup = request.POST.get("localityUpdate")
 
-                resolution = request.POST.get("solution")
+                resolution = request.POST.get("resolution")
                 # resolution = request.POST.get("resolution")
 
                 service = request.POST.get("service")
@@ -331,7 +394,7 @@ def updateCase(request, pk):
                 project_subgroup = request.POST.get("localityUpdate")
 
                 resolution = request.POST.get("solution")
-                # resolution = request.POST.get("resolution")
+                resolution = request.POST.get("resolution")
 
                 service = request.POST.get("service")
                 hosptial = request.POST.get("hospital")

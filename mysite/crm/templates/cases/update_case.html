@@ -25,8 +25,10 @@
             {% csrf_token %}
             <div class="form-group">
               <label for="exampleInputEmail1">Case name : </label>
+              
               {% if case.assign == 'yes' %}
                 <input type="text" class="form-control" id="exampleInputName1" placeholder="Case name" name="name" value="{{ case.name }}" readonly="readonly">
+                <input type="text" class="form-control" hidden name="status_assign" value="{{ case.assign }}">
               {% else %} 
                 <input type="text" class="form-control" id="exampleInputName1" placeholder="Case name" name="name" value="{{ case.name }}">
               {% endif %} 
@@ -87,7 +89,12 @@
                 <div class="btn-group btn-group-sm">
                   <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-default"><i class="fas fa-eye"></i></button>
                 </div>
-                <textarea name="resolution" class="form-control" rows="5">  </textarea>
+                {% if case.solution == None %} <!-- if solution is null -->
+                  <textarea name="ass_resolution" class="form-control" rows="5"> </textarea>
+                {% else %}
+                  <textarea name="ass_resolution" class="form-control" rows="5"> {{ case.solution }}</textarea>
+                {% endif %}
+
               </div>
             {% else %}
               <div class="form-group">

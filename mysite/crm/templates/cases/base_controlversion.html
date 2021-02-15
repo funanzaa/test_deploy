@@ -46,9 +46,11 @@
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="/crm/dashboard" class="nav-link">Home</a>
                 </li>
+                {% if perms.crm.add_case %}
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{% url 'report' %}" class="nav-link">Report</a>
+                  <a href="{% url 'report' %}" class="nav-link">Report</a>
                 </li>
+                {% endif %}
             </ul>
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
