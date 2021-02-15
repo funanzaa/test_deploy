@@ -300,7 +300,10 @@ def updateCase(request, pk):
                 tz = pytz.timezone('Asia/Bangkok')
                 case_name = request.POST.get("name")
                 project_subgroup = request.POST.get("localityUpdate")
-                resolution = request.POST.get("resolution")
+
+                resolution = request.POST.get("solution")
+                # resolution = request.POST.get("resolution")
+
                 service = request.POST.get("service")
                 hosptial = request.POST.get("hospital")
                 statusCase = request.POST.get("statusCase")
@@ -326,7 +329,10 @@ def updateCase(request, pk):
                 tz = pytz.timezone('Asia/Bangkok')
                 case_name = request.POST.get("name")
                 project_subgroup = request.POST.get("localityUpdate")
-                resolution = request.POST.get("resolution")
+
+                resolution = request.POST.get("solution")
+                # resolution = request.POST.get("resolution")
+
                 service = request.POST.get("service")
                 hosptial = request.POST.get("hospital")
                 statusCase = request.POST.get("statusCase")

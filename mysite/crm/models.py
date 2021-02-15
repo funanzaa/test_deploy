@@ -81,8 +81,10 @@ class Case(models.Model):
     assign_at = models.DateTimeField(null=True, blank=True) 
     assign_by = models.CharField(max_length=255, default='') 
     forward_by = models.CharField(max_length=255, default='') #add
+    solution = models.CharField(max_length=255) #add
     forward_at = models.DateTimeField(null=True, blank=True) #add
     priorityCase = models.CharField(max_length=255, default='') #add
+    
 
 
 
