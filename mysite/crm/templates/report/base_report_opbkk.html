@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>CRM HospitalOSBKK</title>
+  <link rel="shortcut icon" href="{% static "dist/img/Logo.png"%}">
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href=" {% static "plugins/fontawesome-free/css/all.min.css" %} ">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href=" {% static "plugins/daterangepicker/daterangepicker.css" %} ">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href=" {% static "plugins/icheck-bootstrap/icheck-bootstrap.min.css" %} ">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href=" {% static "plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" %} ">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet"
+    href=" {% static "plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css" %} ">
+  <!-- Select2 -->
+  <link rel="stylesheet" href=" {% static "plugins/select2/css/select2.min.css" %} ">
+  <link rel="stylesheet" href=" {% static "plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" %} ">
+  <!-- Bootstrap4 Duallistbox -->
+  <link rel="stylesheet" href=" {% static "plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css" %} ">
+  <!-- Theme style -->
+  <link rel="stylesheet" href=" {% static "dist/css/adminlte.min.css" %} ">
+  <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini sidebar-collapse">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="{% url 'dashboard-page' %}" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="{% url 'report' %}" class="nav-link">Report</a>
+        </li>
+      </ul>
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <li class="breadcrumb-item"><a class="btn btn-block btn-outline-danger" href="/logout/"><i
+              class="fas fa-sign-out-alt"></i></a></li>
+      </ul>
+    </nav>
+    <!-- /.navbar -->
+    {% include 'cases/sidebar.html'%}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              {% block page_title %}{% endblock page_title %}
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- Main content -->
+      {% block main_content %} {% endblock main_content %}
+      <!-- /.content -->
+
+    </div>
+    <!-- /.content-wrapper -->
+    <!-- {% include 'cases/footer.html' with user=user id=id%} -->
+  </div>
+  <!-- ./wrapper -->
+  <!-- jQuery -->
+  <script src=" {% static "plugins/jquery/jquery.min.js" %} "></script>
+  <!-- Bootstrap 4 -->
+  <script src=" {% static "plugins/bootstrap/js/bootstrap.bundle.min.js" %} "></script>
+  <!-- Select2 -->
+  <script src=" {% static "plugins/select2/js/select2.full.min.js" %} "></script>
+  <!-- Bootstrap4 Duallistbox -->
+  <script src=" {% static "plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js" %} "></script>
+  <!-- InputMask -->
+  <script src=" {% static "plugins/moment/moment.min.js" %} "></script>
+  <script src=" {% static "plugins/inputmask/min/jquery.inputmask.bundle.min.js" %} "></script>
+  <!-- date-range-picker -->
+  <script src=" {% static "plugins/daterangepicker/daterangepicker.js" %} "></script>
+  <!-- bootstrap color picker -->
+  <script src=" {% static "plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js" %} "></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src=" {% static "plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js" %} "></script>
+  <!-- Bootstrap Switch -->
+  <script src=" {% static "plugins/bootstrap-switch/js/bootstrap-switch.min.js" %} "></script>
+  <!-- AdminLTE App -->
+  <script src=" {% static "dist/js/adminlte.min.js" %} "></script>
+  <!-- AdminLTE for demo purposes -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> -->
+  <script src=" {% static "dist/js/demo.js" %} "></script>
+  <script src="{% static "dist/js/customs/report.js" %} "></script>
+  <script src="{% static "dist/js/customs/report_chart.js" %} "></script>
+  <!-- <script src="{% static "dist/js/customs/report_chartOpbkkCilent.js" %} "></script> -->
+</body>
+</html>

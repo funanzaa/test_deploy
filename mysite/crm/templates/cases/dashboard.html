@@ -313,19 +313,17 @@ Dashboard
         </div>
         <!-- /.col -->
     </div>
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-lg-6">
-            <!-- Custom tabs (Charts with tabs)-->
             <div class="card" url-endpoint='{% url 'api-data' %}'>
                 <div class="card-header ui-sortable-handle" style="cursor: move;">
                     <h3 class="card-title">
                         <i class="fas fa-chart-pie mr-1"></i>
                         Project of Month {{ dates|date:"M - Y "  }}
                     </h3>
-                </div><!-- /.card-header -->
+                </div>
                 <div class="card-body">
                     <div class="tab-content p-0">
-                        <!-- Morris chart - Sales -->
                         <div class="position-relative mb-4" id="revenue-chart" style="position: relative; height: 300px;">
                             <div class="chartjs-size-monitor">
                                 <div class="chartjs-size-monitor-expand">
@@ -338,22 +336,19 @@ Dashboard
                             <canvas id="myChart" height="375" style="height: 300px; display: block; width: 676px;" width="845" class="chartjs-render-monitor"></canvas>
                         </div>
                     </div>
-                </div><!-- /.card-body -->
+                </div>
             </div>
-            <!-- /.card -->
         </div>
         <div class="col-lg-6">
-            <!-- Custom tabs (Charts with tabs)-->
             <div class="card" url-endpoint2='{% url 'api-data-service' %}'>
                 <div class="card-header ui-sortable-handle" style="cursor: move;">
                     <h3 class="card-title">
                         <i class="fas fa-chart-pie mr-1"></i>
                         Service of Month {{ dates|date:"M , Y "  }}
                     </h3>
-                </div><!-- /.card-header -->
+                </div>
                 <div class="card-body">
                     <div class="tab-content p-0">
-                        <!-- Morris chart - Sales -->
                         <div class="position-relative mb-4" id="revenue-chart" style="position: relative; height: 300px;">
                             <div class="chartjs-size-monitor">
                                 <div class="chartjs-size-monitor-expand">
@@ -366,11 +361,10 @@ Dashboard
                             <canvas id="myChart2" height="375" style="height: 300px; display: block; width: 676px;" width="845" class="chartjs-render-monitor"></canvas>
                         </div>
                     </div>
-                </div><!-- /.card-body -->
+                </div>
             </div>
-            <!-- /.card -->
         </div>
-    </div>
+    </div> -->
 
 </section>
 {% endblock main_content %}

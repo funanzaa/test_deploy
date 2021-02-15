@@ -108,8 +108,17 @@
   <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> -->
   <script src=" {% static "dist/js/demo.js" %} "></script>
   <script src="{% static "dist/js/customs/report.js" %} "></script>
-  <script src="{% static "dist/js/customs/report_chart.js" %} "></script>
-  <!-- <script src="{% static "dist/js/customs/report_chartOpbkkCilent.js" %} "></script> -->
+  <script>
+    var  x = document.getElementById("project").value;
+    document.getElementById('myBtn').innerHTML = '<a href="' + x + '" class="btn btn-primary">Submit</a>';
+    $("#project").change(function(){
+      var  x = document.getElementById("project").value;
+      document.getElementById('myBtn').innerHTML = '<a href="' + x + '" class="btn btn-primary">Submit</a>';
+
+      console.log(x)
+    });
+ 
+  </script>
 
 </body>
 </html>

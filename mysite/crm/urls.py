@@ -26,9 +26,11 @@ urlpatterns = [
     path('api/chart_case/data/', ChartDataCase.as_view(), name='api-data-case'),
     path('api/MonthlyRecap/data/', MonthlyRecap.as_view(), name='api-monthlyrecap'),
     # report
-    path('report/', views_report.report, name='report'),
-    path('report/ReportSubProjectOpbkkWeb', views_report.ReportSubProjectOpbkkWeb, name='ReportSubProjectOpbkkWeb'),
-    # path('report/ReportSubProjectOpbkkClient', views_report.ReportSubProjectOpbkkClient, name='ReportSubProjectOpbkkClient'),
+    path('report/', views_report.report, name='report'), # choose report
+    path('report/ReportSubProjectOpbkkWeb', views_report.ReportSubProjectOpbkkWeb, name='ReportSubProjectOpbkkWeb'), #  report json opbkk
+    path('report/ReportOpbkk', views_report.ReportOpbkk, name='ReportOpbkk'),  # show report opbkk
+    path('report/ReportSubProjectHos', views_report.ReportSubProjectHos, name='ReportSubProjectHos'), #  report json opbkk
+    path('report/ReportHos', views_report.ReportHos, name='ReportHos'),  # show report opbkk
 
     # api subproject
     path('api/List_Subproject/<str:pk>/',views.List_Subproject, name='ListSubProject'),

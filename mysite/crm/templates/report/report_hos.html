@@ -1,0 +1,58 @@
+{% extends 'report/base_report_hos.html' %}
+{% load static %}
+{% block page_title %}
+
+{% endblock page_title %}
+{% block main_content %}
+
+<!-- Main content -->
+
+<section class="content">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div id="ChartOpbkkWeb"></div>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div id="ChartOpbkkClient">
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.row -->
+    </div>
+    <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+{% endblock main_content %}

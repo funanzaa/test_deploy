@@ -93,6 +93,7 @@ def createCase(request):
                 resolution = request.POST.get("resolution")
                 service = request.POST.get("service")
                 hosptial = request.POST.get("hospital")
+                priority   = request.POST.get("priority")
                 chkAssign = request.POST.get("chkAssign")
                 userAssign = request.POST.get("locality-assign")
                 upload_file = request.FILES['case_image']
@@ -107,6 +108,7 @@ def createCase(request):
                 newCase.assign = chkAssign
                 newCase.assign_at = datetime.datetime.now(tz=tz)
                 newCase.assign_by = request.user.id
+                newCase.priorityCase = priority
                 fs = FileSystemStorage()
                 name = fs.save(upload_file.name, upload_file)
                 url = fs.url(name)
