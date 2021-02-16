@@ -20,7 +20,7 @@ from datetime import timedelta
 from django.db.models import Avg, Max, Min, Sum
 from django.views.generic import View
 from rest_framework.views import APIView  # rest_framework
-from rest_framework.response import Response  # rest_framework
+# from rest_framework.response import Response  # rest_framework
 from crm.decorators import unauthenticated_user # permission
 
 
