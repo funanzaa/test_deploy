@@ -50,7 +50,7 @@ def sqlReport(request):
 	return render(request, 'download_queryReport.html', context)
 
 
-@unauthenticated_user
+# @unauthenticated_user
 def loginPage(request):
 
 		if request.method == 'POST':
