@@ -1,0 +1,225 @@
+{% extends 'cases/base_serverProfile.html' %}
+{% load static %}
+{% block page_title %}
+<h1 class="m-0 text-dark"> <small> </small></h1>
+{% endblock page_title %}
+<!-- Main content -->
+{% block main_content %}
+<div class="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- general form elements disabled -->
+        <div class="card card-warning">
+          <div class="card-header">
+            <h3 class="card-title">Edit Profile Server : {{ profile_server }}</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <form role="form" method="POST" class="form-group" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-sm-6">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <label> OperationSystem </label>
+                    <select  class="form-control select2" name="os"style="width: 100%;">
+                      {% for os in os %}
+                      <option value="{{ os.id }}" >{{os.name}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label>Band</label>
+                  <select  class="form-control select2" name="serverband"style="width: 100%;">
+                    {% for bands in band %}
+                    <option value="{{ bands.id }}" >{{bands.name}}</option>
+                    
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <!-- textarea -->
+                  <div class="form-group">
+                    <label> Database </label>
+                    <!-- <input type="text" class="form-control" name="FirstName" placeholder="ชื่อ" required> -->
+                    <select  class="form-control" name="serverband"style="width: 100%;">
+                      {% for db in db %}
+                      <option value="{{ db.id }}" >{{db.name}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label> WebServer  </label>
+                    <select  class="form-control" name="serverband"style="width: 100%;">
+                      {% for web_server in web_server %}
+                      <option value="{{ web_server.id }}" >{{web_server.name}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <!-- <div class="form-group">
+                    <label> Phone</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                      </div>
+                      <input type="text" name="ContactPhone" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="" im-insert="true" required>
+                    </div>
+                  </div> -->
+                  <div class="form-group">
+                    <label>IP mask:</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                      </div>
+                      <input name="ip" type="text" class="form-control" data-inputmask="'alias': 'ip'" data-mask="" im-insert="true" value = "{{profile_server.FixIpAddress}}">
+                    </div>
+                    <!-- /.input group -->
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <!-- <div class="form-group">
+                    <label> E-mail Or Line Id </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                      </div>
+                      <input type="text" class="form-control" name="ContactEmail" placeholder="Email OR Line Id" required>
+                    </div>
+                  </div> -->
+                  <div class="form-group">
+                    <label> Backup Database </label>
+                    <!-- <input type="text" class="form-control" name="FirstName" placeholder="ชื่อ" required> -->
+                    <select  class="form-control" name="serverband"style="width: 100%;">
+                      <option value="Yes" >Yes</option>
+                      <option value="No" >No</option>
+                    </select>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <!-- checkbox -->
+                  <div class="form-group">
+                    <div class="form-check">
+                      <input class="form-check-input" value="New" type="radio" name="radioUseServer" required>
+                      <label class="form-check-label">เครื่องใหม่</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <!-- checkbox -->
+                  <div class="form-group">
+                    <div class="form-check">
+                      <input class="form-check-input" value="Old" type="radio" name="radioUseServer" required>
+                      <label class="form-check-label">เครื่องเก่า</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label> Contact FirstName  </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                      </div>
+                      <input type="text" class="form-control" name="ContactEmail" placeholder="Contact" value="{{ profile_server.ContactFirstName }}" >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label> Contact LastName  </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                      </div>
+                      <input type="text" class="form-control" name="ContactEmail" placeholder="Contact" value="{{ profile_server.ContactLastName }}" >
+                    </div>
+                  </div>
+                  <!-- <div class="form-group">
+                    <label> Phone</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                      </div>
+                      <input type="text" name="ContactPhone" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="" im-insert="true" required>
+                    </div>
+                  </div>  -->
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label> Phone</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                      </div>
+                      <input type="text" name="ContactPhone" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="" value="{{ profile_server.ContactPhone }}" im-insert="true" required>
+                    </div>
+                  </div> 
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label> E-mail Or Line Id </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                      </div>
+                      <input type="text" class="form-control" name="ContactEmail" value="{{profile_server.ContactEmail}}" placeholder="Email OR Line Id" required="">
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+              <!-- photo -->
+              <div class="row">
+                <div class='col-sm-12'>
+                  <div class="form-group">
+                    <label>หมายเหตุ :</label>
+                    <textarea name="memo" required class="form-control"  rows="2"> {{profile_server.Memo}} </textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="customFile">File : </label>
+                    <a href="{{profile_server.ServerImage}}">{{profile_server.ServerImage}}</a>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="customFile" value = "{{profile_server.ServerImage}}" name="case_image">
+                      <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                
+            </form>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+{% endblock main_content %}
+<!-- /.content -->

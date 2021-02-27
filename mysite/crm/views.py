@@ -1,7 +1,7 @@
 import datetime
 import pytz
 from django.urls import reverse_lazy
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import *
@@ -820,6 +820,17 @@ def userReceiveServer(request,pk):
     messages.success(request, 'ยืนยันรับเครื่อง')
     return HttpResponseRedirect(reverse_lazy('home'))
 
+@login_required(login_url='login')
+def editProfileServer(request,pk):
+    profile_server = ProfileServer.objects.get(id=pk)
+    os = OperationSystem.objects.all()
+    db = database.objects.all()
+    web_server = WebServer.objects.all()
+    band = ServerBand.objects.all()
+    context = {"profile_server": profile_server,"os":os,"db": db
+    ,"web_server": web_server,"band":band}
+    # print(context)
+    return render(request, 'cases/editProfileServer.html', context)
 
 
 @login_required(login_url='login')

@@ -72,3 +72,4 @@ class editHospitalForm(forms.Form):
     active = forms.ChoiceField(label="Active", choices = InstallApp_choice, widget=forms.Select(attrs={"class":"form-control"}))
     install_app = forms.ChoiceField(label="ติดตั้งโปรแกรม", choices = InstallApp_choice, widget=forms.Select(attrs={"class":"form-control"}))
     training = forms.ChoiceField(label="อบรม", choices = active_choice, widget=forms.Select(attrs={"class":"form-control"}))
+
