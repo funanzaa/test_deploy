@@ -1,4 +1,4 @@
-{% extends 'cases/base_serverProfile.html' %}
+{% extends 'cases/base_case.html' %}
 {% load static %}
 {% block page_title %}
 <h1 class="m-0 text-dark"> <small> </small></h1>
@@ -25,7 +25,11 @@
                     <label> OperationSystem </label>
                     <select  class="form-control select2" name="os"style="width: 100%;">
                       {% for os in os %}
-                      <option value="{{ os.id }}" >{{os.name}}</option>
+                          {% if profile_server.OperationSystem_id == os.id %}
+                            <option value="{{ os.id }}" selected> {{os.name}} </option>
+                          {% else %}
+                            <option value="{{ os.id }}" >{{os.name}}</option>
+                          {% endif %} 
                       {% endfor %}
                     </select>
                   </div>
@@ -34,8 +38,11 @@
                   <label>Band</label>
                   <select  class="form-control select2" name="serverband"style="width: 100%;">
                     {% for bands in band %}
-                    <option value="{{ bands.id }}" >{{bands.name}}</option>
-                    
+                      {% if profile_server.ServerBand_id == bands.id %}
+                        <option value="{{ bands.id }}" selected>{{bands.name}}</option>
+                      {% else %}
+                        <option value="{{ bands.id }}">{{bands.name}}</option>
+                      {% endif %}
                     {% endfor %}
                   </select>
                 </div>
@@ -46,9 +53,13 @@
                   <div class="form-group">
                     <label> Database </label>
                     <!-- <input type="text" class="form-control" name="FirstName" placeholder="ชื่อ" required> -->
-                    <select  class="form-control" name="serverband"style="width: 100%;">
+                    <select  class="form-control" name="db"style="width: 100%;">
                       {% for db in db %}
-                      <option value="{{ db.id }}" >{{db.name}}</option>
+                          {% if profile_server.database_id == db.id %}
+                            <option value="{{ db.id }}" selected>{{db.name}}</option>
+                          {% else %}
+                            <option value="{{ db.id }}" >{{db.name}}</option>
+                          {% endif %}
                       {% endfor %}
                     </select>
                   </div>
@@ -56,9 +67,13 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label> WebServer  </label>
-                    <select  class="form-control" name="serverband"style="width: 100%;">
+                    <select  class="form-control" name="web_server"style="width: 100%;">
                       {% for web_server in web_server %}
-                      <option value="{{ web_server.id }}" >{{web_server.name}}</option>
+                        {% if profile_server.webServer_id == web_server.id %}
+                          <option value="{{ web_server.id }}" selected>{{web_server.name}}</option>
+                        {% else %}
+                          <option value="{{ web_server.id }}">{{web_server.name}}</option>
+                        {% endif %}
                       {% endfor %}
                     </select>
                   </div>
@@ -66,15 +81,6 @@
               </div>
               <div class="row">
                 <div class="col-sm-6">
-                  <!-- <div class="form-group">
-                    <label> Phone</label>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                      </div>
-                      <input type="text" name="ContactPhone" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="" im-insert="true" required>
-                    </div>
-                  </div> -->
                   <div class="form-group">
                     <label>IP mask:</label>
                     <div class="input-group">
@@ -83,25 +89,19 @@
                       </div>
                       <input name="ip" type="text" class="form-control" data-inputmask="'alias': 'ip'" data-mask="" im-insert="true" value = "{{profile_server.FixIpAddress}}">
                     </div>
-                    <!-- /.input group -->
                   </div>
                 </div>
                 <div class="col-sm-6">
-                  <!-- <div class="form-group">
-                    <label> E-mail Or Line Id </label>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                      </div>
-                      <input type="text" class="form-control" name="ContactEmail" placeholder="Email OR Line Id" required>
-                    </div>
-                  </div> -->
                   <div class="form-group">
                     <label> Backup Database </label>
-                    <!-- <input type="text" class="form-control" name="FirstName" placeholder="ชื่อ" required> -->
-                    <select  class="form-control" name="serverband"style="width: 100%;">
-                      <option value="Yes" >Yes</option>
-                      <option value="No" >No</option>
+                    <select  class="form-control" name="dbBackup"style="width: 100%;">
+                      {% if profile_server.dbBackup == "Yes" %}
+                        <option value="Yes" selected>Yes</option>
+                        <option value="No" >No</option>
+                      {% else %}
+                        <option value="Yes">Yes</option>
+                        <option value="No"selected>No</option>
+                      {% endif %}
                     </select>
                   </div>
                   
@@ -112,7 +112,11 @@
                   <!-- checkbox -->
                   <div class="form-group">
                     <div class="form-check">
-                      <input class="form-check-input" value="New" type="radio" name="radioUseServer" required>
+                      {% if profile_server.UseServer == "New" %}
+                        <input class="form-check-input" value="New" type="radio" name="radioUseServer" checked>
+                      {% else %}
+                        <input class="form-check-input" value="New" type="radio" name="radioUseServer" required>
+                      {% endif %}
                       <label class="form-check-label">เครื่องใหม่</label>
                     </div>
                   </div>
@@ -121,7 +125,11 @@
                   <!-- checkbox -->
                   <div class="form-group">
                     <div class="form-check">
+                      {% if profile_server.UseServer == "Old" %}
+                        <input class="form-check-input" value="Old" type="radio" name="radioUseServer" checked>
+                      {% else %}
                       <input class="form-check-input" value="Old" type="radio" name="radioUseServer" required>
+                      {% endif %}
                       <label class="form-check-label">เครื่องเก่า</label>
                     </div>
                   </div>
@@ -135,7 +143,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                       </div>
-                      <input type="text" class="form-control" name="ContactEmail" placeholder="Contact" value="{{ profile_server.ContactFirstName }}" >
+                      <input type="text" class="form-control" name="firstName" placeholder="Contact" value="{{ profile_server.ContactFirstName }}" >
                     </div>
                   </div>
                 </div>
@@ -146,18 +154,9 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                       </div>
-                      <input type="text" class="form-control" name="ContactEmail" placeholder="Contact" value="{{ profile_server.ContactLastName }}" >
+                      <input type="text" class="form-control" name="lastName" placeholder="Contact" value="{{ profile_server.ContactLastName }}" >
                     </div>
                   </div>
-                  <!-- <div class="form-group">
-                    <label> Phone</label>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                      </div>
-                      <input type="text" name="ContactPhone" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="" im-insert="true" required>
-                    </div>
-                  </div>  -->
                 </div>
               </div>
               <div class="row">
@@ -194,10 +193,14 @@
                   </div>
                   <div class="form-group">
                     <label for="customFile">File : </label>
-                    <a href="{{profile_server.ServerImage}}">{{profile_server.ServerImage}}</a>
+                    {% if profile_server.ServerImage %}
+                    <a href="{{profile_server.ServerImage}}">
+                      <i class="fas fa-image"></i>
+                    </a>
+                    {% endif %}
                     <div class="custom-file">
                       <input type="file" class="custom-file-input" id="customFile" value = "{{profile_server.ServerImage}}" name="case_image">
-                      <label class="custom-file-label" for="customFile">Choose file</label>
+                      <label href="{{profile_server.ServerImage}}" class="custom-file-label" for="customFile"> Choose File </label>
                     </div>
                   </div>
 

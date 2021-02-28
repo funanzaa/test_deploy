@@ -1,5 +1,7 @@
 import datetime
 import pytz
+import os
+from django.conf import settings
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -19,7 +21,7 @@ from django.db import connection
 from .decorators import allowed_users , admin_only
 from django.contrib.auth.models import Group
 from django.db.models import Q
-
+from django.core.files.storage import default_storage # delete file
 
 from .queryDashboard import *
 
@@ -259,10 +261,7 @@ def updateCase(request, pk):
                 fs = FileSystemStorage()
                 name = fs.save(upload_file.name, upload_file)
                 url = fs.url(name)
-                
                 updateCase.priorityCase = priority
-                # updateCase.priorityCase = priority2
-
                 updateCase.case_pic = url
                 updateCase.save()
                 messages.success(request, 'Your case is updated successfully!')
@@ -276,9 +275,7 @@ def updateCase(request, pk):
                 hosptial = request.POST.get("hospital")
                 statusCase = request.POST.get("statusCase")
                 staff   = request.POST.get("locality-assign")
-
                 priority   = request.POST.get("priority")
-
                 updateCase = Case.objects.get(id=pk)
                 updateCase.name = case_name
                 updateCase.project_subgroup_id = project_subgroup
@@ -820,6 +817,8 @@ def userReceiveServer(request,pk):
     messages.success(request, 'ยืนยันรับเครื่อง')
     return HttpResponseRedirect(reverse_lazy('home'))
 
+
+
 @login_required(login_url='login')
 def editProfileServer(request,pk):
     profile_server = ProfileServer.objects.get(id=pk)
@@ -827,6 +826,71 @@ def editProfileServer(request,pk):
     db = database.objects.all()
     web_server = WebServer.objects.all()
     band = ServerBand.objects.all()
+    # os.rmdir(os.path.join(settings.MEDIA_ROOT, self.docfile.name))
+    # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    # print(MEDIA_ROOT)
+    if request.method == "POST":
+        tz = pytz.timezone('Asia/Bangkok')
+        _os = request.POST.get("os")
+        serverband = request.POST.get("serverband")
+        postgres_version = request.POST.get("db")
+        webServer = request.POST.get("web_server")
+        ip_address = request.POST.get("ip")
+        db_Backup = request.POST.get("dbBackup")
+        UseServer = request.POST.get("radioUseServer")
+        firstName = request.POST.get("firstName")
+        lastName = request.POST.get("lastName")
+        contact_phone = request.POST.get("ContactPhone")
+        contact_email = request.POST.get("ContactEmail")
+        memo = request.POST.get("memo")
+        try:
+            upload_file = request.FILES['case_image']
+            updateProfileServer = ProfileServer.objects.get(id=pk)
+            name_file =  updateProfileServer.ServerImage
+            substring_namefile =  str(name_file)[7:]
+            BASE_DIR = settings.MEDIA_ROOT
+            path_file = BASE_DIR + "\\" + substring_namefile # path file del test windows
+            default_storage.delete(path_file)
+            fs = FileSystemStorage()
+            name = fs.save(upload_file.name, upload_file)
+            url = fs.url(name)
+            updateProfileServer.ServerImage = url
+            updateProfileServer.OperationSystem_id = _os
+            updateProfileServer.ServerBand_id = serverband
+            updateProfileServer.database_id = postgres_version
+            updateProfileServer.webServer_id = webServer
+            updateProfileServer.FixIpAddress = ip_address
+            updateProfileServer.dbBackup = db_Backup
+            updateProfileServer.UseServer = UseServer
+            updateProfileServer.ContactFirstName = firstName
+            updateProfileServer.ContactLastName = lastName
+            updateProfileServer.ContactPhone = contact_phone
+            updateProfileServer.ContactEmail = contact_email
+            updateProfileServer.Memo = memo
+            updateProfileServer.update_by = request.user.id
+            updateProfileServer.update_at = datetime.datetime.now(tz=tz)
+            updateProfileServer.save()
+            messages.success(request, 'Your ProfileServer is updated successfully!')
+            return HttpResponseRedirect(reverse_lazy('ListAllProfileServer'))
+        except:
+            updateProfileServer = ProfileServer.objects.get(id=pk)
+            updateProfileServer.OperationSystem_id = _os
+            updateProfileServer.ServerBand_id = serverband
+            updateProfileServer.database_id = postgres_version
+            updateProfileServer.webServer_id = webServer
+            updateProfileServer.FixIpAddress = ip_address
+            updateProfileServer.dbBackup = db_Backup
+            updateProfileServer.UseServer = UseServer
+            updateProfileServer.ContactFirstName = firstName
+            updateProfileServer.ContactLastName = lastName
+            updateProfileServer.ContactPhone = contact_phone
+            updateProfileServer.ContactEmail = contact_email
+            updateProfileServer.Memo = memo
+            updateProfileServer.update_by = request.user.id
+            updateProfileServer.update_at = datetime.datetime.now(tz=tz)
+            updateProfileServer.save()
+            messages.success(request, 'Your ProfileServer is updated successfully!')
+            return HttpResponseRedirect(reverse_lazy('ListAllProfileServer'))
     context = {"profile_server": profile_server,"os":os,"db": db
     ,"web_server": web_server,"band":band}
     # print(context)
