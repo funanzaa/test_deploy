@@ -8,7 +8,7 @@ register = template.Library()
 
 
 @register.filter
-def getAssignName(pk):
+def getAssignName(pk=0):
     if pk == 0 :
         return ''
     elif pk == None :
@@ -19,7 +19,7 @@ def getAssignName(pk):
 
 
 @register.filter
-def round_number(number):
+def round_number(number=0):
     if number == 0 :
         return 0
     elif number == None :
@@ -31,9 +31,11 @@ def round_number(number):
         return round((number*100)/count_case_total)
 
 @register.filter
-def add_datetime(time):
+def add_datetime(time=None):
     if time == 0 :
-        return 0
+        return "จาก Erefer"
+    elif time == None :
+        return "จาก Ereferal"
     else:
         hours_added = time + timedelta(hours=7)
         if hours_added.month == 1:

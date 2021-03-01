@@ -90,16 +90,16 @@
                   <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-default"><i class="fas fa-eye"></i></button>
                 </div>
                 {% if case.solution == None %} <!-- if solution is null -->
-                  <textarea name="ass_resolution" class="form-control" rows="5"> </textarea>
+                  <textarea name="ass_resolution" class="form-control" rows="5"></textarea>
                 {% else %}
-                  <textarea name="ass_resolution" class="form-control" rows="5"> {{ case.solution }}</textarea>
+                  <textarea name="ass_resolution" class="form-control" rows="5">{{ case.solution }}</textarea>
                 {% endif %}
 
               </div>
             {% else %}
               <div class="form-group">
                 <label>Resolution :</label>
-                <textarea name="resolution" class="form-control" rows="5"> {{case.resolution}} </textarea>
+                <textarea name="resolution" class="form-control" rows="5">{{case.resolution}}</textarea>
               </div>
             {% endif %}
             <div class="form-group">

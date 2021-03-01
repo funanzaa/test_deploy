@@ -1,4 +1,4 @@
-import os
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -33,6 +33,13 @@ class Project_subgroup(models.Model):
     def __str__(self):
         return self.name + " : " + str(self.project)
 
+class main_hospital(models.Model):
+    code = models.CharField(max_length=255)
+    label = models.CharField(max_length=255)
+    def __str__(self):
+        return self.name 
+
+
 class Hospitals(models.Model):
     CATEGORY = (
         ('1','โรงพยาบาล'),
@@ -46,9 +53,15 @@ class Hospitals(models.Model):
     active = models.CharField(max_length=255)
     install_app = models.CharField(max_length=255)
     training = models.CharField(max_length=255)
-
+    main_hospital = models.CharField(max_length=255,null=True)
+    
     def __str__(self):
-        return self.code + " : " + self.label
+        return self.label
+
+ 
+
+
+     
 
 class Service(models.Model):
     name = models.CharField(max_length=255,null=True)

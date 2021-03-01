@@ -47,7 +47,7 @@
               <label for="exampleInputEmail1">Project name :</label>
               <select id = "project" class="form-control" name="project">
                 {% for project in projects %}
-                <option value="{{ project.id }}">{{ project.name }} </option>
+                <option value="{{ project.id }}">{{ project.name }}</option>
                 {% endfor %}
               </select>
             </div>

@@ -1,0 +1,175 @@
+{% extends 'cases/base_case.html' %}
+{% load static %}
+{% block page_title %}
+<h1 class="m-0 text-dark"> <small> </small></h1>
+{% endblock page_title %}
+<!-- Main content -->
+{% block main_content %}
+<div class="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- general form elements disabled -->
+        <div class="card card-info">
+          {% for ListProfiles in ListProfile %}
+          <div class="card-header">
+            <h3 class="card-title">Profile E-referral: {{ ListProfiles.label}} ส่งต่อ {{ ListProfiles.refer_label}} </h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <form role="form" method="POST" class="form-group" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-sm-6">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <label> OperationSystem </label>
+                    <select  class="form-control select2" name="os"style="width: 100%;">
+                      {% for os in os %}
+                          {% if ListProfiles.OperationSystem_id == os.id %}
+                            <option value="{{ os.id }}" selected> {{os.name}} </option>
+                          {% else %}
+                            <option value="{{ os.id }}" >{{os.name}}</option>
+                          {% endif %} 
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label>Band</label>
+                  <select  class="form-control select2" name="serverband"style="width: 100%;">
+                    {% for bands in band %}
+                      {% if ListProfiles.ServerBand_id == bands.id %}
+                        <option value="{{ bands.id }}" selected>{{bands.name}}</option>
+                      {% else %}
+                        <option value="{{ bands.id }}">{{bands.name}}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <!-- textarea -->
+                  <div class="form-group">
+                    <label> Database </label>
+                    <!-- <input type="text" class="form-control" name="FirstName" placeholder="ชื่อ" required> -->
+                    <select  class="form-control" name="db"style="width: 100%;">
+                      {% for db in db %}
+                          {% if ListProfiles.database_id == db.id %}
+                            <option value="{{ db.id }}" selected>{{db.name}}</option>
+                          {% else %}
+                            <option value="{{ db.id }}" >{{db.name}}</option>
+                          {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label> WebServer  </label>
+                    <select  class="form-control" name="web_server"style="width: 100%;">
+                      {% for web_server in web_server %}
+                        {% if ListProfiles.webServer_id == web_server.id %}
+                          <option value="{{ web_server.id }}" selected>{{web_server.name}}</option>
+                        {% else %}
+                          <option value="{{ web_server.id }}">{{web_server.name}}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>IP mask:</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                      </div>
+                      <input name="ip" type="text" class="form-control" data-inputmask="'alias': 'ip'" data-mask="" im-insert="true" value = "{{ListProfiles.FixIpAddress}}">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label> Backup Database </label>
+                    <select  class="form-control" name="dbBackup"style="width: 100%;">
+                      {% if ListProfiles.dbBackup == "Yes" %}
+                        <option value="Yes" selected>Yes</option>
+                        <option value="No" >No</option>
+                      {% else %}
+                        <option value="Yes">Yes</option>
+                        <option value="No"selected>No</option>
+                      {% endif %}
+                    </select>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <!-- textarea -->
+                  <div class="form-group">
+                    <label> Version Hospital E-referral </label>
+                    <!-- <input type="text" class="form-control" name="FirstName" placeholder="ชื่อ" required> -->
+                    <select  class="form-control" name="versHosErefer"style="width: 100%;">
+                      {% for versHosErefer in versHosErefer %}
+                          {% if ListProfiles.versHosEreferral_id == versHosErefer.id %}
+                            <option value="{{ versHosErefer.id }}" selected>{{versHosErefer.name}}</option>
+                          {% else %}
+                            <option value="{{ versHosErefer.id }}" >{{versHosErefer.name}}</option>
+                          {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label> Version EREFWS  </label>
+                    <select  class="form-control" name="vers_Erefws"style="width: 100%;">
+                      {% for vers_Erefws in vers_Erefws %}
+                        {% if ListProfiles.versErefws_id == vers_Erefws.id %}
+                          <option value="{{ vers_Erefws.id }}" selected>{{vers_Erefws.name}}</option>
+                        {% else %}
+                          <option value="{{ vers_Erefws.id }}">{{vers_Erefws.name}}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class='col-sm-12'>
+                  <div class="form-group">
+                    <label>หมายเหตุ :</label>
+                    {% if ListProfiles.EreferMemo == None %}
+                    <textarea name="ereferMemo" required class="form-control"  rows="2"></textarea>
+                    {% else %}
+                    <textarea name="ereferMemo" required class="form-control"  rows="2">{{ListProfiles.EreferMemo}}</textarea>
+                    {% endif %}
+                  </div>
+                </div>
+
+              </div>
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                
+            </form>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        {% endfor %}
+        <!-- /.card -->
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+{% endblock main_content %}
+<!-- /.content -->

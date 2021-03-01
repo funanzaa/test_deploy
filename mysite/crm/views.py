@@ -1,6 +1,6 @@
 import datetime
 import pytz
-import os
+# import os
 from django.conf import settings
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, render, redirect
@@ -13,13 +13,13 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger  # paginator
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse
 import json
-from django.http import JsonResponse
+# from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.db import connection
 from .decorators import allowed_users , admin_only
-from django.contrib.auth.models import Group
+# from django.contrib.auth.models import Group
 from django.db.models import Q
 from django.core.files.storage import default_storage # delete file
 

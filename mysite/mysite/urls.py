@@ -26,6 +26,9 @@ urlpatterns = [
     path('login/', views.loginPage, name="login"),
     path('logout/', views.logoutUser, name="logout"),
     path('crm/', include('crm.urls')),
+     # profileEreferral
+    path('profileEreferral/', include('profileErefer.urls',namespace='profileErefer')),
+
     # download document
     path('document/', views.document, name="document"),
     # download report center

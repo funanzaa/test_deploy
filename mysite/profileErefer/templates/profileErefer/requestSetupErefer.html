@@ -1,0 +1,101 @@
+{% extends 'base_sqlreport.html' %}
+{% load static %}
+{% block page_title %}
+<h1 class="m-0 text-dark"> <small> </small></h1>
+{% endblock page_title %}
+<!-- Main content -->
+{% block main_content %}
+<div class="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <!-- general form elements disabled -->
+        <div class="card card-warning">
+          <div class="card-header">
+            <h3 class="card-title">ลงทะเบียนติดตั้ง</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <form role="form" method="POST" class="form-group" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-sm-12">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <label>Hospital</label>
+                    <select  class="form-control select2" name="hospital"style="width: 100%;">
+                      {% for hospitals in hospital %}
+                      <option  value="{{ hospitals.id }}" >{{hospitals.code}} : {{hospitals.label}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <!-- textarea -->
+                  <div class="form-group">
+                    <label> First Name </label>
+                    <input type="text" class="form-control" name="FirstName" placeholder="ชื่อ" required>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label> LastName </label>
+                    <input type="text" class="form-control" name="LastName"  placeholder="นามสกุล" required>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label> Phone</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                      </div>
+                      <input type="text" name="ContactPhone" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="" im-insert="true" required>
+                    </div>
+                    <!-- /.input group -->
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>ส่งต่อ</label>
+                    <select  class="form-control select2" name="hospital_main"style="width: 100%;">
+                      {% for main_hospital in main_hos %}
+                      <option value="{{ main_hospital.id }}" >{{main_hospital.code}} : {{main_hospital.label}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class='col-sm-12'>
+                  <div class="form-group">
+                    <label>หมายเหตุ :</label>
+                    <textarea name="memo"  class="form-control" rows="2"></textarea>
+                  </div>
+                </div>
+
+              </div>
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">ลงทะเบียน</button>
+                </div>
+                
+            </form>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+{% endblock main_content %}
+<!-- /.content -->
