@@ -43,3 +43,12 @@ def countRequestErefer():
         cursor.execute(query)
         result = cursor.fetchone()
         return result[0]
+
+def checkRequestServerDup(hospital):
+    with connection.cursor() as cursor:
+        query = """
+        select count(*) from crm_profileserver cp where hospitals_id = %(_hospital)s and "ServerServiceStatus_id" = 1
+        """
+        cursor.execute(query, {'_hospital': hospital})
+        result = cursor.fetchone()
+        return result[0]

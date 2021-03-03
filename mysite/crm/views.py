@@ -651,60 +651,65 @@ def Profile_Server(request):
     hospital = Hospitals.objects.filter(h_type=4)
     serverband = ServerBand.objects.all()
     if request.method == "POST":
-        try:
-            tz = pytz.timezone('Asia/Bangkok')
-            hosptial = request.POST.get("hospital")
-            serverBand = request.POST.get("serverband")
-            firstName = request.POST.get("FirstName")
-            lastName = request.POST.get("LastName")
-            contactPhone = request.POST.get("ContactPhone")
-            contactEmail = request.POST.get("ContactEmail")
-            radioUseServer = request.POST.get("radioUseServer")
-            _memo = request.POST.get("memo")
-            upload_file = request.FILES['case_image']
-            fs = FileSystemStorage()
-            name = fs.save(upload_file.name, upload_file)
-            url = fs.url(name)
-            # datetimeSendServer = datetime.datetime.now(tz=tz)
-            newProfileServer = ProfileServer()
-            newProfileServer.hospitals_id = hosptial
-            newProfileServer.ServerBand_id = serverBand
-            newProfileServer.ContactFirstName = firstName
-            newProfileServer.ContactLastName = lastName
-            newProfileServer.ContactPhone = contactPhone
-            newProfileServer.ContactEmail = contactEmail
-            newProfileServer.UseServer = radioUseServer
-            newProfileServer.Memo = _memo
-            newProfileServer.ServerServiceStatus_id = 1 # status recive server
-            newProfileServer.datetimeSendServer = datetime.datetime.now(tz=tz)
-            newProfileServer.ServerImage = url
-            newProfileServer.save()
-            messages.success(request, 'รับเข้าระบบแล้ว')
-            return HttpResponseRedirect(reverse_lazy('home'))
-        except:
-            tz = pytz.timezone('Asia/Bangkok')
-            hosptial = request.POST.get("hospital")
-            serverBand = request.POST.get("serverband")
-            firstName = request.POST.get("FirstName")
-            lastName = request.POST.get("LastName")
-            contactPhone = request.POST.get("ContactPhone")
-            contactEmail = request.POST.get("ContactEmail")
-            radioUseServer = request.POST.get("radioUseServer")
-            _memo = request.POST.get("memo")
-            # datetimeSendServer = datetime.datetime.now(tz=tz)
-            newProfileServer = ProfileServer()
-            newProfileServer.hospitals_id = hosptial
-            newProfileServer.ServerBand_id = serverBand
-            newProfileServer.ContactFirstName = firstName
-            newProfileServer.ContactLastName = lastName
-            newProfileServer.ContactPhone = contactPhone
-            newProfileServer.ContactEmail = contactEmail
-            newProfileServer.UseServer = radioUseServer
-            newProfileServer.Memo = _memo
-            newProfileServer.ServerServiceStatus_id = 1 # status recive server
-            newProfileServer.datetimeSendServer = datetime.datetime.now(tz=tz)
-            newProfileServer.save()
-            messages.success(request, 'รับเข้าระบบแล้ว')
+        _hosptial = request.POST.get("hospital")
+        if checkRequestServerDup(_hosptial) == 0:
+            try:
+                tz = pytz.timezone('Asia/Bangkok')
+                hosptial = request.POST.get("hospital")
+                serverBand = request.POST.get("serverband")
+                firstName = request.POST.get("FirstName")
+                lastName = request.POST.get("LastName")
+                contactPhone = request.POST.get("ContactPhone")
+                contactEmail = request.POST.get("ContactEmail")
+                radioUseServer = request.POST.get("radioUseServer")
+                _memo = request.POST.get("memo")
+                upload_file = request.FILES['case_image']
+                fs = FileSystemStorage()
+                name = fs.save(upload_file.name, upload_file)
+                url = fs.url(name)
+                # datetimeSendServer = datetime.datetime.now(tz=tz)
+                newProfileServer = ProfileServer()
+                newProfileServer.hospitals_id = hosptial
+                newProfileServer.ServerBand_id = serverBand
+                newProfileServer.ContactFirstName = firstName
+                newProfileServer.ContactLastName = lastName
+                newProfileServer.ContactPhone = contactPhone
+                newProfileServer.ContactEmail = contactEmail
+                newProfileServer.UseServer = radioUseServer
+                newProfileServer.Memo = _memo
+                newProfileServer.ServerServiceStatus_id = 1 # status recive server
+                newProfileServer.datetimeSendServer = datetime.datetime.now(tz=tz)
+                newProfileServer.ServerImage = url
+                newProfileServer.save()
+                messages.success(request, 'รับเข้าระบบแล้ว')
+                return HttpResponseRedirect(reverse_lazy('home'))
+            except:
+                tz = pytz.timezone('Asia/Bangkok')
+                hosptial = request.POST.get("hospital")
+                serverBand = request.POST.get("serverband")
+                firstName = request.POST.get("FirstName")
+                lastName = request.POST.get("LastName")
+                contactPhone = request.POST.get("ContactPhone")
+                contactEmail = request.POST.get("ContactEmail")
+                radioUseServer = request.POST.get("radioUseServer")
+                _memo = request.POST.get("memo")
+                # datetimeSendServer = datetime.datetime.now(tz=tz)
+                newProfileServer = ProfileServer()
+                newProfileServer.hospitals_id = hosptial
+                newProfileServer.ServerBand_id = serverBand
+                newProfileServer.ContactFirstName = firstName
+                newProfileServer.ContactLastName = lastName
+                newProfileServer.ContactPhone = contactPhone
+                newProfileServer.ContactEmail = contactEmail
+                newProfileServer.UseServer = radioUseServer
+                newProfileServer.Memo = _memo
+                newProfileServer.ServerServiceStatus_id = 1 # status recive server
+                newProfileServer.datetimeSendServer = datetime.datetime.now(tz=tz)
+                newProfileServer.save()
+                messages.success(request, 'รับเข้าระบบแล้ว')
+                return HttpResponseRedirect(reverse_lazy('home'))
+        else:
+            messages.error(request, 'พบรหัสสถานพยาบาลนี้ซ้ำในระบบ')
             return HttpResponseRedirect(reverse_lazy('home'))
     context = {"hospitals": hospital,"serverbands":serverband,"count_RequestErefer": countRequestErefer()}
     return render(request, 'cases/ProfileServer.html', context)

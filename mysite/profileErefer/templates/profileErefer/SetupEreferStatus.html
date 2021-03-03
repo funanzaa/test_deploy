@@ -10,11 +10,11 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <a class="btn btn-app" href="{% url 'profileErefer:setupStatus' 2 %}">
+                <a class="btn btn-app" href="{% url 'profileErefer:setupStatus' 4 %}">
                   <span class="badge badge-danger navbar-badge">{{ ListStatus_4 }}</span>
                   <i class="fas fa-times-circle"></i> ติดตั้งไม่สำเร็จ
                 </a>
-                <a class="btn btn-app" href="{% url 'profileErefer:setupStatus' 4 %}">
+                <a class="btn btn-app" href="{% url 'profileErefer:setupStatus' 2 %}">
                   <span class="badge badge-success navbar-badge">{{ ListStatus_2 }}</span>
                   <i class="fas fa-check-square"></i> ติดตั้งสำเร็จ
                 </a>
@@ -56,15 +56,19 @@
                     <td>
                       <small> {{ListSetupErefers.ContactFirstName}} &nbsp;  {{ListSetupErefers.ContactLastName}} &nbsp; Tel. {{ListSetupErefers.ContactPhone}} </small>
                       <br>
-                      <small> วันที่แจ้ง {{ListSetupErefers.request_at|add_datetime}} </small>
+                      <small> วันที่ติดตั้ง {{ListSetupErefers.success_at|add_datetime}} </small>
                     </td>
                     <td class="text-center">
                       {% if ListSetupErefers.ServerServiceStatus_id == 1  %}
                       <small class="badge badge-warning"> แจ้งติดตั้งระบบ </small>
+                      <br>
+                      <small> {{ ListSetupErefers.staff_first_name }} {{ ListSetupErefers.staff_last_name }}</small>
                       {% elif ListSetupErefers.ServerServiceStatus_id == 2  %}
                       <a class="badge badge-success">
                         ติดตั้งเสร็จสิ้น
                       </a>
+                      <br>
+                      <small> {{ ListSetupErefers.staff_first_name }} {{ ListSetupErefers.staff_last_name }}</small>
                       {% elif ListSetupErefers.ServerServiceStatus_id == 3  %}
                       <a class="badge badge-info">
                         รับเครื่อง
@@ -73,15 +77,16 @@
                       <a class="badge badge-danger">
                         ติดตั้งไม่สำเร็จ
                       </a>
+                      <br>
+                      <small> {{ ListSetupErefers.staff_first_name }} {{ ListSetupErefers.staff_last_name }}</small>
                       {% endif %}
                     </td>
                     <td class="text-center">
                       <!-- <a class="btn btn-info btn-sm" href="#" target="_blank">
                         <i class="fas fa-eye"></i>
                       </a> -->
-                      <a class="btn btn-success btn-sm" href="{% url 'profileErefer:install_Erefer' ListSetupErefers.ProfileServer_id %}">
-                        ติดตั้ง
-                        <!-- <i class="fas fa-pencil-alt"></i> -->
+                      <a class="btn btn-success btn-sm" href="{% url 'profileErefer:updateEreferProfile' ListSetupErefers.ProfileServer_id %}">
+                        <i class="fas fa-pencil-alt"></i>
                         <!-- <i class="fas fa-user-cog"></i> -->
                       </a>
                     </td>
