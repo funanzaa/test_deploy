@@ -32,3 +32,14 @@ def fnReportOpbkkWeb(project,month):
         cursor.execute(query, {'_project': project,'_month': month})
         result = cursor.fetchone()
         return result[0]
+
+def countRequestErefer():
+    with connection.cursor() as cursor:
+        query = """
+        select count(*)
+        from "profileErefer_profileereferral" ss
+        where ss."ServerServiceStatus_id" = 1
+        """
+        cursor.execute(query)
+        result = cursor.fetchone()
+        return result[0]

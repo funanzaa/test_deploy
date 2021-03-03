@@ -64,3 +64,51 @@ def view_server_profile(id=None):
                 i = i+1
             resultsList.append(d)
         return resultsList
+
+def countRequestErefer():
+    with connection.cursor() as cursor:
+        query = """
+        select count(*)
+        from "profileErefer_profileereferral" ss
+        where ss."ServerServiceStatus_id" = 1
+        """
+        cursor.execute(query)
+        result = cursor.fetchone()
+        return result[0]
+
+def ListVersErefws():
+    with connection.cursor() as cursor:
+        query = """
+        select * from "profileErefer_verserefws"
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+        x = cursor.description
+        resultsList = []  
+        for r in results:
+            i = 0
+            d = {}
+            while i < len(x):
+                d[x[i][0]] = r[i]
+                i = i+1
+            resultsList.append(d)
+        return resultsList
+
+
+def ListServerservicestatus():
+    with connection.cursor() as cursor:
+        query = """
+        select * from crm_serverservicestatus cs where cs.id in (2,4)
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+        x = cursor.description
+        resultsList = []  
+        for r in results:
+            i = 0
+            d = {}
+            while i < len(x):
+                d[x[i][0]] = r[i]
+                i = i+1
+            resultsList.append(d)
+        return resultsList

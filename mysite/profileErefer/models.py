@@ -5,15 +5,18 @@ from crm.models import ProfileServer,ServerServiceStatus
 
 # Create your models here.
 
+class versErefws(models.Model):
+    name = models.CharField(max_length=255)
+    def __str__(self):
+        return self.name
+
+
 class versHosEreferral(models.Model):
     name = models.CharField(max_length=255)
     def __str__(self):
         return self.name
 
-class versErefws(models.Model):
-    name = models.CharField(max_length=255)
-    def __str__(self):
-        return self.name
+
 
 class ProfileEreferral(models.Model):
     ProfileServer = models.ForeignKey(ProfileServer, null=True,on_delete= models.SET_NULL) # add
@@ -29,5 +32,7 @@ class ProfileEreferral(models.Model):
     versHosEreferral = models.ForeignKey(versHosEreferral, null=True,on_delete= models.SET_NULL) # add
     versErefws = models.ForeignKey(versErefws, null=True,on_delete= models.SET_NULL) # add
     EreferMemo = models.TextField(null=True)
+    testData = models.TextField(null=True)
+    testMq = models.TextField(null=True)
 
 

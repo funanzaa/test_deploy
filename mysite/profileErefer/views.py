@@ -68,7 +68,9 @@ def requestSetupErefer(request):
 
 
 def SetupErefer(request):
-    context = {"ListSetupErefer":ListSetupErefer()}
+    context = {"ListSetupErefer":ListSetupErefer()
+    ,"count_RequestErefer": countRequestErefer()
+    }
     return render(request,'profileErefer/SetupErefer.html',context)
 
 def install_Erefer(request,pk):
@@ -77,8 +79,44 @@ def install_Erefer(request,pk):
     web_server = WebServer.objects.all()
     band = ServerBand.objects.all()
     versHosErefer= versHosEreferral.objects.all()
-    vers_Erefws = versErefws.objects.all()
-    context = {"ListProfile":view_server_profile(pk),
-    "os":os,"db": db,"web_server": web_server,"band":band,"versHosErefer":versHosErefer,"vers_Erefws":vers_Erefws
+    tz = pytz.timezone('Asia/Bangkok')
+    if request.method == "POST":
+        os = request.POST.get("os")
+        serverband = request.POST.get("serverband")
+        db = request.POST.get("db")
+        web_server = request.POST.get("web_server")
+        ip = request.POST.get("ip")
+        dbBackup = request.POST.get("dbBackup")
+        versHosErefer = request.POST.get("versHosErefer")
+        versErefws = request.POST.get("vers_Erefws")
+        testData = request.POST.get("testData")
+        testMq = request.POST.get("testMq")
+        ereferMemo = request.POST.get("ereferMemo")
+        status_case = request.POST.get("status_case")
+        # print(status_case)
+        # updateupdateProfileServer
+        updateProfileServer = ProfileServer.objects.get(id=pk)
+        updateProfileServer.OperationSystem_id = os
+        updateProfileServer.ServerBand_id = serverband
+        updateProfileServer.database_id = db
+        updateProfileServer.webServer_id = web_server
+        updateProfileServer.FixIpAddress = ip
+        updateProfileServer.dbBackup = dbBackup
+        updateProfileServer.save()
+        updateProfileEreferral = ProfileEreferral.objects.get(ProfileServer_id=pk)
+        updateProfileEreferral.versHosEreferral_id = versHosErefer
+        updateProfileEreferral.versErefws_id = versErefws
+        updateProfileEreferral.testData = testData
+        updateProfileEreferral.testMq = testMq
+        updateProfileEreferral.created_by = request.user.id
+        updateProfileEreferral.success_at = datetime.datetime.now(tz=tz)
+        updateProfileEreferral.ServerServiceStatus_id = status_case
+        updateProfileEreferral.ereferMemo = ereferMemo
+        updateProfileEreferral.save()
+        messages.success(request, 'Your ProfileServer is updated successfully!')
+        return HttpResponseRedirect(reverse_lazy('profileErefer:SetupErefer'))
+    context = {"ListProfile":view_server_profile(pk),"os":os,"db": db
+    ,"web_server": web_server,"band":band,"versHosErefer":versHosErefer
+    ,"vers_Erefws": ListVersErefws(),"status":ListServerservicestatus()
     }
     return render(request,'profileErefer/installErefer.html',context)

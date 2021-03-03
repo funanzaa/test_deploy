@@ -61,8 +61,6 @@ def dashboardPage(request):
     count_facebook = Case.objects.filter(date_entered__month=now.month, service_id=3).count()
     count_email = Case.objects.filter(date_entered__month=now.month, service_id=4).count()
     count_Line_official = Case.objects.filter(date_entered__month=now.month, service_id=5).count()
-
-
     context = {
         "dates": now, "count_hospital": count_hospital, "count_hc": count_hc, "count_clinic": count_clinic,
         "count_project_all": count_project_all, "count_case_all": count_case_all, "count_case_hos": count_case_hos, "count_case_opbkk": count_case_opbkk,
@@ -71,7 +69,7 @@ def dashboardPage(request):
         "count_case_opbkkWeb": count_case_opbkkWeb,"count_case_bppds": count_case_bppds,"count_case_ktb": count_case_ktb,
         "count_case_server": count_case_server, "count_case_other": count_case_other, "count_case_total": count_case_total,
         "count_call": count_call, "count_line": count_line, "count_facebook": count_facebook, "count_email": count_email, "count_Line_official": count_Line_official,
-
+        "count_RequestErefer": countRequestErefer()
     }
     return render(request, 'cases/dashboard.html', context)
 
@@ -445,7 +443,7 @@ def hospital(request):
                 label__icontains=search_query) | Hospitals.objects.filter(code__icontains=search_query)
             context = {'hospital': hospital}
             return render(request, 'cases/hospital.html', context)
-    context = {'hospital': hospital}
+    context = {'hospital': hospital,"count_RequestErefer": countRequestErefer()}
     return render(request, 'cases/hospital.html', context)
 
 
@@ -585,7 +583,7 @@ def viewCase(request):
     countAssignSend = Case.objects.filter(assign_by=str(current_user)).count()
     countAssignForward = Case.objects.filter(forward_by=str(current_user)).count()
     countAssign = countAssignSend + countAssignForward
-    context = {'case': case,'users':user,'countAssigns': countAssign}
+    context = {'case': case,'users':user,'countAssigns': countAssign,"count_RequestErefer": countRequestErefer()}
     return render(request, 'cases/case.html', context)
 
 @login_required(login_url='login')
@@ -627,7 +625,7 @@ def controlversions(request):
                 d[x[i][0]] = r[i]
                 i = i+1
             resultsList.append(d)
-        context = {'ControlVersion': resultsList}
+        context = {'ControlVersion': resultsList,"count_RequestErefer": countRequestErefer()}
         return render(request, 'cases/crontrol_version.html', context)
 
 
@@ -708,7 +706,7 @@ def Profile_Server(request):
             newProfileServer.save()
             messages.success(request, 'รับเข้าระบบแล้ว')
             return HttpResponseRedirect(reverse_lazy('home'))
-    context = {"hospitals": hospital,"serverbands":serverband}
+    context = {"hospitals": hospital,"serverbands":serverband,"count_RequestErefer": countRequestErefer()}
     return render(request, 'cases/ProfileServer.html', context)
 
 @login_required(login_url='login')
@@ -720,7 +718,8 @@ def ListAllProfileServer(request):
     context = {"ProfileServer":ProfileServers,
     "countProfileServers1":countProfileServers1,
     "countProfileServers2":countProfileServers2,
-    "countProfileServers3":countProfileServers3}
+    "countProfileServers3":countProfileServers3
+    ,"count_RequestErefer": countRequestErefer()}
     return render(request, 'cases/ListAllProfileServer.html', context)
 
 @login_required(login_url='login')
@@ -732,7 +731,8 @@ def ListProfileServer(request,pk):
     context = {"ProfileServer":ProfileServers,
     "countProfileServers1":countProfileServers1,
     "countProfileServers2":countProfileServers2,
-    "countProfileServers3":countProfileServers3}
+    "countProfileServers3":countProfileServers3,
+    "count_RequestErefer": countRequestErefer()}
     return render(request, 'cases/ListProfileServer.html', context)
 
 
