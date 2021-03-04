@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 import datetime
 import pytz
 from .query import *
+from django.contrib.auth.decorators import login_required
 
 def requestSetupErefer(request):
     hospital = Hospitals.objects.all()
@@ -61,12 +62,11 @@ def requestSetupErefer(request):
                 messages.success(request, 'ลงทะเบียนเสร็จสิ้น')
         else:
             messages.error(request, 'พบข้อมูลในระบบแล้ว')
-        # messages.success(request, 'ลงทะเบียนเสร็จสิ้น')
         return HttpResponseRedirect(reverse_lazy('home'))
     context = {"hospital" : hospital,"main_hos" : main_hos}
     return render(request,'profileErefer/requestSetupErefer.html',context)
 
-
+@login_required(login_url='login')
 def SetupErefer(request):
     context = {"ListSetupErefer":ListSetupErefer()
     ,"count_RequestErefer": countRequestErefer()
@@ -75,6 +75,7 @@ def SetupErefer(request):
     }
     return render(request,'profileErefer/SetupErefer.html',context)
 
+@login_required(login_url='login')
 def install_Erefer(request,pk):
     os = OperationSystem.objects.all()
     db = database.objects.all()
@@ -123,7 +124,7 @@ def install_Erefer(request,pk):
     return render(request,'profileErefer/installErefer.html',context)
 
 
-
+@login_required(login_url='login')
 def setupStatus(request,pk):
     context = {"ListSetupErefer":ListSetupEreferStatus(pk)
     ,"ListStatus_4" :  ListStatusCaseErefer(4)
@@ -131,6 +132,8 @@ def setupStatus(request,pk):
     }
     return render(request,'profileErefer/SetupEreferStatus.html',context)
 
+
+@login_required(login_url='login')
 def updateEreferProfile(request,pk):
     os = OperationSystem.objects.all()
     db = database.objects.all()

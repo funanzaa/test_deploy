@@ -70,6 +70,8 @@ def dashboardPage(request):
         "count_case_server": count_case_server, "count_case_other": count_case_other, "count_case_total": count_case_total,
         "count_call": count_call, "count_line": count_line, "count_facebook": count_facebook, "count_email": count_email, "count_Line_official": count_Line_official,
         "count_RequestErefer": countRequestErefer()
+        ,"count_SetupErefer_11722":deshboardSetupEreferral(11722),"count_SetupErefer_11482":deshboardSetupEreferral(11482),"count_SetupErefer_11470":deshboardSetupEreferral(11470)
+        ,"count_SetupErefer_11478":deshboardSetupEreferral(11478)
     }
     return render(request, 'cases/dashboard.html', context)
 
@@ -648,7 +650,7 @@ def List_Subproject(request, pk):
 # Profile Server
 
 def Profile_Server(request):
-    hospital = Hospitals.objects.filter(h_type=4)
+    hospital = Hospitals.objects.filter(~Q(code = '00000')).order_by('code')
     serverband = ServerBand.objects.all()
     if request.method == "POST":
         _hosptial = request.POST.get("hospital")
@@ -831,9 +833,6 @@ def editProfileServer(request,pk):
     db = database.objects.all()
     web_server = WebServer.objects.all()
     band = ServerBand.objects.all()
-    # os.rmdir(os.path.join(settings.MEDIA_ROOT, self.docfile.name))
-    # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    # print(MEDIA_ROOT)
     if request.method == "POST":
         tz = pytz.timezone('Asia/Bangkok')
         _os = request.POST.get("os")

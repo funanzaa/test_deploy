@@ -184,55 +184,40 @@ Dashboard
                         <!-- /.row -->
                     </div>
                     <!-- ./card-body -->
-                    <div class="card-footer">
+                    <!-- <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-2">
                                 <div class="description-block border-right">
-                                    <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
                                     <h5 class="description-header">{{count_call}}</h5>
                                     <span class="description-text">TOTAL CALL</span>
                                 </div>
-                                <!-- /.description-block -->
                             </div>
-                            <!-- /.col -->
                             <div class="col-sm-2">
                                 <div class="description-block border-right">
-                                    <!-- <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span> -->
                                     <h5 class="description-header">{{count_line}}</h5>
                                     <span class="description-text">TOTAL LINE</span>
                                 </div>
-                                <!-- /.description-block -->
                             </div>
-                            <!-- /.col -->
                             <div class="col-sm-2">
                                 <div class="description-block border-right">
-                                    <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span> -->
                                     <h5 class="description-header">{{count_facebook}}</h5>
                                     <span class="description-text">TOTAL FACEBOOK</span>
                                 </div>
-                                <!-- /.description-block -->
                             </div>
-                            <!-- /.col -->
                             <div class="col-sm-2">
                                 <div class="description-block border-right">
-                                    <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span> -->
                                     <h5 class="description-header">{{count_email}}</h5>
                                     <span class="description-text">TOTAL EMAIL</span>
                                 </div>
-                                <!-- /.description-block -->
                             </div>
                             <div class="col-sm-2">
                                 <div class="description-block">
-                                    <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span> -->
                                     <h5 class="description-header">{{count_Line_official}}</h5>
                                     <span class="description-text">TOTAL LINE OFFICIAL</span>
                                 </div>
-                                <!-- /.description-block -->
                             </div>
                         </div>
-                        <!-- /.row -->
-                    </div>
-                    <!-- /.card-footer -->
+                    </div> -->
                 </div>
                 <!-- /.card -->
             </div>
@@ -313,29 +298,61 @@ Dashboard
         </div>
         <!-- /.col -->
     </div>
-    <!-- <div class="row">
+    <div class="row">
         <div class="col-lg-6">
-            <div class="card" url-endpoint='{% url 'api-data' %}'>
-                <div class="card-header ui-sortable-handle" style="cursor: move;">
+            <div class="card" >
+                <!-- <div class="card-header ui-sortable-handle" style="cursor: move;">
                     <h3 class="card-title">
                         <i class="fas fa-chart-pie mr-1"></i>
-                        Project of Month {{ dates|date:"M - Y "  }}
+                        ติดตั้งโครงการ E-ereferral
                     </h3>
-                </div>
+                </div> -->
                 <div class="card-body">
-                    <div class="tab-content p-0">
-                        <div class="position-relative mb-4" id="revenue-chart" style="position: relative; height: 300px;">
-                            <div class="chartjs-size-monitor">
-                                <div class="chartjs-size-monitor-expand">
-                                    <div class=""></div>
-                                </div>
-                                <div class="chartjs-size-monitor-shrink">
-                                    <div class=""></div>
-                                </div>
-                            </div>
-                            <canvas id="myChart" height="375" style="height: 300px; display: block; width: 676px;" width="845" class="chartjs-render-monitor"></canvas>
+
+                        <p class="text-center">
+                          <strong>ติดตั้งโครงการ E-ereferral</strong>
+                        </p>
+                        {% for SetupErefer_11722 in count_SetupErefer_11722 %}
+                        <div class="progress-group">
+                            {{SetupErefer_11722.refer_code}} : {{SetupErefer_11722.refer_label}}
+                          <span class="float-right"><b>{{SetupErefer_11722.status_success}}</b>/{{SetupErefer_11722.status_total}}</span>
+                          <div class="progress progress-sm">
+                            <div class="progress-bar bg-primary" style="width: {{SetupErefer_11722.percentage}}%"></div>
+                          </div>
                         </div>
-                    </div>
+                        {% endfor %}
+                        
+                        {% for SetupErefer_11482 in count_SetupErefer_11482 %}
+                        <div class="progress-group">
+                            {{SetupErefer_11482.refer_code}} : {{SetupErefer_11482.refer_label}}
+                          <span class="float-right"><b>{{SetupErefer_11482.status_success}}</b>/{{SetupErefer_11482.status_total}}</span>
+                          <div class="progress progress-sm">
+                            <div class="progress-bar bg-danger" style="width: {{SetupErefer_11482.percentage}}%"></div>
+                          </div>
+                        </div>
+                        {% endfor %}
+    
+                        {% for SetupErefer_11470 in count_SetupErefer_11470 %}
+                        <div class="progress-group">
+                            {{SetupErefer_11470.refer_code}} : {{SetupErefer_11470.refer_label}}
+                          <span class="float-right"><b>{{SetupErefer_11470.status_success}}</b>/{{SetupErefer_11470.status_total}}</span>
+                          <div class="progress progress-sm">
+                            <div class="progress-bar bg-success" style="width: {{SetupErefer_11470.percentage}}%"></div>
+                          </div>
+                        </div>
+                        {% endfor %}
+    
+                        <!-- /.progress-group 11478 -->
+                        {% for SetupErefer_11478 in count_SetupErefer_11478 %}
+                        <div class="progress-group">
+                            {{SetupErefer_11478.refer_code}} : {{SetupErefer_11478.refer_label}}
+                          <span class="float-right"><b>{{SetupErefer_11478.status_success}}</b>/{{SetupErefer_11478.status_total}}</span>
+                          <div class="progress progress-sm">
+                            <div class="progress-bar bg-warning" style="width: {{SetupErefer_11478.percentage}}%"></div>
+                          </div>
+                        <!-- /.progress-group -->
+                      </div>
+                      {% endfor %}
                 </div>
             </div>
         </div>
@@ -364,7 +381,7 @@ Dashboard
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 
 </section>
 {% endblock main_content %}

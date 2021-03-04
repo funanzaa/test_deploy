@@ -8,11 +8,11 @@
 <div class="content">
   <div class="container">
     <div class="row">
-      <div class="col-md-6 offset-md-3">
+      <div class="col-md-8 offset-md-2">
         <!-- general form elements disabled -->
-        <div class="card card-warning">
+        <div class="card card-success">
           <div class="card-header">
-            <h3 class="card-title">ลงทะเบียนติดตั้ง</h3>
+            <h3 class="card-title">ลงทะเบียนติดตั้ง E-referral</h3>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
@@ -22,7 +22,7 @@
                 <div class="col-sm-12">
                   <!-- text input -->
                   <div class="form-group">
-                    <label>Hospital</label>
+                    <label>สถานพยาบาล</label>
                     <select  class="form-control select2" name="hospital"style="width: 100%;">
                       {% for hospitals in hospital %}
                       <option  value="{{ hospitals.id }}" >{{hospitals.code}} : {{hospitals.label}}</option>
@@ -36,21 +36,21 @@
                 <div class="col-sm-6">
                   <!-- textarea -->
                   <div class="form-group">
-                    <label> First Name </label>
-                    <input type="text" class="form-control" name="FirstName" placeholder="ชื่อ" required>
+                    <!-- <label> ชื่อ (ผู้ประสานงาน)</label> -->
+                    <input type="text" class="form-control" name="FirstName" placeholder="ชื่อ (ผู้ประสานงาน)" required>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label> LastName </label>
-                    <input type="text" class="form-control" name="LastName"  placeholder="นามสกุล" required>
+                    <!-- <label> นามสกุล (ผู้ประสานงาน)  </label> -->
+                    <input type="text" class="form-control" name="LastName"  placeholder="นามสกุล (ผู้ประสานงาน)" required>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label> Phone</label>
+                    <label> เบอร์โทรศัพท์ </label>
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-phone"></i></span>
@@ -82,7 +82,7 @@
               </div>
 
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary">ลงทะเบียน</button>
+                  <button type="submit" class="btn btn-success">ลงทะเบียน</button>
                 </div>
                 
             </form>
