@@ -57,28 +57,38 @@
                       <small> {{ListSetupErefers.ContactFirstName}} &nbsp;  {{ListSetupErefers.ContactLastName}} &nbsp; Tel. {{ListSetupErefers.ContactPhone}} </small>
                       <br>
                       <small> วันที่ติดตั้ง {{ListSetupErefers.success_at|add_datetime}} </small>
+                      <br>
+
+                      {% if ListSetupErefers.update_by != None  %}
+                      <p class="text-primary"><small> แก้ไขล่าสุด : {{ListSetupErefers.update_at|add_datetime}} </small></p> 
+                      {% endif %}
+
                     </td>
                     <td class="text-center">
                       {% if ListSetupErefers.ServerServiceStatus_id == 1  %}
-                      <small class="badge badge-warning"> แจ้งติดตั้งระบบ </small>
-                      <br>
-                      <small> {{ ListSetupErefers.staff_first_name }} {{ ListSetupErefers.staff_last_name }}</small>
-                      {% elif ListSetupErefers.ServerServiceStatus_id == 2  %}
-                      <a class="badge badge-success">
-                        ติดตั้งเสร็จสิ้น
-                      </a>
-                      <br>
-                      <small> {{ ListSetupErefers.staff_first_name }} {{ ListSetupErefers.staff_last_name }}</small>
-                      {% elif ListSetupErefers.ServerServiceStatus_id == 3  %}
-                      <a class="badge badge-info">
-                        รับเครื่อง
-                      </a>
-                      {% elif ListSetupErefers.ServerServiceStatus_id == 4  %}
-                      <a class="badge badge-danger">
-                        ติดตั้งไม่สำเร็จ
-                      </a>
-                      <br>
-                      <small> {{ ListSetupErefers.staff_first_name }} {{ ListSetupErefers.staff_last_name }}</small>
+                          <small class="badge badge-warning"> แจ้งติดตั้งระบบ </small>
+                          <br>
+                          <small> {{ ListSetupErefers.staff_first_name }} {{ ListSetupErefers.staff_last_name }}</small>
+                          {% elif ListSetupErefers.ServerServiceStatus_id == 2  %}
+                          <a class="badge badge-success">
+                            ติดตั้งเสร็จสิ้น
+                          </a>
+                          <br>
+                          <small> ติดตั้ง :{{ ListSetupErefers.staff_first_name }} {{ ListSetupErefers.staff_last_name }}</small>
+                          <br>
+                          {% if ListSetupErefers.update_by != None  %}
+                          <p class="text-primary"><small> แก้ไข : {{ListSetupErefers.staff_update_first_name}} {{ListSetupErefers.staff_update_last_name}} </small></p> 
+                          {% endif %}
+                          {% elif ListSetupErefers.ServerServiceStatus_id == 4  %}
+                          <a class="badge badge-danger">
+                            ติดตั้งไม่สำเร็จ
+                          </a>
+                          <br>
+                          <small> ติดตั้ง :{{ ListSetupErefers.staff_first_name }} {{ ListSetupErefers.staff_last_name }}</small>
+                          <br>
+                          {% if ListSetupErefers.update_by != None  %}
+                          <p class="text-primary"><small> แก้ไข : {{ListSetupErefers.staff_update_first_name}} {{ListSetupErefers.staff_update_last_name}} </small></p> 
+                         {% endif %}
                       {% endif %}
                     </td>
                     <td class="text-center">

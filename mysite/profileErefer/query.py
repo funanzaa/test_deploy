@@ -129,6 +129,7 @@ def ListSetupEreferStatus(id):
     with connection.cursor() as cursor:
         query = """
         select pep.*,hos.*,auth_user.first_name as staff_first_name ,auth_user.last_name as staff_last_name
+        ,auth_user_update.first_name as staff_update_first_name ,auth_user_update.last_name as staff_update_last_name
         from "profileErefer_profileereferral" pep 
         inner join crm_profileserver ps on pep."ProfileServer_id" = ps.id 
         inner join (
@@ -137,6 +138,7 @@ def ListSetupEreferStatus(id):
             left join crm_main_hospital m_hos on hos.main_hospital::int = m_hos.id
         ) as hos on hos.id = ps.hospitals_id 
         left join auth_user on pep.created_by::int = auth_user.id 
+        left join auth_user as auth_user_update on pep.update_by ::int = auth_user_update.id 
         where pep."ServerServiceStatus_id" = %(_id)s
         """
         cursor.execute(query, {'_id': id})
