@@ -50,15 +50,19 @@
                       </small>
                     </td>
                     <td class="text-center">
-                      {{ProfileServers.ServerBand}}
-                      {% if ProfileServers.UseServer == 'New'   %} 
-                      <small class="badge badge-success"> {{ProfileServers.UseServer}} </small>
-                      {% else %}
-                      <small class="badge badge-secondary"> {{ProfileServers.UseServer}} </small>
+                      {% if ProfileServers.ServerBand != None   %} 
+                        {{ProfileServers.ServerBand}}
                       {% endif %}
-                      {% if ProfileServers.ServerImage  %}
-                        <i class="fas fa-image"></i>
-                    {% endif %}
+                          {% if ProfileServers.UseServer != ''   %} 
+                            {% if ProfileServers.UseServer == 'New'   %} 
+                            <small class="badge badge-success"> {{ProfileServers.UseServer}} </small>
+                            {% else %}
+                            <small class="badge badge-secondary"> {{ProfileServers.UseServer}} </small>
+                            {% endif %}
+                          {% endif %}
+                        {% if ProfileServers.ServerImage  %}
+                          <i class="fas fa-image"></i>
+                        {% endif %}
                     </td>
                     <td>
                       <small> {{ProfileServers.ContactFirstName}} &nbsp;  {{ProfileServers.ContactLastName}} &nbsp; Tel. {{ProfileServers.ContactPhone}} </small>
