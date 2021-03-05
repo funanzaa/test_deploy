@@ -24,6 +24,9 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label > OperationSystem </label>
+                    {% if ListProfiles.OperationSystem_id == None %}
+                    <small class="badge badge-danger"> ไม่มีข้อมูลใน Profile Server </small>
+                    {% endif %}
                     <select class="form-control select2" name="os" style="width: 100%;">
                       {% for os in os %}
                       {% if ListProfiles.OperationSystem_id == os.id %}
@@ -37,6 +40,9 @@
                 </div>
                 <div class="col-sm-6">
                   <label>Band</label>
+                  {% if ListProfiles.ServerBand_id == None %}
+                  <small class="badge badge-danger"> ไม่มีข้อมูลใน Profile Server </small>
+                  {% endif %}
                   <select class="form-control select2" name="serverband" style="width: 100%;">
                     {% for bands in band %}
                     {% if ListProfiles.ServerBand_id == bands.id %}
@@ -53,7 +59,9 @@
                   <!-- textarea -->
                   <div class="form-group">
                     <label> Database </label>
-                    <!-- <input type="text" class="form-control" name="FirstName" placeholder="ชื่อ" required> -->
+                    {% if ListProfiles.database_id == None %}
+                    <small class="badge badge-danger"> ไม่มีข้อมูลใน Profile Server </small>
+                    {% endif %}
                     <select class="form-control" name="db" style="width: 100%;">
                       {% for db in db %}
                       {% if ListProfiles.database_id == db.id %}
@@ -68,6 +76,9 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label> WebServer </label>
+                    {% if ListProfiles.webServer_id == None %}
+                    <small class="badge badge-danger"> ไม่มีข้อมูลใน Profile Server </small>
+                    {% endif %}
                     <select class="form-control" name="web_server" style="width: 100%;">
                       {% for web_server in web_server %}
                       {% if ListProfiles.webServer_id == web_server.id %}
@@ -84,6 +95,9 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>IP mask:</label>
+                    {% if ListProfiles.FixIpAddress == '' %}
+                    <small class="badge badge-danger"> ไม่มีข้อมูลใน Profile Server </small>
+                    {% endif %}
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-laptop"></i></span>
@@ -96,6 +110,9 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label> Backup Database </label>
+                    {% if ListProfiles.dbBackup == '' %}
+                    <small class="badge badge-danger"> ไม่มีข้อมูลใน Profile Server </small>
+                    {% endif %}
                     <select class="form-control" name="dbBackup" style="width: 100%;">
                       {% if ListProfiles.dbBackup == "Yes" %}
                       <option value="Yes" selected>Yes</option>
@@ -191,7 +208,7 @@
                     <div class="modal-body">
                       <select class="form-control" name="status_case" style="width: 100%;">
                         {% for status in status %}
-                        <option value="{{ status.id }}" selected>{{status.name}}</option>
+                            <option value="{{ status.id }}" selected>{{status.name}}</option>
                         {% endfor %}
                       </select>
                     </div>
