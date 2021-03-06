@@ -9,4 +9,5 @@ urlpatterns = [
      path('install_Erefer/<int:pk>/',install_Erefer, name= 'install_Erefer'),
      path('updateEreferProfile/<int:pk>/',updateEreferProfile, name= 'updateEreferProfile'),
      path('setupStatus/<int:pk>/',setupStatus, name= 'setupStatus'),
+     path('setupStatus/',check_case_lock, name= 'check_case_lock'),
 ]

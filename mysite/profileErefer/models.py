@@ -34,5 +34,9 @@ class ProfileEreferral(models.Model):
     EreferMemo = models.TextField(null=True)
     testData = models.TextField(null=True)
     testMq = models.TextField(null=True)
+    case_locking = models.CharField(max_length=7, default='0')
+    case_lock_date_time = models.DateTimeField(null=True, blank=True)
+    case_staff_lock = models.CharField(max_length=255,null=True)
+
 
 

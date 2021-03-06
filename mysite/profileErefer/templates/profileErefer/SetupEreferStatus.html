@@ -10,6 +10,10 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
+                <a class="btn btn-app" href="{% url 'profileErefer:setupStatus' 1 %}">
+                  <span class="badge badge-info navbar-badge">{{ ListStatus_user }}</span>
+                  <i class="fas fa-tools"></i> Case Setup  
+                </a>
                 <a class="btn btn-app" href="{% url 'profileErefer:setupStatus' 4 %}">
                   <span class="badge badge-danger navbar-badge">{{ ListStatus_4 }}</span>
                   <i class="fas fa-times-circle"></i> ติดตั้งไม่สำเร็จ
@@ -57,48 +61,43 @@
                       <small> {{ListSetupErefers.ContactFirstName}} &nbsp;  {{ListSetupErefers.ContactLastName}} &nbsp; Tel. {{ListSetupErefers.ContactPhone}} </small>
                       <br>
                       <small> วันที่ติดตั้ง {{ListSetupErefers.success_at|add_datetime}} </small>
-                      <br>
-
-                      {% if ListSetupErefers.update_by != None  %}
-                      <p class="text-primary"><small> แก้ไขล่าสุด : {{ListSetupErefers.update_at|add_datetime}} </small></p> 
-                      {% endif %}
-
                     </td>
                     <td class="text-center">
                       {% if ListSetupErefers.ServerServiceStatus_id == 1  %}
                           <small class="badge badge-warning"> แจ้งติดตั้งระบบ </small>
                           <br>
-                          <small> {{ ListSetupErefers.staff_first_name }} {{ ListSetupErefers.staff_last_name }}</small>
-                          {% elif ListSetupErefers.ServerServiceStatus_id == 2  %}
-                          <a class="badge badge-success">
+                          {% if ListSetupErefers.staff_first_name != None  %}
+                            <small> {{ ListSetupErefers.staff_first_name }} {{ ListSetupErefers.staff_last_name }}</small>
+                          {% endif %}
+                            {% elif ListSetupErefers.ServerServiceStatus_id == 2  %}
+                          <p class="badge badge-success">
                             ติดตั้งเสร็จสิ้น
-                          </a>
+                          </p>
                           <br>
-                          <small> ติดตั้ง :{{ ListSetupErefers.staff_first_name }} {{ ListSetupErefers.staff_last_name }}</small>
-                          <br>
-                          {% if ListSetupErefers.update_by != None  %}
-                          <p class="text-primary"><small> แก้ไข : {{ListSetupErefers.staff_update_first_name}} {{ListSetupErefers.staff_update_last_name}} </small></p> 
+                          {% if ListSetupErefers.update_at != None  %}
+                          <p class="text-primary"><small> แก้ไขล่าสุด : {{ListSetupErefers.update_at|add_datetime}} </small></p> 
                           {% endif %}
                           {% elif ListSetupErefers.ServerServiceStatus_id == 4  %}
-                          <a class="badge badge-danger">
-                            ติดตั้งไม่สำเร็จ
-                          </a>
-                          <br>
-                          <small> ติดตั้ง :{{ ListSetupErefers.staff_first_name }} {{ ListSetupErefers.staff_last_name }}</small>
-                          <br>
-                          {% if ListSetupErefers.update_by != None  %}
-                          <p class="text-primary"><small> แก้ไข : {{ListSetupErefers.staff_update_first_name}} {{ListSetupErefers.staff_update_last_name}} </small></p> 
-                         {% endif %}
+                          <p class="badge badge-danger">ติดตั้งไม่สำเร็จ</p>
+                          {% if ListSetupErefers.update_at != None  %}
+                          <p class="text-primary"><small> แก้ไขล่าสุด : {{ListSetupErefers.update_at|add_datetime}} </small></p> 
+                          {% endif %}
+    
                       {% endif %}
                     </td>
                     <td class="text-center">
                       <!-- <a class="btn btn-info btn-sm" href="#" target="_blank">
                         <i class="fas fa-eye"></i>
                       </a> -->
-                      <a class="btn btn-success btn-sm" href="{% url 'profileErefer:updateEreferProfile' ListSetupErefers.ProfileServer_id %}">
-                        <i class="fas fa-pencil-alt"></i>
-                        <!-- <i class="fas fa-user-cog"></i> -->
+                      {% if ListSetupErefers.ServerServiceStatus_id == 1  %}
+                      <a class="btn btn-success btn-sm" href="{% url 'profileErefer:install_Erefer' ListSetupErefers.ProfileServer_id %}">
+                        <i class="fas fa-wrench"></i>
                       </a>
+                      {% else %}
+                      <a class="btn btn-warning btn-sm" href="{% url 'profileErefer:updateEreferProfile' ListSetupErefers.ProfileServer_id %}">
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      {% endif %}
                     </td>
                   </tr>
                   {% endfor %}

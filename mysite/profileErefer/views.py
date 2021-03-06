@@ -8,6 +8,7 @@ import datetime
 import pytz
 from .query import *
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 def requestSetupErefer(request):
     hospital = Hospitals.objects.all()
@@ -70,8 +71,10 @@ def requestSetupErefer(request):
 def SetupErefer(request):
     context = {"ListSetupErefer":ListSetupErefer()
     ,"count_RequestErefer": countRequestErefer()
-    ,"ListStatus_4" :  ListStatusCaseErefer(4)
-    ,"ListStatus_2" :  ListStatusCaseErefer(2)
+    ,"ListStatus_user" :  ListStatusCaseErefer(1,request.user.id)
+    ,"ListStatus_4" :  ListStatusCaseErefer(4,request.user.id)
+    ,"ListStatus_2" :  ListStatusCaseErefer(2,request.user.id)
+    ,"user_id" : request.user.id
     }
     return render(request,'profileErefer/SetupErefer.html',context)
 
@@ -105,30 +108,26 @@ def install_Erefer(request,pk):
         updateProfileServer.FixIpAddress = ip
         updateProfileServer.dbBackup = dbBackup
         updateProfileServer.save()
-        updateProfileEreferral = ProfileEreferral.objects.get(ProfileServer_id=pk)
-        updateProfileEreferral.versHosEreferral_id = versHosErefer
-        updateProfileEreferral.versErefws_id = versErefws
-        updateProfileEreferral.testData = testData
-        updateProfileEreferral.testMq = testMq
-        updateProfileEreferral.created_by = request.user.id
-        updateProfileEreferral.success_at = datetime.datetime.now(tz=tz)
-        updateProfileEreferral.ServerServiceStatus_id = status_case
-        updateProfileEreferral.EreferMemo = ereferMemo
-        updateProfileEreferral.save()
+        update_at = datetime.datetime.now(tz=tz)
+        success_at = datetime.datetime.now(tz=tz)
+        insert_profileErefer(update_at,success_at,int(status_case),str(request.user.id),int(versErefws),int(versHosErefer),ereferMemo,testData,testMq,int(pk))
+        # updateProfileEreferral.save()
         messages.success(request, 'Your ProfileServer is updated successfully!')
         return HttpResponseRedirect(reverse_lazy('profileErefer:SetupErefer'))
     context = {"ListProfile":view_server_profile(pk),"os":os,"db": db
     ,"web_server": web_server,"band":band,"versHosErefer":versHosErefer
     ,"vers_Erefws": ListVersErefws(),"status":ListServerservicestatus()
+    ,"count_RequestErefer": countRequestErefer()
     }
     return render(request,'profileErefer/installErefer.html',context)
 
 
 @login_required(login_url='login')
 def setupStatus(request,pk):
-    context = {"ListSetupErefer":ListSetupEreferStatus(pk)
-    ,"ListStatus_4" :  ListStatusCaseErefer(4)
-    ,"ListStatus_2" :  ListStatusCaseErefer(2),"count_RequestErefer": countRequestErefer()
+    context = {"ListSetupErefer":ListSetupEreferStatus(pk,request.user.id)
+    ,"ListStatus_user" :  ListStatusCaseErefer(1,request.user.id)
+    ,"ListStatus_4" :  ListStatusCaseErefer(4,request.user.id)
+    ,"ListStatus_2" :  ListStatusCaseErefer(2,request.user.id),"count_RequestErefer": countRequestErefer()
     }
     return render(request,'profileErefer/SetupEreferStatus.html',context)
 
@@ -163,20 +162,29 @@ def updateEreferProfile(request,pk):
         updateProfileServer.FixIpAddress = ip
         updateProfileServer.dbBackup = dbBackup
         updateProfileServer.save()
-        updateProfileEreferral = ProfileEreferral.objects.get(ProfileServer_id=pk)
-        updateProfileEreferral.versHosEreferral_id = versHosErefer
-        updateProfileEreferral.versErefws_id = versErefws
-        updateProfileEreferral.testData = testData
-        updateProfileEreferral.testMq = testMq
-        updateProfileEreferral.update_by = request.user.id
-        updateProfileEreferral.update_at = datetime.datetime.now(tz=tz)
-        updateProfileEreferral.ServerServiceStatus_id = status_case
-        updateProfileEreferral.EreferMemo = ereferMemo
-        updateProfileEreferral.save()
+        update_at = datetime.datetime.now(tz=tz)
+        update_profileErefer(update_at,int(status_case),str(request.user.id),int(versErefws),int(versHosErefer),ereferMemo,testData,testMq,int(pk))
         messages.success(request, 'Your ProfileServer is updated successfully!')
         return HttpResponseRedirect(reverse_lazy('profileErefer:SetupErefer'))
     context = {"ListProfile":view_server_profile(pk),"os":os,"db": db
     ,"web_server": web_server,"band":band,"versHosErefer":versHosErefer
     ,"vers_Erefws": ListVersErefws(),"status":ListServerservicestatus()
+    ,"count_RequestErefer": countRequestErefer()
     }
     return render(request,'profileErefer/updateEreferProfile.html',context)
+
+
+def check_case_lock(request):
+    if request.method == 'GET':
+        try:
+            tz = pytz.timezone('Asia/Bangkok')
+            profile_id = request.GET["ProfileServer_id"]
+            updateProfileEreferral = ProfileEreferral.objects.get(ProfileServer_id=profile_id)
+            # print(profile_id)
+            updateProfileEreferral.case_locking = '1'
+            updateProfileEreferral.case_staff_lock = request.user.id
+            updateProfileEreferral.case_lock_date_time = datetime.datetime.now(tz=tz)
+            updateProfileEreferral.save()
+        except:
+            pass
+        return HttpResponse("ok")
