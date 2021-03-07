@@ -181,3 +181,21 @@ def update_profileErefer(update_at,status_case,user,versErefws,versHosErefer,ere
         WHERE "ProfileServer_id" = {};
         """.format(update_at,status_case,user,versErefws,versHosErefer,ereferMemo,testData,testMq,pk)
         cursor.execute(query)
+
+def insertProfileErefer(FirstName,LastName,ContactPhone,ServerServiceStatus,request_date,memo):
+    with connection.cursor() as cursor:
+        query="""
+        INSERT INTO public."profileErefer_profileereferral" ("ContactFirstName","ContactLastName","ContactPhone"
+        , "ServerServiceStatus_id",request_at,"EreferMemo") VALUES('{}','{}','{}',{},'{}','{}');
+        """.format(FirstName,LastName,ContactPhone,ServerServiceStatus,request_date,memo)
+        cursor.execute(query)
+
+def findProfileId(id):
+    with connection.cursor() as cursor:
+        query = """
+        select cp.id from crm_profileserver cp where cp.hospitals_id = %(_id)s
+        """
+        cursor.execute(query, {'_id': id})
+        result = cursor.fetchone()
+        return result[0]
+

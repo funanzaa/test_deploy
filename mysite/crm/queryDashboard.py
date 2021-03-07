@@ -53,7 +53,7 @@ def checkRequestServerDup(hospital):
         result = cursor.fetchone()
         return result[0]
 
-def deshboardSetupEreferral(hcode):
+def deshboardSetupEreferral(hcode=None):
     with connection.cursor() as cursor:
         query = """
         select q.refer_code,q.refer_label,q.status_success,q.status_total,((q.status_success * 100)/q.status_total)::numeric(5,2) as percentage
@@ -70,7 +70,7 @@ def deshboardSetupEreferral(hcode):
                 ) as hos on hos.id = ps.hospitals_id 
                 group by hos.refer_code,hos.refer_label
             ) q
-        where q.refer_code = '%(_hcode)s'
+        --where q.refer_code = '%(_hcode)s'
         """
         cursor.execute(query, {'_hcode': hcode})
         results = cursor.fetchall()
@@ -103,7 +103,7 @@ def queryProfileEreferral(id):
         left join "profileErefer_verserefws" ws on  pep."versErefws_id" = ws.id 
         left join "profileErefer_vershosereferral" hs on pep."versHosEreferral_id" = hs.id 
         left join crm_serverservicestatus serverStatus on pep."ServerServiceStatus_id" = serverStatus.id 
-        where pep."ProfileServer_id" = %(_id)s
+        where pep."ProfileServer_id" = '%(_id)s'
         """
         cursor.execute(query, {'_id': id})
         results = cursor.fetchall()

@@ -21,12 +21,12 @@ def requestSetupErefer(request):
         hospital_main = request.POST.get("hospital_main")
         memo = request.POST.get("memo")
         tz = pytz.timezone('Asia/Bangkok')
-        # print(checkRequest(hospital))
         if checkRequest(hospital) == 0:
             try: # have value profileserver yet
                 profile_server = ProfileServer.objects.get(hospitals_id=hospital)
-                updateMainHos = Hospitals.objects.get(id=hospital)
+                # print(profile_server)
                 newProfileEreferral = ProfileEreferral()
+                updateMainHos = Hospitals.objects.get(id=hospital)
                 newProfileEreferral.ProfileServer_id = profile_server.id # id profile_server
                 newProfileEreferral.ContactFirstName = FirstName
                 newProfileEreferral.ContactLastName = LastName
@@ -40,17 +40,21 @@ def requestSetupErefer(request):
                 messages.success(request, 'ลงทะเบียนเสร็จสิ้น')
             except: # not value profileserver yet
                 # add table ProfileServer
+                # insertProfileErefer(int(profile_server.id),FirstName,LastName,ContactPhone,1,request_date,memo)
+                # insertProfileErefer(FirstName,LastName,ContactPhone,1,request_date,memo)
                 newProfileServer = ProfileServer()
-                newProfileServer.hospitals_id = hospital
+                newProfileServer.hospitals_id = int(hospital)
                 newProfileServer.ContactFirstName = FirstName
                 newProfileServer.ContactLastName = LastName
                 newProfileServer.ContactPhone = ContactPhone
                 newProfileServer.ServerServiceStatus_id = 3 # status recive server
                 newProfileServer.save()
-                profile_server = ProfileServer.objects.get(hospitals_id=hospital)
+                ProfileId = findProfileId(int(hospital))
                 updateMainHos = Hospitals.objects.get(id=hospital)
+                updateMainHos.main_hospital = hospital_main
+                updateMainHos.save()
                 newProfileEreferral = ProfileEreferral()
-                newProfileEreferral.ProfileServer_id = profile_server.id # id profile_server
+                newProfileEreferral.ProfileServer_id = ProfileId # id profile_server
                 newProfileEreferral.ContactFirstName = FirstName
                 newProfileEreferral.ContactLastName = LastName
                 newProfileEreferral.ContactPhone = ContactPhone
@@ -58,8 +62,6 @@ def requestSetupErefer(request):
                 newProfileEreferral.request_at = datetime.datetime.now(tz=tz)
                 newProfileEreferral.Memo = memo
                 newProfileEreferral.save()
-                updateMainHos.main_hospital = hospital_main
-                updateMainHos.save()
                 messages.success(request, 'ลงทะเบียนเสร็จสิ้น')
         else:
             messages.error(request, 'พบข้อมูลในระบบแล้ว')

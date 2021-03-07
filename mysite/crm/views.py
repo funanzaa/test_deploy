@@ -69,8 +69,9 @@ def dashboardPage(request):
         "count_case_server": count_case_server, "count_case_other": count_case_other, "count_case_total": count_case_total,
         "count_call": count_call, "count_line": count_line, "count_facebook": count_facebook, "count_email": count_email, "count_Line_official": count_Line_official,
         "count_RequestErefer": countRequestErefer()
-        ,"count_SetupErefer_11722":deshboardSetupEreferral(11722),"count_SetupErefer_11482":deshboardSetupEreferral(11482),"count_SetupErefer_11470":deshboardSetupEreferral(11470)
-        ,"count_SetupErefer_11478":deshboardSetupEreferral(11478),"count_SetupErefer_41414":deshboardSetupEreferral(41414)
+        ,"count_SetupErefer":deshboardSetupEreferral()
+        # ,"count_SetupErefer_11482":deshboardSetupEreferral(11482),"count_SetupErefer_11470":deshboardSetupEreferral(11470)
+        # ,"count_SetupErefer_11478":deshboardSetupEreferral(11478),"count_SetupErefer_41414":deshboardSetupEreferral(41414)
     }
     return render(request, 'cases/dashboard.html', context)
 

@@ -333,18 +333,18 @@ Dashboard
                     <p class="text-center">
                         <strong>ติดตั้งโครงการ E-ereferral</strong>
                     </p>
-                    {% for SetupErefer_11722 in count_SetupErefer_11722 %}
+                    {% for SetupErefer in count_SetupErefer %}
                     <div class="progress-group">
-                        {{SetupErefer_11722.refer_code}} : {{SetupErefer_11722.refer_label}}
+                        {{SetupErefer.refer_code}} : {{SetupErefer.refer_label}}
                         <span
-                            class="float-right"><b>{{SetupErefer_11722.status_success}}</b>/{{SetupErefer_11722.status_total}}</span>
+                            class="float-right"><b>{{SetupErefer.status_success}}</b>/{{SetupErefer.status_total}}</span>
                         <div class="progress progress-sm">
-                            <div class="progress-bar bg-primary" style="width: {{SetupErefer_11722.percentage}}%"></div>
+                            <div class="progress-bar bg-success" style="width: {{SetupErefer.percentage}}%"></div>
                         </div>
                     </div>
                     {% endfor %}
 
-                    {% for SetupErefer_11482 in count_SetupErefer_11482 %}
+                    <!-- {% for SetupErefer_11482 in count_SetupErefer_11482 %}
                     <div class="progress-group">
                         {{SetupErefer_11482.refer_code}} : {{SetupErefer_11482.refer_label}}
                         <span
@@ -384,7 +384,7 @@ Dashboard
                             <div class="progress-bar bg-info" style="width: {{SetupErefer_41414.percentage}}%"></div>
                         </div>
                     </div>
-                    {% endfor %}
+                    {% endfor %} -->
                 </div>
             </div>
         </div>
