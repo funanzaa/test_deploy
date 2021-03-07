@@ -1,5 +1,6 @@
 import datetime
 import pytz
+from profileErefer.models import ProfileEreferral
 # import os
 from django.conf import settings
 from django.urls import reverse_lazy
@@ -716,7 +717,8 @@ def Profile_Server(request):
 
 @login_required(login_url='login')
 def ListAllProfileServer(request):
-    ProfileServers = ProfileServer.objects.all().order_by('id')
+    # ProfileServers = ProfileServer.objects.all().order_by('id')
+    ProfileServers = ListProfileServerAll()
     countProfileServers1 = ProfileServer.objects.filter(ServerServiceStatus_id=1).count()
     countProfileServers2 = ProfileServer.objects.filter(ServerServiceStatus_id=2).count()
     countProfileServers3 = ProfileServer.objects.filter(ServerServiceStatus_id=3).count()
@@ -900,9 +902,15 @@ def editProfileServer(request,pk):
 
 
 @login_required(login_url='login')
+
+
+
 def detailServerProfile(request,pk):
     ProfileServers = ProfileServer.objects.get(id=pk)
-    context = {"ProfileServer":ProfileServers}
+    profileErefer = queryProfileEreferral(pk)
+    # profileErefer = ProfileEreferral.objects.get(ProfileServer_id=pk)
+    # print(profileErefer)
+    context = {"ProfileServer":ProfileServers,"profileErefer":profileErefer}
     return render(request, 'cases/detailServerProfile.html', context)
 
 def userDetailServerProfile(request,pk):

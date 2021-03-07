@@ -42,24 +42,30 @@
                     {% for ProfileServers in ProfileServer %}
                   <tr>
                     <td>
-                      {{ProfileServers.hospitals.code}}
+                      {{ProfileServers.code}}
+                      <!-- check refer -->
+                      {% if ProfileServers.erefer_status != None  %}
+                      {% if ProfileServers.erefer_status == 2  %}
+                        <p class="badge badge-success">
+                          E-ereferral
+                        </p>
+                        {% else %}
+                        <p class="badge badge-danger">
+                          E-ereferral
+                        </p>
+                        {% endif%}
+                      {% endif%}
+                    <!--end check refer -->
                       <br>
                       <small>
                         <!-- {{ case.date_entered}} -->
-                        {{ProfileServers.hospitals.label}}
+                        {{ProfileServers.label}}
                       </small>
                     </td>
                     <td class="text-center">
-                      {% if ProfileServers.ServerBand != None   %} 
-                        {{ProfileServers.ServerBand}}
+                      {% if ProfileServers.serverband != None   %} 
+                        {{ProfileServers.serverband}}
                       {% endif %}
-                          {% if ProfileServers.UseServer != ''   %} 
-                            {% if ProfileServers.UseServer == 'New'   %} 
-                            <small class="badge badge-success"> {{ProfileServers.UseServer}} </small>
-                            {% else %}
-                            <small class="badge badge-secondary"> {{ProfileServers.UseServer}} </small>
-                            {% endif %}
-                          {% endif %}
                         {% if ProfileServers.ServerImage  %}
                           <i class="fas fa-image"></i>
                         {% endif %}
@@ -71,21 +77,21 @@
                     </td>
                     <td class="text-center">
                       {% if ProfileServers.ServerServiceStatus_id == 1  %}
-                      <a class="badge badge-warning">
+                      <p class="badge badge-warning">
                         เข้าระบบ
-                      </a>
+                      </p>
                       {% elif ProfileServers.ServerServiceStatus_id == 2  %}
-                      <a class="badge badge-success">
+                      <p class="badge badge-success">
                         ติดตั้งเสร็จสิ้น
-                      </a>
+                      </p>
                       {% elif ProfileServers.ServerServiceStatus_id == 3  %}
-                      <a class="badge badge-info">
+                      <p class="badge badge-info">
                         รับเครื่อง
-                      </a>
+                      </p>
                       {% elif ProfileServers.ServerServiceStatus_id == 4  %}
-                      <a class="badge badge-danger">
+                      <p class="badge badge-danger">
                         ติดตั้งไม่สำเร็จ
-                      </a>
+                      </p>
                       {% endif %}
                     </td>
                     <td class="text-center">
