@@ -103,7 +103,7 @@ def queryProfileEreferral(id):
         left join "profileErefer_verserefws" ws on  pep."versErefws_id" = ws.id 
         left join "profileErefer_vershosereferral" hs on pep."versHosEreferral_id" = hs.id 
         left join crm_serverservicestatus serverStatus on pep."ServerServiceStatus_id" = serverStatus.id 
-        where pep."ProfileServer_id" = '%(_id)s'
+        where pep."ProfileServer_id" = %(_id)s
         """
         cursor.execute(query, {'_id': id})
         results = cursor.fetchall()

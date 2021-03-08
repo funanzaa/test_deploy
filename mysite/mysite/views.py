@@ -20,7 +20,7 @@ from datetime import timedelta
 from django.db.models import Avg, Max, Min, Sum
 from django.views.generic import View
 from rest_framework.views import APIView  # rest_framework
-# from rest_framework.response import Response  # rest_framework
+from rest_framework.response import Response  # rest_framework
 from crm.decorators import unauthenticated_user # permission
 
 
@@ -71,6 +71,7 @@ def logoutUser(request):
 	logout(request)
 	return redirect('login')
 
+from .query import *
 from django.db.models import Q
 def model5_dashboard(request):
 
@@ -89,7 +90,8 @@ def model5_dashboard(request):
 		jsonDictListHosp = json.loads(y_jsonListHosp)
 		tz = pytz.timezone('Asia/Bangkok')
 		date_current = datetime.datetime.now(tz=tz)
-		if int(date_current.day) != int(max_date.strftime("%d")): #insert data
+		# if int(date_current.day) != int(max_date.strftime("%d")): #insert data
+		if checkInsert(date_current.day) == False: #insert data
 			recap_report.delete() # delete data on table
 			for i in range(len(jsonDictListHosp)):
 				hcode = jsonDictListHosp[i]['HSUBOP']
@@ -220,7 +222,7 @@ def lookup_error(request):
 	count_err = len(jsonDict)
 	count_lookup_err = model5_lookup_error.objects.all().count()
 	lookup_err = model5_lookup_error.objects.all()
-	# print(count_lookup_error)
+	print(count_lookup_error)
 	if count_lookup_err != count_err:
 		lookup_err.delete()
 		for i in range(len(jsonDict)):

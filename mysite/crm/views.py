@@ -1,6 +1,5 @@
 import datetime
 import pytz
-from profileErefer.models import ProfileEreferral
 # import os
 from django.conf import settings
 from django.urls import reverse_lazy

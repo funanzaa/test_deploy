@@ -7,15 +7,15 @@
 // var opbkkclient_m3 = []
 
 var labels = [];
-domain = 'http://localhost:8000'
+// domain = 'http://localhost:8000'
 // domain = 'http://bkk.hospital-os.com'
 // var objId = document.getElementById("project").value;
 // var objDate = document.getElementById("reservation").value;
-var dataURLOpbkkWeb = domain + `/crm/report/ReportSubProjectOpbkkWeb`
+// var dataURLOpbkkWeb = domain + `/crm/report/ReportSubProjectOpbkkWeb`
 // var dataURLOpbkkClient = domain + `/crm/report/ReportSubProjectOpbkkClient`
 $.ajax({
     method:'GET',
-    url:dataURLOpbkkWeb,
+    url:{% url 'ReportSubProjectOpbkkWeb' %},
     success:function(response){
         // console.log(response)
         for (var i in response){    
