@@ -24,6 +24,7 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-header">Cases</li>
           <li class="nav-item">
             <a href="{% url 'viewcase' %}" class="nav-link">
               <i class="nav-icon far fa-address-book"></i>
@@ -32,7 +33,16 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{% url 'viewcase' %}" class="nav-link">
+              <i class="nav-icon fas fa-bullhorn"></i>
+              <p>
+                API Cases
+              </p>
+            </a>
+          </li>
           {% if perms.crm.add_case %}
+          <li class="nav-header">Other</li>
           <li class="nav-item">
             <a href="{% url 'hospital-page' %}" class="nav-link">
               <i class="nav-icon fas fa-hospital-symbol"></i>
