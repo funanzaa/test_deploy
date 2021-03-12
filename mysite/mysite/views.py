@@ -9,15 +9,11 @@ from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 from crm.models import *
-import os
 import requests
-from django.conf import settings
 from django.http import HttpResponse, Http404
 import json
 import datetime 
 import pytz
-from datetime import timedelta
-from django.db.models import Avg, Max, Min, Sum
 from django.views.generic import View
 from rest_framework.views import APIView  # rest_framework
 from rest_framework.response import Response  # rest_framework
@@ -222,7 +218,6 @@ def lookup_error(request):
 	count_err = len(jsonDict)
 	count_lookup_err = model5_lookup_error.objects.all().count()
 	lookup_err = model5_lookup_error.objects.all()
-	print(count_lookup_error)
 	if count_lookup_err != count_err:
 		lookup_err.delete()
 		for i in range(len(jsonDict)):

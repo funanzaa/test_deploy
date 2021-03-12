@@ -73,7 +73,7 @@
               <label>Hospital</label>
               <select  class="form-control select2" name="hospital"style="width: 100%;">
                 {% for hospital in hospitals %}
-                <option value="{{ hospital.id }}" >{{hospital}}</option>
+                <option value="{{ hospital.id }}" >{{hospital.code}} : {{hospital.label}}</option>
                 {% endfor %}
               </select>
             </div>

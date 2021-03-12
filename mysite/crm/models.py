@@ -53,7 +53,7 @@ class Hospitals(models.Model):
     active = models.CharField(max_length=255)
     install_app = models.CharField(max_length=255)
     training = models.CharField(max_length=255)
-    main_hospital = models.CharField(max_length=255,null=True)
+    main_hospital = models.CharField(max_length=255,null=True,default='0')
     
     def __str__(self):
         return self.label

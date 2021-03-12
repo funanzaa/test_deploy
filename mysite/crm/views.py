@@ -201,6 +201,7 @@ def createCase(request):
 
 # detailCaseAssign
 
+@login_required(login_url='login')
 def detailCaseAssign(request, pk):
     case = Case.objects.get(id=pk)
     context = {'case': case}
@@ -210,7 +211,7 @@ def detailCaseAssign(request, pk):
 # detailCase
 
 
-
+@login_required(login_url='login')
 def detailCase(request, pk):
     case = Case.objects.get(id=pk)
     context = {'case': case}
@@ -218,7 +219,7 @@ def detailCase(request, pk):
 
 # update Case
 
-
+@login_required(login_url='login')
 def updateCase(request, pk):
     case = Case.objects.get(id=pk)
     project = Project.objects.all()
@@ -573,13 +574,14 @@ def viewCase(request):
     now = (datetime.datetime.now(tz=tz))
     user = User.objects.all()
     current_user = request.user.id
+    print(current_user)
     # case = Case.objects.filter(created_by=current_user)
     if len(str(now)[5:7]) == 2:
         # case = Case.objects.filter(created_by=current_user)
         case = Case.objects.filter(date_entered__month=str(now)[5:7], created_by=current_user, date_entered__year=str(now)[:4])
     else:
         # case = Case.objects.filter(created_by=current_user)
-        case = count_case_hos = Case.objects.filter(date_entered__month=str(now)[6:7], created_by=current_user, date_entered__year=str(now)[:4])
+        case  = Case.objects.filter(date_entered__month=str(now)[6:7], created_by=current_user, date_entered__year=str(now)[:4])
 
     countAssignSend = Case.objects.filter(assign_by=str(current_user)).count()
     countAssignForward = Case.objects.filter(forward_by=str(current_user)).count()

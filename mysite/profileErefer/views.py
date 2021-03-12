@@ -129,7 +129,8 @@ def setupStatus(request,pk):
     context = {"ListSetupErefer":ListSetupEreferStatus(pk,request.user.id)
     ,"ListStatus_user" :  ListStatusCaseErefer(1,request.user.id)
     ,"ListStatus_4" :  ListStatusCaseErefer(4,request.user.id)
-    ,"ListStatus_2" :  ListStatusCaseErefer(2,request.user.id),"count_RequestErefer": countRequestErefer()
+    ,"ListStatus_2" :  ListStatusCaseErefer(2,request.user.id)
+    ,"count_RequestErefer": countRequestErefer()
     }
     return render(request,'profileErefer/SetupEreferStatus.html',context)
 
@@ -175,7 +176,7 @@ def updateEreferProfile(request,pk):
     }
     return render(request,'profileErefer/updateEreferProfile.html',context)
 
-
+@login_required(login_url='login')
 def check_case_lock(request):
     if request.method == 'GET':
         try:
@@ -190,3 +191,12 @@ def check_case_lock(request):
         except:
             pass
         return HttpResponse("ok")
+
+
+def OverAllHc(request):
+    context = {"ListOverAllHc":ListOverAllHc()
+    ,"ListStatus_user" :  ListStatusCaseErefer(1,request.user.id)
+    ,"ListStatus_4" :  ListStatusCaseErefer(4,request.user.id)
+    ,"ListStatus_2" :  ListStatusCaseErefer(2,request.user.id)
+    }
+    return render(request,'profileErefer/OverAllHc.html',context)

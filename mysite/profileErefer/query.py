@@ -199,3 +199,36 @@ def findProfileId(id):
         result = cursor.fetchone()
         return result[0]
 
+def ListOverAllHc():
+    with connection.cursor() as cursor:
+        query = """
+      select pep.*,hos.*
+      ,ps.id as ProfileServer_id, ps."ContactPhone", ps."FixIpAddress", ps."datetimeSendServer", ps."Memo", ps."ContactFirstName", ps."ContactLastName", ps."ContactEmail", ps."datetimeReceiveServer", ps."ServerImage", ps."UseServer", ps."dbBackup", ps."datetimeCompleteServer", ps.update_at, ps."OperationSystem_id", ps."ServerBand_id", ps."ServerServiceStatus_id", ps.created_by_id, ps.database_id, ps.hospitals_id, ps."webServer_id", ps.update_by 
+      ,auth_user.first_name as staff_first_name ,auth_user.last_name as staff_last_name
+       ,auth_user_update.first_name as staff_update_first_name ,auth_user_update.last_name as staff_update_last_name,crm_serverband."name" as band_server
+       ,crm_operationsystem."name" as os_name,crm_serverservicestatus."name" as server_status
+        from "profileErefer_profileereferral" pep 
+        inner join crm_profileserver ps on pep."ProfileServer_id" = ps.id 
+        inner join (
+            select hos.*,m_hos.code as refer_code,m_hos.label as refer_label
+            from (select * from crm_hospitals hos where hos.main_hospital = '6') hos 
+            left join crm_main_hospital m_hos on hos.main_hospital::int = m_hos.id
+        ) as hos on hos.id = ps.hospitals_id 
+        left join auth_user on pep.created_by::int = auth_user.id 
+        left join auth_user as auth_user_update on pep.update_by ::int = auth_user_update.id 
+        left join crm_serverband on ps."ServerBand_id" = crm_serverband.id 
+        left join crm_operationsystem on ps."OperationSystem_id" = crm_operationsystem.id 
+        left join crm_serverservicestatus on pep."ServerServiceStatus_id" = crm_serverservicestatus.id 
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+        x = cursor.description
+        resultsList = []  
+        for r in results:
+            i = 0
+            d = {}
+            while i < len(x):
+                d[x[i][0]] = r[i]
+                i = i+1
+            resultsList.append(d)
+        return resultsList

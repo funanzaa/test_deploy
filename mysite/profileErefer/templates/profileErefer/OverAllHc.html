@@ -1,0 +1,160 @@
+{% extends 'cases/base_controlversion.html' %}
+{% load tags_and_filters_extras %}
+<!-- {% block page_title %}
+{% endblock page_title %} -->
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <a class="btn btn-app" href="{% url 'profileErefer:setupStatus' 1 %}">
+                  <span class="badge badge-info navbar-badge">{{ ListStatus_user }}</span>
+                  <i class="fas fa-tools"></i> Case Setup  
+                </a>
+                <a class="btn btn-app" href="{% url 'profileErefer:setupStatus' 2 %}">
+                  <span class="badge badge-danger navbar-badge">{{ ListStatus_4 }}</span>
+                  <i class="fas fa-times-circle"></i> ติดตั้งไม่สำเร็จ
+                </a>
+                <a class="btn btn-app" href="{% url 'profileErefer:setupStatus' 4 %}">
+                  <span class="badge badge-success navbar-badge">{{ ListStatus_2 }}</span>
+                  <i class="fas fa-check-square"></i> ติดตั้งสำเร็จ
+                </a>
+                <a class="btn btn-app" href="{% url 'profileErefer:overAllHc'%}">
+                  <span class="badge badge-warning navbar-badge"></span>
+                  <i class="fas fa-hospital"></i> OverAll (HC)
+                </a>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                
+                <table id="example1" class="table table-bordered table-striped">
+                  
+                  <thead>
+                    
+                  <tr>
+                    <th>Hcode</th>
+                    <th>Server</th>
+                    <th>Contact</th>
+                    <th>Memo</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    {% for ListOverAllHc in ListOverAllHc %}
+                  <tr>
+                    <td>
+                      {{ListOverAllHc.code}}
+                      <br>
+                      <small>
+                        <!-- {{ case.date_entered}} -->
+                        {{ListOverAllHc.label}}
+                      </small>
+                    </td>
+                    <td class="text-center" >
+                      <p class="badge badge-warning">
+                        {% if ListOverAllHc.band_server %}
+                         <!-- {{ListOverAllHc.band_server}} , {{ListOverAllHc.os_name}} -->
+                           Dell , Ubuntu Server 18.04
+                        {% else %}
+                           Dell , Ubuntu Server 18.04
+                        {% endif %}
+                        
+                      </p>
+                      <br>
+                      <small>
+                        {% if ListOverAllHc.FixIpAddress == ''  %}
+                        <small class="badge badge-info">
+                          IP
+                        </small>
+                             172.31.162.24
+                        {% else %}
+                        <small class="badge badge-info">
+                          IP
+                        </small>
+                            {{ListOverAllHc.FixIpAddress}}
+                        {% endif %}
+                      </small>
+                    </td>
+                    <td>
+                      <small > {{ListOverAllHc.ContactFirstName}} &nbsp;  {{ListOverAllHc.ContactLastName}} &nbsp; Tel. {{ListOverAllHc.ContactPhone}} </small>
+                      <br>
+                      <small> วันที่แจ้ง {{ListOverAllHc.request_at|add_datetime}} </small>
+                    </td>
+                    <td>
+                      <small>
+                        {% if ListOverAllHc.EreferMemo == '' or ListOverAllHc.EreferMemo == None %}
+                          ไม่ระบุ
+                        {% else %}
+                              {{ListOverAllHc.EreferMemo}}
+                        {% endif %}
+                      </small>
+
+                    </td>
+                    <td class="text-center">
+                      {% if ListOverAllHc.server_status == 'ติดตั้งเรียบร้อย'  %}
+                      <small class="badge badge-success"> {{ListOverAllHc.server_status}} </small>
+                      <br>
+                        {% if ListOverAllHc.testData == 'Yes'  %}
+                        <small class="badge badge-success"> TestData </small>
+                        {% else %}
+                        <small class="badge badge-danger"> TestData </small>
+                        {% endif %}
+
+                        {% if ListOverAllHc.testMq == 'Online'  %}
+                        <small class="badge badge-success"> MQ </small>
+                        {% else %}
+                        <small class="badge badge-danger"> MQ </small>
+                        {% endif %}
+
+                      {% elif  ListOverAllHc.server_status == 'ติดตั้งไม่สำเร็จ' %}
+                      <small class="badge badge-danger"> {{ListOverAllHc.server_status}} </small>
+                      <br>
+                        {% if ListOverAllHc.testData == 'Yes'  %}
+                        <small class="badge badge-success"> TestData </small>
+                        {% else %}
+                        <small class="badge badge-danger"> TestData </small>
+                        {% endif %}
+
+                        {% if ListOverAllHc.testMq == 'Online'  %}
+                        <small class="badge badge-success"> MQ </small>
+                        {% else %}
+                        <small class="badge badge-danger"> MQ </small>
+                        {% endif %}
+
+                      {% else  %}
+                      <small class="badge badge-warning"> {{ListOverAllHc.server_status}} </small>
+                      {% endif %}
+                    </td>
+                    <td class="text-center">
+                      {% if ListOverAllHc.server_status == 'รับเข้าระบบ'  %}
+                      <a class="btn btn-success btn-sm disabled" href="{% url 'profileErefer:install_Erefer' ListOverAllHc.profileserver_id %}">
+                        <i class="fas fa-wrench"></i>
+                      </a>
+                      {% else %}
+                      <a class="btn btn-warning btn-sm" href="{% url 'profileErefer:updateEreferProfile' ListOverAllHc.profileserver_id %}">
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+{% endblock main_content %}

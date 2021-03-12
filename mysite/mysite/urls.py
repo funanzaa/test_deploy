@@ -26,9 +26,10 @@ urlpatterns = [
     path('login/', views.loginPage, name="login"),
     path('logout/', views.logoutUser, name="logout"),
     path('crm/', include('crm.urls')),
-     # profileEreferral
+    # profileEreferral
     path('profileEreferral/', include('profileErefer.urls',namespace='profileErefer')),
-
+    # APIBkkApp
+    path('APIBkkApp/', include('apiCases.urls',namespace='apiCases')),
     # download document
     path('document/', views.document, name="document"),
     # download report center
