@@ -132,7 +132,7 @@
                     <td class="text-center">
                       {% if ListOverAllHc.server_status == 'รับเข้าระบบ'  %}
                       <a class="btn btn-success btn-sm disabled" href="{% url 'profileErefer:install_Erefer' ListOverAllHc.profileserver_id %}">
-                        <i class="fas fa-wrench"></i>
+                        <i class="fas fa-lock"></i>
                       </a>
                       {% else %}
                       <a class="btn btn-warning btn-sm" href="{% url 'profileErefer:updateEreferProfile' ListOverAllHc.profileserver_id %}">

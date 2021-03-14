@@ -32,123 +32,49 @@
                     <th>Case Name</th>
                     <th>Project</th>
                     <th>Hospital</th>
-                    <th>Status</th>
+                    <th>Contact</th>
                     <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>
-                    {% for case in case %}
+                    {% for ListinsertApi in ListinsertApi %}
                   <tr>
                     <td>
                       <a>
-                        {{ case.id}}
+                        {{ ListinsertApi.id}}
                       </a>
                     </td>
                     <td>
-                      <a>
-                        <!-- {{case.name}} -->
-                        <!-- {{ case.date_entered|add_datetime }} -->
-                        {{ case.project_subgroup.name}}
-                          {% if case.priorityCase == '1' %}
-                            <small class="badge badge-warning"> ด่วน </small>
-                          {% elif case.priorityCase == '2' %}
-                             <small class="badge badge-danger"> ด่วนที่สุด </small>
-                          {% endif %}
-                        </a>
-                      
-                      <br>
-                      <small>
-                        <!-- {{ case.date_entered}} -->
-                        
-                        {{case.name}}
-                      </small>
+                     {{ListinsertApi.callback_title}}
+                     <br>
+                     <small>
+                       {{ ListinsertApi.insert_at|add_datetime }}
+                     </small>
                     </td>
                     <td>
-                      {{ case.project_subgroup.project.name }}
+                      {{ListinsertApi.pro_name}}
                       <br>
                       <small>
-                        <!-- {{ case.date_entered}} -->
-                        {{ case.date_entered|add_datetime }}
+                        {{ ListinsertApi.sub_name }}
                       </small>
                     </td>
-                    <td>{{case.hospitals}}
+                    <td class="text-center">
+                      {{ListinsertApi.code}}
                       <br>
-                      <small>                        
-                        {{case.service}} &nbsp;
-                        {% if case.case_pic  %}
-                        <a href="{{ case.case_pic}}">
-                          <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                        </a>
-                      {% endif %}
-                      </small>
+                      <small> {{ListinsertApi.label}} </small>
                     </td>
-                        {% if case.assign == 'yes' and case.status_Case_id == None %}
-                            {% if case.forward_by %}
-                                <td class="text-center">
-
-                                <small class="badge badge-info"> Forward </small> <small> {{case.forward_by|getAssignName}}</small>
-                                <br>             
-                                <small class="badge badge-info"> To </small> <small> {{case.created_by.first_name}}  </small>
-                                      <small> {{case.created_by.first_name}} </small>
-                                <br>
-                                      <small> {{case.forward_at|add_datetime}} </small>
-                                </td>
-                            {% else %}
-                              <td class="text-center">
-                                <small class="badge badge-info"> Assign </small>
-                                <br>             
-                                      <small> {{case.assign_by|getAssignName}} </small>
-                                <br>
-                                      <small> {{case.assign_at|add_datetime}} </small>
-                                </td>
-                            {% endif %}
-                        {% elif case.assign == 'yes' and case.status_Case_id != None %}
-                          {% if case.status_Case.name == 'Pending' %}
-                            <td class="text-center">
-                            <small class="badge badge-warning"> {{case.status_Case.name}} </small>
-                            <br>
-                            <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
-                            </td>
-                          {% elif case.status_Case.name == 'Close' %}
-                            <td class="text-center">
-                              <small class="badge badge-success"> {{case.status_Case.name}} </small>
-                              <br>
-                              <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
-                              <br>
-                              <small>{{case.created_by.first_name}} {{case.created_by.last_name}} </small>
-                              </td>
-                          {% endif %}
-                        {% else %}
-                          <td class="text-center">
-                            <small class="badge badge-danger"> close </small></td>
-                          </td>
-                        {% endif %}
+                    <td>
+                      <small> {{ListinsertApi.callback_name}} </small>
+                      <br>
+                      <small> โทร. {{ListinsertApi.mobile_phone}} </small>
+                    </td>
                     <td class="project-actions text-center">
-                      <a class="btn btn-warning btn-sm" href="{% url 'detail_case' case.id %}">
-                        <i class="fas fa-eye">
+                      <a class="btn btn-success btn-sm" href="#">
+                        <i class="fa fa-check-square">
                         </i>
-                        View
+                        Accept
                       </a>
-                      <!-- {% if case.assign == 'yes' %}
-                        {% if perms.crm.view_case %} 
-                          <a class="btn btn-danger btn-sm" href="{% url 'detail_case' case.id %}" data-toggle="modal" data-target="#modal-default">
-                            <i class="fas fa-paper-plane">
-                            </i>
-                            Assign
-                          </a>
-                        {% endif %}
-                      {% endif %} -->
-                      <a class="btn btn-info btn-sm" href="{% url 'update_case' case.id %}">
-                        <i class="fas fa-pencil-alt">
-                        </i>
-                        Edit
-                      </a>
-                      {% if case.assign != 'yes' %}
-                      <a class="btn btn-danger btn-sm" href="{% url 'delete_case' case.id %}">
-                        <i class="fas fa-trash"></i>
-                        Delete
-                      </a>
-                      {% endif %}
+                    
                     </td>
                   </tr>
                   {% endfor %}

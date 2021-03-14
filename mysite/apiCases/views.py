@@ -30,16 +30,16 @@ def insertAPIBkk(request):
         newCaseApi.mobile_phone = d['record'][i]['MOBILE_PHONE']
         newCaseApi.detail = d['record'][i]['DETAIL']
         newCaseApi.insert_at = datetime.datetime.now(tz=tz)
-        # newCaseApi.save()
-        postStatus2('0AFFIA55')
+        newCaseApi.save()
+        postStatus2(d['record'][i]['CALLBACK_CODE'])
     return HttpResponse("OK")
 
 def ListAPIBkk(request):
-    context = {}
+    context = {
+        "ListinsertApi":ListinsertApi()
+        ,"countNotificationsAPI":countNotificationsAPI()
+        ,"TimeApiInsert":TimeApiInsert()
+        }
     return render(request,'apiCases/ListAPI.html',context)
 
-def PostAPIBkk(request):
-    payload = {'CALLBACK_CODE': '0AFFIA','callback_status' : 2}
-    r = requests.post('https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/update_callback_result/', data=payload)
-    return HttpResponse("Post")
 

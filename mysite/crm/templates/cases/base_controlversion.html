@@ -1,4 +1,5 @@
 {% load static %}
+{% url 'apiCases:ListApiBkk' as path_to_ListApiBkk%}
 <!DOCTYPE html>
 <html>
 
@@ -20,17 +21,21 @@
     <link rel="stylesheet" href="{% static "dist/css/adminlte.min.css" %}">
     <!-- Google Font: Source Sans Pro -->
     <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet"> -->
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,200;0,300;1,200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,200;0,300;1,200&display=swap"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@500&display=swap" rel="stylesheet">
     <style>
         img {
-                vertical-align: middle;
-                border-style: none;
-                border-radius: 50%;
-                display: inline;
-                width: 2.5rem;
-            }
-        body { font-family: 'Sarabun', sans-serif;} 
+            vertical-align: middle;
+            border-style: none;
+            border-radius: 50%;
+            display: inline;
+            width: 2.5rem;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+        }
     </style>
 </head>
 
@@ -48,14 +53,56 @@
                 </li>
                 {% if perms.crm.add_case %}
                 <li class="nav-item d-none d-sm-inline-block">
-                  <a href="{% url 'report' %}" class="nav-link">Report</a>
+                    <a href="{% url 'report' %}" class="nav-link">Report</a>
                 </li>
                 {% endif %}
             </ul>
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                <li class="breadcrumb-item"><a class="btn btn-block btn-outline-danger" href="/logout/"><i
-                            class="fas fa-sign-out-alt"></i></a></li>
+                <!-- Messages Dropdown Menu APi -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="far fa-bell"></i>
+                        <span class="badge badge-warning navbar-badge">{{countNotificationsAPI}}</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+                        <!-- <span class="dropdown-item dropdown-header">15 Notifications</span> -->
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ path_to_ListApiBkk }}" class="dropdown-item">
+                            <i class="fas fa-envelope mr-2"></i> {{ countNotificationsAPI }} new case API
+                            <span class="float-right text-muted text-sm">
+                                {% for TimeApiInsert in TimeApiInsert %}
+                                  {% if TimeApiInsert.timehour != '0' %}
+                                  {{TimeApiInsert.timehour}}h
+                                  {% endif %}
+                                  {% if TimeApiInsert.timeminute != '0' %}
+                                  {{TimeApiInsert.timeminute}}Min
+                                  {% endif %}
+                                  {{TimeApiInsert.timesecond}}Sec.
+                                {% endfor %}
+                            </span>
+                        </a>
+                        <!-- <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-users mr-2"></i> 8 friend requests
+                            <span class="float-right text-muted text-sm">12 hours</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-file mr-2"></i> 3 new reports
+                            <span class="float-right text-muted text-sm">2 days</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> -->
+                    </div>
+                </li>
+                <!-- End Messages Dropdown Menu APi -->
+                <li class="breadcrumb-item">
+                    <a class="btn btn-block btn-outline-danger" href="/logout/">
+                        <i class="fas fa-sign-out-alt"></i>
+                        
+                    </a>
+                </li>
             </ul>
         </nav>
         {% include 'cases/sidebar.html'%}
@@ -110,24 +157,26 @@
         });
     </script>
     <script>
-        setTimeout(function() {
-          if ($('#msg').length > 0) {
-            $('#msg').remove();
-          }
+        setTimeout(function () {
+            if ($('#msg').length > 0) {
+                $('#msg').remove();
+            }
         }, 2000)
-      </script>
-      <!-- LockCase -->
+    </script>
+    <!-- LockCase -->
     <script>
-        function lockCase(id){
+        function lockCase(id) {
             $.ajax({
                 url: "{% url 'profileErefer:check_case_lock'%}",
                 type: "get",
-                data:{ ProfileServer_id : id },
-                success:function(data){
+                data: {
+                    ProfileServer_id: id
+                },
+                success: function (data) {
                     console.log(data)
                 }
             })
-        window.location.reload();
+            window.location.reload();
         }
     </script>
 </body>

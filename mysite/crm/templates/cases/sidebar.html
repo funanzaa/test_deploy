@@ -1,6 +1,5 @@
 {% load static %}
 {% url 'profileErefer:SetupErefer' as path_to_SetupErefer%}
-{% url 'apiCases:ListApiBkk' as path_to_ListApiBkk%}
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -25,7 +24,7 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-header">Cases</li>
+          <!-- <li class="nav-header">Cases</li> -->
           <li class="nav-item">
             <a href="{% url 'viewcase' %}" class="nav-link">
               <i class="nav-icon far fa-address-book"></i>
@@ -34,14 +33,14 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="{{ path_to_ListApiBkk }}" class="nav-link">
               <i class="nav-icon fas fa-bullhorn"></i>
               <p>
                 API Cases
               </p>
             </a>
-          </li>
+          </li> -->
           {% if perms.crm.add_case %}
           <li class="nav-header">Other</li>
           <li class="nav-item">
