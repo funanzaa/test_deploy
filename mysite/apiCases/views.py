@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import *
+from crm.models import Case
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -41,5 +42,33 @@ def ListAPIBkk(request):
         ,"TimeApiInsert":TimeApiInsert()
         }
     return render(request,'apiCases/ListAPI.html',context)
+
+def createCaseApi(request):
+    if request.method == 'GET':
+        try:
+            tz = pytz.timezone('Asia/Bangkok')
+            caseName = request.GET["caseName"]
+            subgroupID = request.GET["subgroupID"]
+            hosID = request.GET["hosID"]
+            apiID = request.GET["apiID"]
+            newCase = Case()
+            newCase.name = caseName
+            newCase.project_subgroup_id = subgroupID
+            newCase.created_by_id = request.user.id
+            newCase.service_id = 1
+            newCase.date_entered = datetime.datetime.now(tz=tz)
+            newCase.hospitals_id = int(hosID)
+            newCase.apiCases_id = apiID
+            # print(type(apiID))
+            newCase.save()
+            updateApi = ApiAppNhsoBkk.objects.get(id=int(apiID))
+            updateApi.case_locking = '1'
+            updateApi.case_staff_lock = request.user.id
+            updateApi.case_lock_date_time = datetime.datetime.now(tz=tz)
+            updateApi.save()
+        except:
+            print("error")
+
+    return HttpResponse("ok")
 
 

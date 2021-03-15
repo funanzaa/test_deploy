@@ -97,6 +97,9 @@ class Case(models.Model):
     solution = models.CharField(max_length=255) #add
     forward_at = models.DateTimeField(null=True, blank=True) #add
     priorityCase = models.CharField(max_length=255, default='') #add
+    apiCases_id = models.CharField(max_length=255,null=True)
+
+    
     
 
 

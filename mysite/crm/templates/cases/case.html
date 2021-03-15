@@ -21,6 +21,10 @@
                     <span class="badge badge-warning navbar-badge">{{countAssigns}}</span>
                     <i class="fas fa-paper-plane"></i> Assign
                   </a>
+                  <a class="btn btn-app"  href="{% url 'viewCaseApi-page' %}">
+                    <span class="badge badge-success navbar-badge">{{ countCaseApi }}</span>
+                    <i class="fas fa-cloud-download-alt"></i> API
+                  </a>
                   {% endif %}
                   <a class="btn btn-app" href="{% url 'monitorAssignCase' %}">
                     <i class="fas fa-desktop"></i>Monitor

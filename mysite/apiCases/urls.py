@@ -6,5 +6,5 @@ app_name = 'apiCases'
 urlpatterns = [
      path('insert/',insertAPIBkk, name= 'insert'),
      path('ListAPIBkk/',ListAPIBkk, name= 'ListApiBkk'),
-     # path('PostAPIBkk/',PostAPIBkk, name= 'PostApiBkk'),
+     path('createCaseApi/',createCaseApi, name= 'createCaseApi'),
 ]

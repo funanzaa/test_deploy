@@ -58,15 +58,17 @@
                             <a href="{{ path_to_ListApiBkk }}" class="dropdown-item">
                                 <i class="fas fa-envelope mr-2"></i> {{countNotificationsAPI}} new case API
                                 <span class="float-right text-muted text-sm">
-                                  {% for TimeApiInsert in TimeApiInsert %}
-                                    {% if TimeApiInsert.timehour != '0' %}
-                                    {{TimeApiInsert.timehour}}h
-                                    {% endif %}
-                                    {% if TimeApiInsert.timeminute != '0' %}
-                                    {{TimeApiInsert.timeminute}}Min
-                                    {% endif %}
-                                    {{TimeApiInsert.timesecond}}Sec.
-                                  {% endfor %}
+                                  {% if countNotificationsAPI == '0' %}
+                                    {% for TimeApiInsert in TimeApiInsert %}
+                                      {% if TimeApiInsert.timehour != '0' %}
+                                      {{TimeApiInsert.timehour}}h
+                                      {% endif %}
+                                      {% if TimeApiInsert.timeminute != '0' %}
+                                      {{TimeApiInsert.timeminute}}Min
+                                      {% endif %}
+                                      {{TimeApiInsert.timesecond}}Sec.
+                                    {% endfor %}
+                                  {% endif %}
                               </span>
                             </a>
                             <!-- <div class="dropdown-divider"></div>

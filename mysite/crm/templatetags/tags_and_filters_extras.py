@@ -81,3 +81,32 @@ def calAssingCase(number):
         now = (datetime.datetime.now(tz=tz))
         count_case_total = Case.objects.filter(date_entered__month=now.month).count()
         return round((number*100)/count_case_total)
+
+@register.filter
+def checkApiNoneCaseName(number):
+    if number == None :
+        return 'ไม่ระบุ'
+    elif number == '':
+        return 'ไม่ระบุ'
+    else:
+        return number
+
+
+
+@register.filter
+def checkApiNoneSubID(number):
+    if number == None :
+        return 0
+    elif number == '':
+        return 0
+    else:
+        return number
+
+@register.filter
+def checkApiNoneHosID(number):
+    if number == None :
+        return 0
+    elif number == '':
+        return 0
+    else:
+        return number

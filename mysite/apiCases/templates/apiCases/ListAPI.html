@@ -69,9 +69,7 @@
                       <small> โทร. {{ListinsertApi.mobile_phone}} </small>
                     </td>
                     <td class="project-actions text-center">
-                      <a class="btn btn-success btn-sm" href="#">
-                        <i class="fa fa-check-square">
-                        </i>
+                      <a class="btn btn-success btn-sm" href="{% url 'viewCaseApi-page' %}" onclick="lockCaseApi('{{ListinsertApi.callback_title|checkApiNoneCaseName}}',{{ListinsertApi.sub_id|checkApiNoneSubID}},{{ListinsertApi.hos_id|checkApiNoneHosID}},{{ListinsertApi.id}})">
                         Accept
                       </a>
                     

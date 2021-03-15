@@ -12,7 +12,7 @@ import json
 def ListinsertApi():
     with connection.cursor() as cursor:
         query="""
-        select cps.* as sub_name,api.*,hos.code , hos."label"
+        select cps.* as sub_name,api.*,hos.code , hos."label",hos.id as hos_id
         from (
                 select crm_project_subgroup.id as sub_id ,crm_project_subgroup.name as sub_name ,crm_project.name  as pro_name
                 from crm_project_subgroup 

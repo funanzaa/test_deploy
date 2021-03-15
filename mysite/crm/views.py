@@ -426,6 +426,31 @@ def deleteCase(request, pk):
     return render(request, 'cases/delete.html', context)
 
 
+def viewCaseApi(request):
+    tz = pytz.timezone('Asia/Bangkok')
+    now = (datetime.datetime.now(tz=tz))
+    user = User.objects.all()
+    current_user = request.user.id
+    # case = Case.objects.filter(created_by=current_user)
+    # if len(str(now)[5:7]) == 2:
+        # case = Case.objects.filter(created_by=current_user)
+        # case = Case.objects.filter(date_entered__month=str(now)[5:7], created_by=current_user, date_entered__year=str(now)[:4])
+    # else:
+        # case = Case.objects.filter(created_by=current_user)
+        # case  = Case.objects.filter(date_entered__month=str(now)[6:7], created_by=current_user, date_entered__year=str(now)[:4])
+
+    countAssignSend = Case.objects.filter(assign_by=str(current_user)).count()
+    countAssignForward = Case.objects.filter(forward_by=str(current_user)).count()
+    countAssign = countAssignSend + countAssignForward
+    context = {
+    'case': detailCaseApi(request.user.id),'users':user,'countAssigns': countAssign
+    ,"count_RequestErefer": countRequestErefer()
+    ,"countNotificationsAPI": countNotificationsAPI()
+    ,"TimeApiInsert":TimeApiInsert()
+    ,"countCaseApi":countCaseApi(current_user)
+    }
+    return render(request, 'cases/viewCaseApi.html', context)
+
 @login_required(login_url='login')
 def hospital(request):
     hospital_list = Hospitals.objects.all().order_by('code')
@@ -574,19 +599,23 @@ def viewCase(request):
     now = (datetime.datetime.now(tz=tz))
     user = User.objects.all()
     current_user = request.user.id
-    print(current_user)
     # case = Case.objects.filter(created_by=current_user)
     if len(str(now)[5:7]) == 2:
         # case = Case.objects.filter(created_by=current_user)
-        case = Case.objects.filter(date_entered__month=str(now)[5:7], created_by=current_user, date_entered__year=str(now)[:4])
+        case = Case.objects.filter(date_entered__month=str(now)[5:7], created_by=current_user, date_entered__year=str(now)[:4],apiCases_id=None)
     else:
         # case = Case.objects.filter(created_by=current_user)
-        case  = Case.objects.filter(date_entered__month=str(now)[6:7], created_by=current_user, date_entered__year=str(now)[:4])
+        case  = Case.objects.filter(date_entered__month=str(now)[6:7], created_by=current_user, date_entered__year=str(now)[:4],apiCases_id=None)
 
     countAssignSend = Case.objects.filter(assign_by=str(current_user)).count()
     countAssignForward = Case.objects.filter(forward_by=str(current_user)).count()
     countAssign = countAssignSend + countAssignForward
-    context = {'case': case,'users':user,'countAssigns': countAssign,"count_RequestErefer": countRequestErefer()}
+    # print(TimeApiInsert())
+    context = {'case': case,'users':user,'countAssigns': countAssign
+    ,"count_RequestErefer": countRequestErefer()
+    ,"countNotificationsAPI": countNotificationsAPI()
+    ,"TimeApiInsert":TimeApiInsert(),"countCaseApi":countCaseApi(current_user)
+    }
     return render(request, 'cases/case.html', context)
 
 @login_required(login_url='login')

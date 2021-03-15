@@ -170,3 +170,53 @@ def TimeApiInsert():
                 i = i+1
             resultsList.append(d)
         return resultsList
+
+
+def detailCaseApi(id):
+    with connection.cursor() as cursor:
+        query= """
+        select cc.*
+        ,api.id as api_id, api.callback_id, api.callback_code, api.callback_title, api.callback_group_id
+        , api.callback_subgroup_id, api.callback_tag, api.staff_id, api.profile
+        , api.callback_name, api.mobile_phone, api.detail, api.insert_at, api.case_locking
+        , api.case_lock_date_time, api.case_staff_lock,cps.*,hos.code as hos_code ,hos."label" as hos_name
+        from crm_case cc 
+        inner join "apiCases_apiappnhsobkk" api on api.id = cc."apiCases_id"::int
+        inner join (
+                    select crm_project_subgroup.id as sub_id ,crm_project_subgroup.name as sub_name ,crm_project.name  as pro_name
+                    from crm_project_subgroup 
+                    inner join crm_project on crm_project.id = crm_project_subgroup.project_id 
+        ) cps on cps.sub_id = cc.project_subgroup_id 
+        inner join crm_hospitals hos on hos.id = cc.hospitals_id 
+        where cc.created_by_id = %(_id)s
+        """
+        cursor.execute(query, {'_id': id})
+        results = cursor.fetchall()
+        x = cursor.description
+        resultsList = []  
+        for r in results:
+            i = 0
+            d = {}
+            while i < len(x):
+                d[x[i][0]] = r[i]
+                i = i+1
+            resultsList.append(d)
+        return resultsList
+
+def countCaseApi(id):
+    with connection.cursor() as cursor:
+        query= """
+        select count(cc.id)
+        from crm_case cc 
+        inner join "apiCases_apiappnhsobkk" api on api.id = cc."apiCases_id"::int
+        inner join (
+                    select crm_project_subgroup.id as sub_id ,crm_project_subgroup.name as sub_name ,crm_project.name  as pro_name
+                    from crm_project_subgroup 
+                    inner join crm_project on crm_project.id = crm_project_subgroup.project_id 
+        ) cps on cps.sub_id = cc.project_subgroup_id 
+        inner join crm_hospitals hos on hos.id = cc.hospitals_id 
+        where cc.created_by_id = %(_id)s
+        """
+        cursor.execute(query, {'_id': id})
+        result = cursor.fetchone()
+        return result[0]
