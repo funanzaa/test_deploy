@@ -43,6 +43,7 @@ def ListAPIBkk(request):
         }
     return render(request,'apiCases/ListAPI.html',context)
 
+@login_required(login_url='login')
 def createCaseApi(request):
     if request.method == 'GET':
         try:
@@ -67,8 +68,7 @@ def createCaseApi(request):
             updateApi.case_lock_date_time = datetime.datetime.now(tz=tz)
             updateApi.save()
         except:
-            print("error")
-
+            pass
     return HttpResponse("ok")
 
 

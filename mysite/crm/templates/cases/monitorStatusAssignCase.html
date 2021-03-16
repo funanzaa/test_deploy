@@ -88,7 +88,7 @@
                       {% endif %}
                       </small>
                     </td>
-                        {% if case.assign == 'yes' and case.status_Case_id == None %}
+                        {% if case.assign == 'yes' and case.status_Case_id == 6 %}
                             {% if case.forward_by %}
                                 <td class="text-center">
 
@@ -142,12 +142,12 @@
                           Edit 
                         </a>
                       {% endif %}     
-                        {% if case.assign != 'yes' %}
-                        <a class="btn btn-danger btn-sm" href="{% url 'delete_case' case.id %}">
+                         <!-- {% if case.assign != 'yes' %} -->
+                        <!-- <a class="btn btn-danger btn-sm" href="{% url 'delete_case' case.id %}">
                           <i class="fas fa-trash"></i>
                           Delete
-                        </a>
-                        {% endif %}                     
+                        </a> -->
+                        <!-- {% endif %}  -->
                     </td>
                   </tr>
                   {% endfor %}

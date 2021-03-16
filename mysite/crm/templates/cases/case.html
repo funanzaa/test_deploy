@@ -22,7 +22,7 @@
                     <i class="fas fa-paper-plane"></i> Assign
                   </a>
                   <a class="btn btn-app"  href="{% url 'viewCaseApi-page' %}">
-                    <span class="badge badge-success navbar-badge">{{ countCaseApi }}</span>
+                    <span class="badge badge-danger navbar-badge">{{ countCaseApi }}</span>
                     <i class="fas fa-cloud-download-alt"></i> API
                   </a>
                   {% endif %}
@@ -61,6 +61,11 @@
                             <small class="badge badge-warning"> ด่วน </small>
                           {% elif case.priorityCase == '2' %}
                              <small class="badge badge-danger"> ด่วนที่สุด </small>
+                          {% elif case.apiCases_id != None %}
+                          <small class="badge badge-danger"> ด่วนที่สุด </small>
+                          {% endif %}
+                          {% if case.apiCases_id != None %}
+                          <small class="badge badge-primary"> API </small>
                           {% endif %}
                         </a>
                       
@@ -111,21 +116,29 @@
                                 </td>
                             {% endif %}
                         {% elif case.assign == 'yes' and case.status_Case_id != None %}
-                          {% if case.status_Case.name == 'Pending' %}
-                            <td class="text-center">
-                            <small class="badge badge-warning"> {{case.status_Case.name}} </small>
-                            <br>
-                            <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
-                            </td>
-                          {% elif case.status_Case.name == 'Close' %}
-                            <td class="text-center">
-                              <small class="badge badge-success"> {{case.status_Case.name}} </small>
+                            {% if case.status_Case.name == 'Pending' %}
+                              <td class="text-center">
+                              <small class="badge badge-warning"> {{case.status_Case.name}} </small>
                               <br>
                               <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
-                              <br>
-                              <small>{{case.created_by.first_name}} {{case.created_by.last_name}} </small>
                               </td>
-                          {% endif %}
+                            {% elif case.status_Case.name == 'Close' %}
+                              <td class="text-center">
+                                <small class="badge badge-success"> {{case.status_Case.name}} </small>
+                                <br>
+                                <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
+                                <br>
+                                <small>{{case.created_by.first_name}} {{case.created_by.last_name}} </small>
+                                </td>
+                              {% elif case.status_Case.name == 'Assign' %}
+                              <td class="text-center">
+                                <small class="badge badge-info"> {{case.status_Case.name}} </small>
+                                <br>
+                                <small> {{case.assign_at|add_datetime}} </small>
+                                <br>
+                                <small>{{case.assign_by|getAssignName}}</small>
+                                </td>
+                            {% endif %}
                         {% else %}
                           <td class="text-center">
                             <small class="badge badge-danger"> close </small></td>
@@ -137,15 +150,6 @@
                         </i>
                         View
                       </a>
-                      <!-- {% if case.assign == 'yes' %}
-                        {% if perms.crm.view_case %} 
-                          <a class="btn btn-danger btn-sm" href="{% url 'detail_case' case.id %}" data-toggle="modal" data-target="#modal-default">
-                            <i class="fas fa-paper-plane">
-                            </i>
-                            Assign
-                          </a>
-                        {% endif %}
-                      {% endif %} -->
                       <a class="btn btn-info btn-sm" href="{% url 'update_case' case.id %}">
                         <i class="fas fa-pencil-alt">
                         </i>

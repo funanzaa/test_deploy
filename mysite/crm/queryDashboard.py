@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from .models import *
 import datetime
 import pytz
+import json
+import requests
 
 def queryProjectAll(project,month):
     with connection.cursor() as cursor:
@@ -216,7 +218,30 @@ def countCaseApi(id):
         ) cps on cps.sub_id = cc.project_subgroup_id 
         inner join crm_hospitals hos on hos.id = cc.hospitals_id 
         where cc.created_by_id = %(_id)s
+        and cc."status_Case_id" is null
         """
+        cursor.execute(query, {'_id': id})
+        result = cursor.fetchone()
+        return result[0]
+
+def postStatus3(CALLBACK_CODE,callback_reply,staff,date):
+    data = { "callback_status" : 3,
+            "callback_reply" : callback_reply,
+            "callback_by" : staff,
+            "callback_date": date
+            }
+    json_object = json.dumps(data) 
+    url = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/update_callback_result/{}'.format(CALLBACK_CODE)
+    r = requests.post(url, data=json_object)
+    print(r.text)
+
+def getNameLastName(id):
+    with connection.cursor() as cursor:
+        query= """
+            select au.first_name || ' ' || au.last_name  as staff_name
+            from auth_user au 
+            where id = %(_id)s
+            """
         cursor.execute(query, {'_id': id})
         result = cursor.fetchone()
         return result[0]

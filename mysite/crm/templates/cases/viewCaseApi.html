@@ -21,7 +21,7 @@
               <i class="fas fa-paper-plane"></i> Assign
             </a>
             <a class="btn btn-app" href="{% url 'viewCaseApi-page' %}">
-              <span class="badge badge-success navbar-badge">{{ countCaseApi }}</span>
+              <span class="badge badge-danger navbar-badge">{{ countCaseApi }}</span>
               <i class="fas fa-cloud-download-alt"></i> API
             </a>
             {% endif %}
@@ -57,9 +57,10 @@
                     </a>
                     <br>
                     <small>
-                      {{ case.callback_name }} 
-                      <small  class="badge badge-info"> โทร.</small> {{ case.mobile_phone }}
+                      {{ case.detail }}
                     </small>
+                    <br>
+                      <small class="badge badge-info">{{ case.callback_name }} โทร. {{ case.mobile_phone }} </small>
                   </td>
                   <td>
                     {{ case.pro_name}}
@@ -76,7 +77,15 @@
                     </small>
                   </td>
                   <td class="text-center">
-                    <small class="badge badge-danger"> close </small>
+                    {% if case.status_Case_id == None %}
+                      <small class="badge badge-danger"> เข้าระบบ </small>
+
+                    {% elif case.status_Case_id == 1 %}
+                      <small class="badge badge-success"> Close </small>
+
+                    {% elif case.status_Case_id == 5 %}
+                      <small class="badge badge-warning"> Pending </small>
+                    {% endif %}
                   </td>
                   <td class="project-actions text-center">
                     <!-- <a class="btn btn-warning btn-sm" href="{% url 'detail_case' case.id %}">
@@ -93,7 +102,7 @@
                           </a>
                         {% endif %}
                       {% endif %} -->
-                    <a class="btn btn-success btn-sm" href="{% url 'update_case' case.id %}">
+                    <a class="btn btn-success btn-sm" href="{% url 'updateCaseApi' case.id %}">
                       <i class="fas fa-pencil-alt">
                       </i>
                       Edit

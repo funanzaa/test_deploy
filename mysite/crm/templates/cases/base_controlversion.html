@@ -61,13 +61,17 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Messages Dropdown Menu APi -->
                 <li class="nav-item dropdown">
+                    {% if perms.crm.add_case %}
                     <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                         <i class="far fa-bell"></i>
                         <span class="badge badge-warning navbar-badge">{{countNotificationsAPI}}</span>
                     </a>
+                    {% endif %}
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
                         <!-- <span class="dropdown-item dropdown-header">15 Notifications</span> -->
                         <div class="dropdown-divider"></div>
+                        
+                       
                         <a href="{{ path_to_ListApiBkk }}" class="dropdown-item">
                             <i class="fas fa-envelope mr-2"></i> {{ countNotificationsAPI }} new case API
                             <span class="float-right text-muted text-sm">
@@ -196,8 +200,9 @@
                     console.log(data)
                 }
             })
+            // window.location.reload();
         }
-        
+
     </script>
 </body>
 

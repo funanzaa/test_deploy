@@ -22,8 +22,10 @@ from .decorators import allowed_users , admin_only
 # from django.contrib.auth.models import Group
 from django.db.models import Q
 from django.core.files.storage import default_storage # delete file
-
+from apiCases.models import *
 from .queryDashboard import *
+
+
 
 
 @login_required(login_url='login')
@@ -280,7 +282,6 @@ def updateCase(request, pk):
                 updateCase.name = case_name
                 updateCase.project_subgroup_id = project_subgroup
                 updateCase.created_by_id = staff
-                updateCase.forward_by = request.user.id # forward by
                 updateCase.resolution = resolution
                 updateCase.service_id = service
                 updateCase.update_at = datetime.datetime.now(tz=tz)
@@ -413,6 +414,8 @@ def updateCase(request, pk):
     context = {'case': case, "projects": project, "subgroups": subgroup,
                "services": service, "hospitals": hospital,"statusCases":statusCase,"staffs":staff}
     return render(request, 'cases/update_case.html', context)
+
+
 
 
 @login_required(login_url='login')
@@ -602,10 +605,10 @@ def viewCase(request):
     # case = Case.objects.filter(created_by=current_user)
     if len(str(now)[5:7]) == 2:
         # case = Case.objects.filter(created_by=current_user)
-        case = Case.objects.filter(date_entered__month=str(now)[5:7], created_by=current_user, date_entered__year=str(now)[:4],apiCases_id=None)
+        case = Case.objects.filter(date_entered__month=str(now)[5:7], created_by=current_user, date_entered__year=str(now)[:4]) 
     else:
         # case = Case.objects.filter(created_by=current_user)
-        case  = Case.objects.filter(date_entered__month=str(now)[6:7], created_by=current_user, date_entered__year=str(now)[:4],apiCases_id=None)
+        case  = Case.objects.filter(date_entered__month=str(now)[6:7], created_by=current_user, date_entered__year=str(now)[:4])
 
     countAssignSend = Case.objects.filter(assign_by=str(current_user)).count()
     countAssignForward = Case.objects.filter(forward_by=str(current_user)).count()
@@ -956,15 +959,15 @@ def AssignMonitor(request):
         select ROW_NUMBER () OVER (ORDER BY auth_user.first_name) as rowNumber
         ,auth_user.id as userId
         ,auth_user.first_name,auth_user.last_name
-        ,sum(case when crm_case."status_Case_id" is null then 1 else 0 end) as status_assign
-        ,(((sum(case when crm_case."status_Case_id" is null then 1 else 0 end)) * 100 )::real / (sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)))::numeric(5,2)as percent_status_assign
+        ,sum(case when (crm_case."status_Case_id" is null or crm_case."status_Case_id" = 6 ) then 1 else 0 end) as status_assign
+        ,(((sum(case when (crm_case."status_Case_id" is null or crm_case."status_Case_id" = 6 ) then 1 else 0 end)) * 100 )::real / (sum(case when (crm_case."status_Case_id" is null or crm_case."status_Case_id" = 6 ) then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)))::numeric(5,2)as percent_status_assign
         ,sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) as status_close
         ,((sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) * 100 )::real / (sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)))::numeric(5,2) as percent_status_close
         ,sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end) as status_pending
         ,((sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)*100)::real / (sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)))::numeric(5,2) as percent_status_pending
         ,(sum(case when crm_case."status_Case_id" is null then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 1 then 1 else 0 end) + sum(case when crm_case."status_Case_id" = 5 then 1 else 0 end)) as total_case
-        ,sum(case when (crm_case."status_Case_id" is null and crm_case."priorityCase" = '1'  ) then 1 else 0 end) as check_urgent
-        ,sum(case when (crm_case."status_Case_id" is null and crm_case."priorityCase" = '2'  ) then 1 else 0 end) as check_very_urgent
+        ,sum(case when ((crm_case."status_Case_id" is null or crm_case."status_Case_id" = 6 ) and crm_case."priorityCase" = '1'  ) then 1 else 0 end) as check_urgent
+        ,sum(case when ((crm_case."status_Case_id" is null or crm_case."status_Case_id" = 6 ) and crm_case."priorityCase" = '2'  ) then 1 else 0 end) as check_very_urgent
         ,sum(case when (crm_case."status_Case_id" = 5 and crm_case."priorityCase" = '1'  ) then 1 else 0 end) as check_status_pending_urgent
         ,sum(case when (crm_case."status_Case_id" = 5 and crm_case."priorityCase" = '2'  ) then 1 else 0 end) as check_status_pending_very_urgent
         from crm_case
@@ -990,7 +993,7 @@ def AssignMonitor(request):
 
 @login_required(login_url='login')
 def monitorStatusAssignCase(request,pk):
-    case = Case.objects.filter(created_by=int(pk)).filter(status_Case_id=None)
+    case = Case.objects.filter(created_by=int(pk)).filter(status_Case_id=None) | Case.objects.filter(created_by=int(pk)).filter(status_Case_id=6)
     context = {'case': case}
     return render(request, 'cases/monitorStatusAssignCase.html', context)
 
@@ -1007,3 +1010,107 @@ def monitorStatusCloseCase(request,pk):
     return render(request, 'cases/monitorStatusCloseCase.html', context)
 
 # End  Monitor Case
+
+# update Case Api
+def updateCaseApi(request,pk):
+    case = Case.objects.get(id=pk)
+    project = Project.objects.all()
+    subgroup = Project_subgroup.objects.all()
+    service = Service.objects.all()
+    hospital = Hospitals.objects.all()
+    statusCase = StatusCase.objects.all()
+    staff  = User.objects.filter(~Q(id = request.user.id )).filter(~Q(username = 'admin' )).filter(~Q(is_active = False ))
+    if request.method == "POST":
+        chkAssign = request.POST.get("chkAssign")
+        status_assign = request.POST.get("status_assign")
+        print(request.POST.get("chkAssign"))
+        # print(status_assign)
+        if chkAssign == 'yes': # case forward
+            tz = pytz.timezone('Asia/Bangkok')
+            case_name = request.POST.get("name")
+            project_subgroup = request.POST.get("localityUpdate")
+            resolution = request.POST.get("resolution")
+            service = request.POST.get("service")
+            hosptial = request.POST.get("hospital")
+            statusCase = request.POST.get("statusCase")
+            staff   = request.POST.get("locality-assign")
+            priority   = request.POST.get("priority")
+            updateCase = Case.objects.get(id=pk)
+            updateCase.name = case_name 
+            updateCase.project_subgroup_id = project_subgroup 
+            updateCase.created_by_id = staff 
+            updateCase.resolution = resolution 
+            updateCase.service_id = service 
+            updateCase.assign = 'yes' 
+            updateCase.date_entered = datetime.datetime.now(tz=tz) 
+            updateCase.hospitals_id = hosptial 
+            updateCase.status_Case_id = 6 # status assign
+            updateCase.assign_by = request.user.id 
+            updateCase.assign_at = datetime.datetime.now(tz=tz) 
+            updateCase.priorityCase = priority 
+            # print("yes")
+            updateCase.save()
+            messages.success(request, 'Your case is updated successfully!')
+            return HttpResponseRedirect(reverse_lazy('viewCaseApi-page'))
+        # elif status_assign == 'yes':
+        #     tz = pytz.timezone('Asia/Bangkok')
+        #     case_name = request.POST.get("name")
+        #     project_subgroup = request.POST.get("localityUpdate")
+
+        #     _resolution = request.POST.get("solution")
+        #     _solution = request.POST.get("ass_resolution")
+
+        #     service = request.POST.get("service")
+        #     hosptial = request.POST.get("hospital")
+        #     statusCase = request.POST.get("statusCase")
+        #     request_id = request.user.id
+        #     updateCase = Case.objects.get(id=pk)
+        #     updateCase.name = case_name
+        #     updateCase.project_subgroup_id = project_subgroup
+        #     updateCase.created_by_id = request.user.id
+
+        #     updateCase.resolution = _resolution
+        #     updateCase.solution= _solution
+
+        #     updateCase.service_id = service
+        #     updateCase.update_at = datetime.datetime.now(tz=tz)
+        #     updateCase.hospitals_id = hosptial
+        #     updateCase.status_Case_id = statusCase
+        #     updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
+        #     # updateCase.save()
+        #     messages.success(request, 'Your case is updated successfully!')
+        #     return HttpResponseRedirect(reverse_lazy('viewCaseApi-page'))
+        else:
+            tz = pytz.timezone('Asia/Bangkok')
+            case_name = request.POST.get("name")
+            project_subgroup = request.POST.get("localityUpdate")
+            # resolution = request.POST.get("solution")
+            resolution = request.POST.get("resolution")
+            service = request.POST.get("service")
+            hosptial = request.POST.get("hospital")
+            # statusCase = request.POST.get("statusCase")
+            updateCase = Case.objects.get(id=pk)
+            updateCase.name = case_name
+            updateCase.project_subgroup_id = project_subgroup
+            updateCase.created_by_id = request.user.id
+            updateCase.resolution = resolution
+            updateCase.service_id = service
+            updateCase.update_at = datetime.datetime.now(tz=tz)
+            updateCase.hospitals_id = hosptial
+            updateCase.status_Case_id = 1
+            updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
+            id_api = int(updateCase.apiCases_id)
+            apiCode = ApiAppNhsoBkk.objects.get(id=id_api)
+            x =datetime.datetime.now(tz=tz)
+            staffName = getNameLastName(request.user.id)
+            time_date = x.strftime("%Y%m%d%H%M%S")
+            # yyyy mm dd hh 24 mi ss
+            # 2021 02 05 15 30 01 01
+            postStatus3(apiCode.callback_code,resolution,staffName,time_date)
+            updateCase.save()
+            messages.success(request, 'Your case is updated successfully!')
+            return HttpResponseRedirect(reverse_lazy('viewCaseApi-page'))
+    context = {'case': case, "projects": project, "subgroups": subgroup,
+               "services": service, "hospitals": hospital,"statusCases":statusCase,"staffs":staff}
+    return render(request, 'cases/update_case_api.html', context)
+    

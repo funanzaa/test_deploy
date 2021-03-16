@@ -48,7 +48,7 @@
                      {{ListinsertApi.callback_title}}
                      <br>
                      <small>
-                       {{ ListinsertApi.insert_at|add_datetime }}
+                       {{ ListinsertApi.detail }}
                      </small>
                     </td>
                     <td>
@@ -66,12 +66,17 @@
                     <td>
                       <small> {{ListinsertApi.callback_name}} </small>
                       <br>
-                      <small> โทร. {{ListinsertApi.mobile_phone}} </small>
+                      <small> โทร. {{ListinsertApi.mobile_phone}} </small> 
+                      <br>
+                      <small> {{ ListinsertApi.insert_at|add_datetime }} </small> 
                     </td>
                     <td class="project-actions text-center">
-                      <a class="btn btn-success btn-sm" href="{% url 'viewCaseApi-page' %}" onclick="lockCaseApi('{{ListinsertApi.callback_title|checkApiNoneCaseName}}',{{ListinsertApi.sub_id|checkApiNoneSubID}},{{ListinsertApi.hos_id|checkApiNoneHosID}},{{ListinsertApi.id}})">
+                      <a class="btn btn-success btn-sm" href="{% url 'viewCaseApi-page' %}" onclick="lockCaseApi('{{ListinsertApi.callback_title}}',{{ListinsertApi.sub_id}},{{ListinsertApi.hos_id}},{{ListinsertApi.id}})">
                         Accept
                       </a>
+                      <!-- <button class="btn btn-success btn-sm" onclick="lockCaseApi('{{ListinsertApi.callback_title}}',{{ListinsertApi.sub_id}},{{ListinsertApi.hos_id}},{{ListinsertApi.id}})"> 
+                        Accept
+                     </button>  -->
                     
                     </td>
                   </tr>

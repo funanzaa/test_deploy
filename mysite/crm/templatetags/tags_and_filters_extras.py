@@ -3,6 +3,7 @@ from datetime import timedelta
 import pytz
 from django import template
 from ..models import Case
+from apiCases.models import *
 from django.contrib.auth.models import User
 register = template.Library()
 
@@ -83,30 +84,9 @@ def calAssingCase(number):
         return round((number*100)/count_case_total)
 
 @register.filter
-def checkApiNoneCaseName(number):
-    if number == None :
-        return 'ไม่ระบุ'
-    elif number == '':
-        return 'ไม่ระบุ'
+def getDetailCaseApi(id=None):
+    if id == None :
+        return "Not Data"
     else:
-        return number
-
-
-
-@register.filter
-def checkApiNoneSubID(number):
-    if number == None :
-        return 0
-    elif number == '':
-        return 0
-    else:
-        return number
-
-@register.filter
-def checkApiNoneHosID(number):
-    if number == None :
-        return 0
-    elif number == '':
-        return 0
-    else:
-        return number
+        NameDetail = ApiAppNhsoBkk.objects.get(id=int(id))
+        return NameDetail.detail

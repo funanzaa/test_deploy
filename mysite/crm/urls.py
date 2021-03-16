@@ -10,6 +10,7 @@ urlpatterns = [
     path('case/', views.viewCase, name='viewcase'),
     path('viewCaseAssign/', views.viewCaseAssign, name='viewCaseAssign'),
     path('create_case/', views.createCase, name='create_case'),
+    path('updateCaseApi/<str:pk>', views.updateCaseApi, name='updateCaseApi'),
     path('update_case/<str:pk>', views.updateCase, name='update_case'),
     path('detail/<str:pk>', views.detailCase, name='detail_case'),
     path('detailCaseAssign/<str:pk>', views.detailCaseAssign, name='detailCaseAssign'),
