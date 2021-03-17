@@ -60,6 +60,9 @@
                           {% elif case.priorityCase == '2' %}
                              <small class="badge badge-danger"> ด่วนที่สุด </small>
                           {% endif %}
+                          {% if case.apiCases_id != None %}
+                          <small class="badge badge-primary"> API </small>
+                          {% endif %}
                         </a>
                       
                       <br>

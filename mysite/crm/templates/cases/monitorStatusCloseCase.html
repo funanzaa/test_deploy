@@ -60,6 +60,9 @@
                           {% elif case.priorityCase == '2' %}
                              <small class="badge badge-danger"> ด่วนที่สุด </small>
                           {% endif %}
+                          {% if case.apiCases_id != None %}
+                          <small class="badge badge-primary"> API </small>
+                          {% endif %}
                         </a>
                       
                       <br>
@@ -124,6 +127,14 @@
                               <small>{{case.created_by.first_name}} {{case.created_by.last_name}} </small>
                               </td>
                           {% endif %}
+                          {% elif case.status_Case_id != None  and case.assign == '' %}
+                          <td class="text-center">
+                            <small class="badge badge-success"> {{case.status_Case.name}} </small>
+                            <br>
+                            <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
+                            <br>
+                            <small>{{case.created_by.first_name}} {{case.created_by.last_name}} </small>
+                            </td>
                         {% else %}
                           <td class="text-center">
                             <small class="badge badge-danger"> close </small></td>
@@ -142,12 +153,12 @@
                           Edit 
                         </a>
                       {% endif %}     
-                        {% if case.assign != 'yes' %}
+                        <!-- {% if case.assign != 'yes' %}
                         <a class="btn btn-danger btn-sm" href="{% url 'delete_case' case.id %}">
                           <i class="fas fa-trash"></i>
                           Delete
                         </a>
-                        {% endif %}                     
+                        {% endif %}  -->
                     </td>
                   </tr>
                   {% endfor %}

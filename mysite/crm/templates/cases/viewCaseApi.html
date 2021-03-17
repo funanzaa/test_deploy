@@ -20,6 +20,8 @@
               <span class="badge badge-warning navbar-badge">{{countAssigns}}</span>
               <i class="fas fa-paper-plane"></i> Assign
             </a>
+            {% endif %}
+            {% if perms.crm.change_case %}
             <a class="btn btn-app" href="{% url 'viewCaseApi-page' %}">
               <span class="badge badge-danger navbar-badge">{{ countCaseApi }}</span>
               <i class="fas fa-cloud-download-alt"></i> API

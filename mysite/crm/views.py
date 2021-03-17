@@ -284,20 +284,14 @@ def updateCase(request, pk):
                 updateCase.created_by_id = staff
                 updateCase.resolution = resolution
                 updateCase.service_id = service
+                updateCase.forward_by = request.user.id
                 updateCase.update_at = datetime.datetime.now(tz=tz)
                 updateCase.hospitals_id = hosptial
-                updateCase.status_Case_id = ''
+                updateCase.status_Case_id = statusCase
                 updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
                 updateCase.assign_at = datetime.datetime.now(tz=tz)
                 updateCase.forward_at = datetime.datetime.now(tz=tz)
                 updateCase.priorityCase = priority
-                id_api = int(updateCase.apiCases_id)
-                apiCode = ApiAppNhsoBkk.objects.get(id=id_api)
-                staffName = getNameLastName(request.user.id)
-                x =datetime.datetime.now(tz=tz)
-                time_date = x.strftime("%Y%m%d%H%M%S")
-                if updateCase.apiCases_id != '' or updateCase.apiCases_id != None:
-                    postStatus3(apiCode.callback_code,resolution,staffName,time_date) # send api
                 updateCase.save()
                 messages.success(request, 'Your case is updated successfully!')
                 return HttpResponseRedirect(reverse_lazy('viewcase'))
@@ -427,6 +421,7 @@ def updateCase(request, pk):
                 staffName = getNameLastName(request.user.id)
                 x =datetime.datetime.now(tz=tz)
                 time_date = x.strftime("%Y%m%d%H%M%S")
+                print(time_date)
                 if updateCase.apiCases_id != '' or updateCase.apiCases_id != None:
                     postStatus3(apiCode.callback_code,resolution,staffName,time_date) # send api
                 updateCase.save()
@@ -1006,7 +1001,9 @@ def AssignMonitor(request):
                 d[x[i][0]] = r[i]
                 i = i+1
             resultsList.append(d)
-        context = {'resultsLists': resultsList}
+        context = {'resultsLists': resultsList
+        ,"countNotificationsAPI": countNotificationsAPI()
+        ,"TimeApiInsert":TimeApiInsert()}
     return render(request, 'cases/assignMonitor.html', context)
 
 
@@ -1015,7 +1012,9 @@ def AssignMonitor(request):
 @login_required(login_url='login')
 def monitorStatusAssignCase(request,pk):
     case = Case.objects.filter(created_by=int(pk)).filter(status_Case_id=None) | Case.objects.filter(created_by=int(pk)).filter(status_Case_id=6)
-    context = {'case': case}
+    context = {'case': case
+    ,"countNotificationsAPI": countNotificationsAPI(),"TimeApiInsert":TimeApiInsert()
+    }
     return render(request, 'cases/monitorStatusAssignCase.html', context)
 
 @login_required(login_url='login')
@@ -1069,7 +1068,16 @@ def updateCaseApi(request,pk):
             updateCase.assign_by = request.user.id 
             updateCase.assign_at = datetime.datetime.now(tz=tz) 
             updateCase.priorityCase = priority 
-            # print("yes")
+
+            # id_api = int(updateCase.apiCases_id)
+            # apiCode = ApiAppNhsoBkk.objects.get(id=id_api)
+            # x =datetime.datetime.now(tz=tz)
+            # staffName = getNameLastName(request.user.id)
+            # time_date = x.strftime("%Y%m%d%H%M%S")
+            # # yyyy mm dd hh 24 mi ss
+            # # 2021 02 05 15 30 01 01
+            # postStatus3(apiCode.callback_code,resolution,staffName,time_date)
+
             updateCase.save()
             messages.success(request, 'Your case is updated successfully!')
             return HttpResponseRedirect(reverse_lazy('viewCaseApi-page'))
