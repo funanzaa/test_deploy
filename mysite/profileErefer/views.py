@@ -77,6 +77,7 @@ def SetupErefer(request):
     ,"ListStatus_4" :  ListStatusCaseErefer(4,request.user.id)
     ,"ListStatus_2" :  ListStatusCaseErefer(2,request.user.id)
     ,"user_id" : request.user.id
+    ,"countNotificationsAPI": countNotificationsAPI(),"TimeApiInsert":TimeApiInsert()
     }
     return render(request,'profileErefer/SetupErefer.html',context)
 

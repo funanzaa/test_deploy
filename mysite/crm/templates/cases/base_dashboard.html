@@ -48,7 +48,7 @@
     <ul class="navbar-nav ml-auto">
                       <!-- Messages Dropdown Menu APi -->
                       <li class="nav-item dropdown">
-                        {% if perms.crm.add_case %}
+                        {% if perms.crm.change_case %}
                         <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                             <i class="far fa-bell"></i>
                             <span class="badge badge-warning navbar-badge">{{countNotificationsAPI}}</span>

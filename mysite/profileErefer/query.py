@@ -232,3 +232,33 @@ def ListOverAllHc():
                 i = i+1
             resultsList.append(d)
         return resultsList
+
+def countNotificationsAPI():
+    with connection.cursor() as cursor:
+        query = """
+        select count(*) from "apiCases_apiappnhsobkk" api where api.case_locking = '0'       
+        """
+        cursor.execute(query)
+        result = cursor.fetchone()
+        return result[0]
+
+def TimeApiInsert():
+    with connection.cursor() as cursor:
+        query = """
+        select to_char(date_part('hour',(current_timestamp - min(api.insert_at))),'FM999999990') as timehour
+        ,to_char(date_part('minute',(current_timestamp - min(api.insert_at))),'FM999999990')  as timeminute
+        ,to_char(date_part('second',(current_timestamp - min(api.insert_at))),'FM999999990')  as timesecond
+        from "apiCases_apiappnhsobkk" api where api.case_locking = '0'
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+        x = cursor.description
+        resultsList = []  
+        for r in results:
+            i = 0
+            d = {}
+            while i < len(x):
+                d[x[i][0]] = r[i]
+                i = i+1
+            resultsList.append(d)
+        return resultsList

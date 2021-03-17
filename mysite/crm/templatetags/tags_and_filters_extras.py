@@ -5,6 +5,7 @@ from django import template
 from ..models import Case
 from apiCases.models import *
 from django.contrib.auth.models import User
+from django.db import connection
 register = template.Library()
 
 
@@ -90,3 +91,23 @@ def getDetailCaseApi(id=None):
     else:
         NameDetail = ApiAppNhsoBkk.objects.get(id=int(id))
         return NameDetail.detail
+
+
+
+@register.filter
+def percentStatus(id=0,value=0):
+    with connection.cursor() as cursor:
+        query = """
+        select count(crm_case.id) as total
+        from crm_case
+        inner join auth_user ON crm_case.created_by_id = auth_user.id
+        where crm_case.assign = 'yes'
+        and auth_user.id = %(_id)s
+        """
+        cursor.execute(query, {'_id': id})
+        result = cursor.fetchone()
+        if value == 0:
+            return 0
+        else:
+            percentPenging = (value*100) / result[0]
+            return format(percentPenging, '.2f')
