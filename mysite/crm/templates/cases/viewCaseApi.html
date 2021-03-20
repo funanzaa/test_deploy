@@ -82,7 +82,7 @@
                     {% if case.status_Case_id == None %}
                       <small class="badge badge-danger"> เข้าระบบ </small>
                       <br>
-                      <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
+                      <small> {{case.date_entered|add_datetime}} </small>
 
                     {% elif case.status_Case_id == 1 %}
                       <small class="badge badge-success"> Close </small>
@@ -96,31 +96,11 @@
                     {% endif %}
                   </td>
                   <td class="project-actions text-center">
-                    <!-- <a class="btn btn-warning btn-sm" href="{% url 'detail_case' case.id %}">
-                      <i class="fas fa-eye">
-                      </i>
-                      View
-                    </a> -->
-                    <!-- {% if case.assign == 'yes' %}
-                        {% if perms.crm.view_case %} 
-                          <a class="btn btn-danger btn-sm" href="{% url 'detail_case' case.id %}" data-toggle="modal" data-target="#modal-default">
-                            <i class="fas fa-paper-plane">
-                            </i>
-                            Assign
-                          </a>
-                        {% endif %}
-                      {% endif %} -->
                     <a class="btn btn-success btn-sm" href="{% url 'updateCaseApi' case.id %}">
                       <i class="fas fa-pencil-alt">
                       </i>
                       Edit
                     </a>
-                    <!-- {% if case.assign != 'yes' %} -->
-                    <!-- <a class="btn btn-danger btn-sm" href="{% url 'delete_case' case.id %}">
-                      <i class="fas fa-trash"></i>
-                      Delete
-                    </a> -->
-                    <!-- {% endif %} -->
                   </td>
                 </tr>
                 {% endfor %}

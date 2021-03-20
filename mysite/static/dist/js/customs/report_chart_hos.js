@@ -1,15 +1,15 @@
 
 
 var labels = [];
-// domain = 'http://localhost:8000'
+domain = 'http://localhost:8000'
 // domain = 'http://bkk.hospital-os.com'
 // var objId = document.getElementById("project").value;
 // var objDate = document.getElementById("reservation").value;
-// var dataURLOpbkkWeb = domain + `/crm/report/ReportSubProjectHos`
+var dataURLOpbkkWeb = domain + `/crm/report/ReportSubProjectHos`
 // var dataURLOpbkkClient = domain + `/crm/report/ReportSubProjectOpbkkClient`
 $.ajax({
     method:'GET',
-    url:{% url 'ReportSubProjectHos' %},
+    url: dataURLOpbkkWeb,
     success:function(response){
         // console.log(response)
         for (var i in response){    
