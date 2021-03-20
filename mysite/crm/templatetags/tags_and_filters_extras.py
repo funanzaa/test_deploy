@@ -111,3 +111,35 @@ def percentStatus(id=0,value=0):
         else:
             percentPenging = (value*100) / result[0]
             return format(percentPenging, '.2f')
+
+@register.filter
+def checkDayCountNotificationsAPI(day = None):
+    # print(type(day))
+    if day == '0':
+        return ''
+    elif day == None:
+        return ''
+    else:
+        return day + 'day'
+
+@register.filter
+def checkHourCountNotificationsAPI(day = None):
+    # print(type(day))
+    if day == '0':
+        return ''
+    elif day == None:
+        return ''
+    else:
+        return day + 'h'
+
+@register.filter
+def checkMinCountNotificationsAPI(day = None):
+    # print(type(day))
+    if day == '0':
+        return ''
+    elif day == None:
+        return ''
+    else:
+        return day + 'Min'
+
+

@@ -1,4 +1,5 @@
 {% load static %}
+{% load tags_and_filters_extras %}
 {% url 'apiCases:ListApiBkk' as path_to_ListApiBkk%}
 <!DOCTYPE html>
 <html>
@@ -62,43 +63,27 @@
                       <!-- Messages Dropdown Menu APi -->
                       <li class="nav-item dropdown">
                         {% if perms.crm.change_case %}
-                        <a class="nav-link" data-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                             <i class="far fa-bell"></i>
                             <span class="badge badge-warning navbar-badge">{{countNotificationsAPI}}</span>
                         </a>
                         {% endif %}
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
-                            <!-- <span class="dropdown-item dropdown-header">15 Notifications</span> -->
+                        {% if countNotificationsAPI != 0 %}
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">                           
                             <div class="dropdown-divider"></div>
-                           
                               <a href="{{ path_to_ListApiBkk }}" class="dropdown-item">
                                   <i class="fas fa-envelope mr-2"></i> {{countNotificationsAPI}} new case API
                                   <span class="float-right text-muted text-sm">
                                       {% for TimeApiInsert in TimeApiInsert %}
-                                        <!-- {% if TimeApiInsert.timehour != '0' %} -->
-                                        {{TimeApiInsert.timehour}}h
-                                        <!-- {% endif %} -->
-                                        <!-- {% if TimeApiInsert.timeminute != '0' %} -->
-                                        {{TimeApiInsert.timeminute}}Min
-                                        <!-- {% endif %} -->
+                                        {{TimeApiInsert.timeday|checkDayCountNotificationsAPI}}
+                                        {{TimeApiInsert.timehour|checkHourCountNotificationsAPI}}
+                                        {{TimeApiInsert.timeminute|checkMinCountNotificationsAPI}}
                                         {{TimeApiInsert.timesecond}}Sec.
                                       {% endfor %}
                                 </span>
                               </a>
-                              
-                            <!-- <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-users mr-2"></i> 8 friend requests
-                                <span class="float-right text-muted text-sm">12 hours</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-file mr-2"></i> 3 new reports
-                                <span class="float-right text-muted text-sm">2 days</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> -->
                         </div>
+                        {% endif %}
                     </li>
                     <!-- End Messages Dropdown Menu APi -->
                 <li class="breadcrumb-item">

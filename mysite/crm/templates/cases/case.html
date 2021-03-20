@@ -165,6 +165,15 @@
                                   <br>
                                   <small>{{case.assign_by|getAssignName}}</small>
                                   </td>
+                                  <!-- if status case id null == close -->
+                                {% else %}
+                                <td class="text-center">
+                                  <small class="badge badge-success"> close </small>
+                                  <br>
+                                  <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
+                                  <br>
+                                  <small>{{case.created_by.first_name}} {{case.created_by.last_name}} </small>
+                                  </td>
                               {% endif %}
                         {% endif %}
                     <td class="project-actions text-center">

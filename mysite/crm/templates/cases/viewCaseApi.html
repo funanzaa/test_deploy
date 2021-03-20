@@ -81,12 +81,18 @@
                   <td class="text-center">
                     {% if case.status_Case_id == None %}
                       <small class="badge badge-danger"> เข้าระบบ </small>
+                      <br>
+                      <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
 
                     {% elif case.status_Case_id == 1 %}
                       <small class="badge badge-success"> Close </small>
+                      <br>
+                      <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
 
                     {% elif case.status_Case_id == 5 %}
                       <small class="badge badge-warning"> Pending </small>
+                      <br>
+                      <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
                     {% endif %}
                   </td>
                   <td class="project-actions text-center">

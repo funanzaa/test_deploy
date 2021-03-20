@@ -155,10 +155,12 @@ def countNotificationsAPI():
 def TimeApiInsert():
     with connection.cursor() as cursor:
         query = """
-        select to_char(date_part('hour',(current_timestamp - min(api.insert_at))),'FM999999990') as timehour
+        select to_char(date_part('day',(current_timestamp - min(api.insert_at))),'FM999999990') as timeday
+        ,to_char(date_part('hour',(current_timestamp - min(api.insert_at))),'FM999999990') as timehour
         ,to_char(date_part('minute',(current_timestamp - min(api.insert_at))),'FM999999990')  as timeminute
         ,to_char(date_part('second',(current_timestamp - min(api.insert_at))),'FM999999990')  as timesecond
-        from "apiCases_apiappnhsobkk" api where api.case_locking = '0'
+        from "apiCases_apiappnhsobkk" api 
+        where api.case_locking = '0'
         """
         cursor.execute(query)
         results = cursor.fetchall()
