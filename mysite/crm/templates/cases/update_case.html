@@ -142,9 +142,9 @@
                   <select class="form-control select2" name="hospital" style="width: 100%;">
                     {% for hospital in hospitals %}
                       {% if case.hospitals.id == hospital.id %}
-                        <option value="{{ case.hospitals.id }}" selected> {{case.hospitals}} </option>
+                        <option value="{{ case.hospitals.id }}" selected> {{case.hospitals.code}} : {{case.hospitals.label}} </option>
                       {% else %}
-                        <option value="{{ hospital.id }}">{{hospital}}</option>
+                        <option value="{{ hospitals.id }}">{{hospital.code}} : {{ hospital.label }}</option>
                       {% endif %}
                     {% endfor %}
                   </select>

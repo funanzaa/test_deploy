@@ -170,29 +170,29 @@
                                 <td class="text-center">
                                   <small class="badge badge-success"> close </small>
                                   <br>
-                                  <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
+                                  <small> {{case.date_entered|add_datetime}} </small>
                                   <br>
                                   <small>{{case.created_by.first_name}} {{case.created_by.last_name}} </small>
                                   </td>
                               {% endif %}
                         {% endif %}
                     <td class="project-actions text-center">
-                      <a class="btn btn-warning btn-sm" href="{% url 'detail_case' case.id %}">
+                      <!-- <a class="btn btn-warning btn-sm" href="{% url 'detail_case' case.id %}">
                         <i class="fas fa-eye">
                         </i>
                         View
-                      </a>
+                      </a> -->
                       <a class="btn btn-info btn-sm" href="{% url 'update_case' case.id %}">
                         <i class="fas fa-pencil-alt">
                         </i>
                         Edit
                       </a>
-                      <!-- {% if case.assign != 'yes' %}
+                      {% if case.assign != 'yes' and case.created_by_id == request.user.id  %}
                       <a class="btn btn-danger btn-sm" href="{% url 'delete_case' case.id %}">
                         <i class="fas fa-trash"></i>
                         Delete
                       </a>
-                      {% endif %} -->
+                      {% endif %}
                     </td>
                   </tr>
                   {% endfor %}
