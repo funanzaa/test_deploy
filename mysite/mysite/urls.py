@@ -34,8 +34,7 @@ urlpatterns = [
     path('document/', views.document, name="document"),
     # download report center
     path('download/sqlReport/', views.sqlReport, name="sqlReport"),
-
-    # model5
+    path('model5/insertDataDashBoard/', views.insertDataDashBoard, name="insertDataDashBoard"),    # insert data
     path('model5/dashboard/', views.model5_dashboard, name="model5_dashboard"),
     path('model5/hosp_model5/', views.hosp_model5, name="hosp_model5"),
     path('model5/lookup_error/', views.lookup_error, name="lookup_error"),

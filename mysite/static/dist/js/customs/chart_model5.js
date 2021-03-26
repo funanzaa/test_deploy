@@ -25,10 +25,16 @@
             let massPopChart = new Chart(myChart, {
               type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
               data:{
-                labels: labels,
+                labels: [
+                  "ส่งเบิก",
+                  "ไม่ส่งเบิก"
+              ],
                 datasets:[{
                   label:'Case',
-                  data: defaultData,
+                  data: [
+                    197,
+                    48
+                ],
                   formatter: labelFormatter,
                   // backgroundColor:'green',
                   backgroundColor:['#4cd137', '#e84118'],

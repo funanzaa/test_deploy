@@ -113,6 +113,7 @@ def createCase(request):
                 newCase.assign_at = datetime.datetime.now(tz=tz)
                 newCase.assign_by = request.user.id
                 newCase.priorityCase = priority
+                newCase.status_Case_id = 1
                 fs = FileSystemStorage()
                 name = fs.save(upload_file.name, upload_file)
                 url = fs.url(name)
@@ -141,7 +142,7 @@ def createCase(request):
                 newCase.assign = chkAssign
                 newCase.assign_at = datetime.datetime.now(tz=tz)
                 newCase.assign_by = request.user.id
-
+                newCase.status_Case_id = 1
                 newCase.priorityCase = priority
                 
                 newCase.save()
@@ -170,7 +171,7 @@ def createCase(request):
                 fs = FileSystemStorage()
                 name = fs.save(upload_file.name, upload_file)
                 url = fs.url(name)
-                # print('url:'+ url)
+                newCase.status_Case_id = 1
                 newCase.case_pic = url
                 newCase.save()
                 messages.success(request, 'Your case is added successfully!')
@@ -187,7 +188,7 @@ def createCase(request):
                 # print(chkAssign)
                 newCase = Case()
                 newCase.name = case_name
-                # newCase.project_id = project
+                newCase.status_Case_id = 1
                 newCase.project_subgroup_id = project_subgroup
                 newCase.created_by_id = request.user.id
                 newCase.resolution = resolution
@@ -243,6 +244,7 @@ def updateCase(request, pk):
                 resolution = request.POST.get("solution")
                 service = request.POST.get("service")
                 hosptial = request.POST.get("hospital")
+                # print(hosptial)
                 statusCase = request.POST.get("statusCase")
                 staff   = request.POST.get("locality-assign")
 
@@ -279,6 +281,7 @@ def updateCase(request, pk):
                 statusCase = request.POST.get("statusCase")
                 staff   = request.POST.get("locality-assign")
                 priority   = request.POST.get("priority")
+                # print(hosptial)
                 updateCase = Case.objects.get(id=pk)
                 updateCase.name = case_name
                 updateCase.project_subgroup_id = project_subgroup
@@ -308,7 +311,7 @@ def updateCase(request, pk):
                 service = request.POST.get("service")
                 hosptial = request.POST.get("hospital")
                 statusCase = request.POST.get("statusCase")
-                upload_file = request.FILES['case_image']
+                # upload_file = request.FILES['case_image']
                 updateCase = Case.objects.get(id=pk)
                 updateCase.name = case_name
                 updateCase.project_subgroup_id = project_subgroup
@@ -322,10 +325,17 @@ def updateCase(request, pk):
                 updateCase.hospitals_id = hosptial
                 updateCase.status_Case_id = statusCase
                 updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
-                fs = FileSystemStorage()
-                name = fs.save(upload_file.name, upload_file)
-                url = fs.url(name)
-                updateCase.case_pic = url
+                # fs = FileSystemStorage()
+                # name = fs.save(upload_file.name, upload_file)
+                # url = fs.url(name)
+                # updateCase.case_pic = url
+                id_api = int(updateCase.apiCases_id)
+                apiCode = ApiAppNhsoBkk.objects.get(id=id_api)
+                staffName = getNameLastName(request.user.id)
+                x =datetime.datetime.now(tz=tz)
+                time_date = x.strftime("%Y%m%d%H%M%S")
+                if updateCase.apiCases_id != '' or updateCase.apiCases_id != None:
+                    postStatus3(apiCode.callback_code,_solution,staffName,time_date) # send api
                 updateCase.save()
                 messages.success(request, 'Your case is updated successfully!')
                 return HttpResponseRedirect(reverse_lazy('viewcase'))
@@ -377,7 +387,7 @@ def updateCase(request, pk):
                 service = request.POST.get("service")
                 hosptial = request.POST.get("hospital")
                 statusCase = request.POST.get("statusCase")
-                upload_file = request.FILES['case_image']
+                # upload_file = request.FILES['case_image']
                 updateCase = Case.objects.get(id=pk)
                 updateCase.name = case_name
                 updateCase.project_subgroup_id = project_subgroup
@@ -388,10 +398,11 @@ def updateCase(request, pk):
                 updateCase.hospitals_id = hosptial
                 updateCase.status_Case_id = statusCase
                 updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
-                fs = FileSystemStorage()
-                name = fs.save(upload_file.name, upload_file)
-                url = fs.url(name)
-                updateCase.case_pic = url
+                # fs = FileSystemStorage()
+                # name = fs.save(upload_file.name, upload_file)
+                # url = fs.url(name)
+                # updateCase.case_pic = url
+                # print(time_date)
                 updateCase.save()
                 messages.success(request, 'Your case is updated successfully!')
                 return HttpResponseRedirect(reverse_lazy('viewcase'))
@@ -405,8 +416,9 @@ def updateCase(request, pk):
 
                 service = request.POST.get("service")
                 hosptial = request.POST.get("hospital")
+                # print(hosptial)
                 statusCase = request.POST.get("statusCase")
-                request_id = request.user.id
+                # request_id = request.user.id
                 updateCase = Case.objects.get(id=pk)
                 updateCase.name = case_name
                 updateCase.project_subgroup_id = project_subgroup
@@ -422,7 +434,7 @@ def updateCase(request, pk):
                 staffName = getNameLastName(request.user.id)
                 x =datetime.datetime.now(tz=tz)
                 time_date = x.strftime("%Y%m%d%H%M%S")
-                print(time_date)
+                # print(time_date)
                 if updateCase.apiCases_id != '' or updateCase.apiCases_id != None:
                     postStatus3(apiCode.callback_code,resolution,staffName,time_date) # send api
                 updateCase.save()

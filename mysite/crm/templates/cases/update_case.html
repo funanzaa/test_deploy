@@ -142,9 +142,9 @@
                   <select class="form-control select2" name="hospital" style="width: 100%;">
                     {% for hospital in hospitals %}
                       {% if case.hospitals.id == hospital.id %}
-                        <option value="{{ case.hospitals.id }}" selected> {{case.hospitals.code}} : {{case.hospitals.label}} </option>
+                        <option value="{{ hospital.id }}" selected> {{case.hospitals.code}} : {{case.hospitals.label}}</option>
                       {% else %}
-                        <option value="{{ hospitals.id }}">{{hospital.code}} : {{ hospital.label }}</option>
+                        <option value="{{ hospital.id }}"> {{hospital.code}} : {{ hospital.label }}</option>
                       {% endif %}
                     {% endfor %}
                   </select>
@@ -185,7 +185,7 @@
                 {% endfor %}
               </select>
             </div>
-            {% if case.assign != 'yes' %}
+            <!-- {% if case.assign != 'yes' %}
               <div class="form-group">
                 <label for="customFile">Case File</label>
                 Currently: <a href="{{case.case_pic}}">{{case.case_pic}}</a>
@@ -194,7 +194,7 @@
                 Change:
                 <input type="file" name="case_image">
               </div>
-              {% endif %}
+              {% endif %} -->
             <!-- /.form-group -->
           </div>
           <!-- /.card-body -->

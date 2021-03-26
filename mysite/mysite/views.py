@@ -69,24 +69,23 @@ def logoutUser(request):
 
 from .query import *
 from django.db.models import Q
-def model5_dashboard(request):
 
-	try:
-		timeperiod = datatimeperiod.objects.all()
-		recap_report = model5_recap_report.objects.all()
-		max_date = model5_recap_report.objects.latest("date_created").date_created
-		domain = 'https://bkkapp.nhso.go.th/bkkapp/'
-		list_hosp = domain + 'api/v1/public/HelpdeskReportService/get_list_hosp_model5'
-		hcodeAppStatus = 'api/v1/public/HelpdeskReportService/get_hosp_approve_status/'
-		apiTimeperiod = 'api/v1/public/DataService/query/Time_period'
-		responesListHosp = requests.get(list_hosp)
-		url_hcodeAppStatus = list_hosp
-		jsonListHosp = responesListHosp.json()
-		y_jsonListHosp = json.dumps(jsonListHosp)
-		jsonDictListHosp = json.loads(y_jsonListHosp)
-		tz = pytz.timezone('Asia/Bangkok')
-		date_current = datetime.datetime.now(tz=tz)
-		# if int(date_current.day) != int(max_date.strftime("%d")): #insert data
+def insertDataDashBoard(request):
+	# timeperiod = datatimeperiod.objects.all()
+	recap_report = model5_recap_report.objects.all()
+	max_date = model5_recap_report.objects.latest("date_created").date_created
+	domain = 'https://bkkapp.nhso.go.th/bkkapp/'
+	list_hosp = domain + 'api/v1/public/HelpdeskReportService/get_list_hosp_model5'
+	hcodeAppStatus = 'api/v1/public/HelpdeskReportService/get_hosp_approve_status/'
+	# apiTimeperiod = 'api/v1/public/DataService/query/Time_period'
+	responesListHosp = requests.get(list_hosp)
+	url_hcodeAppStatus = list_hosp
+	jsonListHosp = responesListHosp.json()
+	y_jsonListHosp = json.dumps(jsonListHosp)
+	jsonDictListHosp = json.loads(y_jsonListHosp)
+	tz = pytz.timezone('Asia/Bangkok')
+	date_current = datetime.datetime.now(tz=tz)
+	if int(date_current.day) != int(max_date.strftime("%d")): #insert data
 		if checkInsert(date_current.day) == False: #insert data
 			recap_report.delete() # delete data on table
 			for i in range(len(jsonDictListHosp)):
@@ -103,6 +102,10 @@ def model5_dashboard(request):
 				date_created = date_current
 				FnRecapReport(hcode,hname,req_claimcode,req_claim,approved,denined,dataknow,date_created)
 			CreateTimePeriod()
+	return HttpResponse("OK")	
+
+def model5_dashboard(request):
+	try:
 		with connection.cursor() as cursor:
 			recap_report = model5_recap_report.objects.all()
 			count_hosp = model5_recap_report.objects.all().count()
@@ -120,7 +123,6 @@ def model5_dashboard(request):
 			querySumDataKnow = "select sum(dataknow ::int) from crm_model5_recap_report"
 			querySumOver = FnQueryOne("select sum(over5day::int) from crm_dataTimePeriod") 
 			querySumUnder = FnQueryOne("select sum(under5day::int) from crm_dataTimePeriod")
-			# print(querySumUnder[0])
 			cursor.execute(query)
 			results = cursor.fetchone()
 			cursor.execute(querySumReqClaim)
@@ -146,7 +148,8 @@ def model5_dashboard(request):
 			sum_hosp = respones.json()
 			persentSendClaimcode = "{:.{}f}".format( (int(countHospSendClaim[0])/count_hosp)*100, 0 ) 
 			persentNoSendClaimcode = "{:.{}f}".format( (int(countHospNoSendClaim[0])/count_hosp)*100, 0 ) 
-			context = {'sum_hosp': sum_hosp,'sum_ReqClaimCode':sum_ReqClaimCode,"sum_resultsReqClaim":sum_resultsReqClaim,
+			context = {'sum_hosp': sum_hosp['TOTAL']
+			,'sum_ReqClaimCode':sum_ReqClaimCode,"sum_resultsReqClaim":sum_resultsReqClaim,
 			"sum_Approv":sum_Approv,"sum_Denined":sum_Denined,"max_date":max_date,"count_installApp":count_installApp,
 			"count_training":count_training,"countHospReqClaim":countHospReqClaim,
 			"countHospSendClaim":countHospSendClaim[0],
@@ -163,7 +166,7 @@ def model5_dashboard(request):
 			count_training = Hospitals.objects.filter(training='Yes').count()
 			countHospReqClaim = model5_recap_report.objects.filter(~Q(req_claimcode='0')).count()
 			max_date = model5_recap_report.objects.latest("date_created").date_created
-			url = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/get_total_hosp'
+			# url = 'https://bkkapp.nhso.go.th/bkkapp/api/v1/public/HelpdeskReportService/get_total_hosp'
 			query = "select sum(req_claimcode::int) from crm_model5_recap_report"
 			querySumReqClaim = "select sum(req_claim::int) from crm_model5_recap_report"
 			querySumApprove = "select sum(approved::int) from crm_model5_recap_report"
@@ -186,11 +189,12 @@ def model5_dashboard(request):
 			sum_resultsReqClaim = "{:,}".format(resultsReqClaim[0])
 			sum_Approv  = "{:,}".format(resultsApprov[0])
 			sum_Denined = "{:,}".format(resultsDenined[0])
-			respones = requests.get(url)
-			sum_hosp = respones.json()
+			# respones = requests.get(url)
+			# sum_hosp = respones.json()
 			persentSendClaimcode = "{:.{}f}".format( (int(countHospSendClaim[0])/count_hosp)*100, 0 ) 
 			persentNoSendClaimcode = "{:.{}f}".format( (int(countHospNoSendClaim[0])/count_hosp)*100, 0 ) 
-			context = {'sum_hosp': sum_hosp,'sum_ReqClaimCode':sum_ReqClaimCode,"sum_resultsReqClaim":sum_resultsReqClaim,
+			context = {'sum_hosp': 000
+			,'sum_ReqClaimCode':sum_ReqClaimCode,"sum_resultsReqClaim":sum_resultsReqClaim,
 			"sum_Approv":sum_Approv,"sum_Denined":sum_Denined,"max_date":max_date,"count_installApp":count_installApp,
 			"count_training":count_training,"countHospReqClaim":countHospReqClaim,
 			"countHospSendClaim":countHospSendClaim[0],
