@@ -113,7 +113,7 @@ def createCase(request):
                 newCase.assign_at = datetime.datetime.now(tz=tz)
                 newCase.assign_by = request.user.id
                 newCase.priorityCase = priority
-                newCase.status_Case_id = 1
+                newCase.status_Case_id = 6
                 fs = FileSystemStorage()
                 name = fs.save(upload_file.name, upload_file)
                 url = fs.url(name)
@@ -142,7 +142,7 @@ def createCase(request):
                 newCase.assign = chkAssign
                 newCase.assign_at = datetime.datetime.now(tz=tz)
                 newCase.assign_by = request.user.id
-                newCase.status_Case_id = 1
+                newCase.status_Case_id = 6
                 newCase.priorityCase = priority
                 
                 newCase.save()
@@ -329,13 +329,13 @@ def updateCase(request, pk):
                 # name = fs.save(upload_file.name, upload_file)
                 # url = fs.url(name)
                 # updateCase.case_pic = url
-                id_api = int(updateCase.apiCases_id)
-                apiCode = ApiAppNhsoBkk.objects.get(id=id_api)
-                staffName = getNameLastName(request.user.id)
-                x =datetime.datetime.now(tz=tz)
-                time_date = x.strftime("%Y%m%d%H%M%S")
-                if updateCase.apiCases_id != '' or updateCase.apiCases_id != None:
-                    postStatus3(apiCode.callback_code,_solution,staffName,time_date) # send api
+                # id_api = int(updateCase.apiCases_id)
+                # apiCode = ApiAppNhsoBkk.objects.get(id=id_api)
+                # staffName = getNameLastName(request.user.id)
+                # x =datetime.datetime.now(tz=tz)
+                # time_date = x.strftime("%Y%m%d%H%M%S")
+                # if updateCase.apiCases_id != '' or updateCase.apiCases_id != None:
+                #     postStatus3(apiCode.callback_code,_solution,staffName,time_date) # send api
                 updateCase.save()
                 messages.success(request, 'Your case is updated successfully!')
                 return HttpResponseRedirect(reverse_lazy('viewcase'))
@@ -365,13 +365,13 @@ def updateCase(request, pk):
                 updateCase.hospitals_id = hosptial
                 updateCase.status_Case_id = statusCase
                 updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
-                id_api = int(updateCase.apiCases_id)
-                apiCode = ApiAppNhsoBkk.objects.get(id=id_api)
-                staffName = getNameLastName(request.user.id)
-                x =datetime.datetime.now(tz=tz)
-                time_date = x.strftime("%Y%m%d%H%M%S")
-                if updateCase.apiCases_id != '' or updateCase.apiCases_id != None:
-                    postStatus3(apiCode.callback_code,_solution,staffName,time_date) # send api
+                # id_api = int(updateCase.apiCases_id)
+                # apiCode = ApiAppNhsoBkk.objects.get(id=id_api)
+                # staffName = getNameLastName(request.user.id)
+                # x =datetime.datetime.now(tz=tz)
+                # time_date = x.strftime("%Y%m%d%H%M%S")
+                # if updateCase.apiCases_id != '' or updateCase.apiCases_id != None:
+                #     postStatus3(apiCode.callback_code,_solution,staffName,time_date) # send api
                 updateCase.save()
                 messages.success(request, 'Your case is updated successfully!')
                 return HttpResponseRedirect(reverse_lazy('viewcase'))
