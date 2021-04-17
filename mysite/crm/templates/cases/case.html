@@ -64,8 +64,6 @@
                             <small class="badge badge-warning"> ด่วน </small>
                           {% elif case.priorityCase == '2' %}
                              <small class="badge badge-danger"> ด่วนที่สุด </small>
-                          {% elif case.apiCases_id != None %}
-                          <small class="badge badge-danger"> ด่วนที่สุด </small>
                           {% endif %}
                           {% if case.apiCases_id != None %}
                           <small class="badge badge-primary"> API </small>
@@ -153,7 +151,11 @@
                                 <td class="text-center">
                                   <small class="badge badge-success"> {{case.status_Case.name}} </small>
                                   <br>
-                                  <small> {{case.statusCaseUpdate_at|add_datetime}} </small>
+                                  {% if case.statusCaseUpdate_at == None %}
+                                    <small> {{case.date_entered|add_datetime}} </small>
+                                  {% else %}
+                                    <small class="text-info"> {{case.statusCaseUpdate_at|add_datetime}} </small>
+                                  {% endif %}
                                   <br>
                                   <small>{{case.created_by.first_name}} {{case.created_by.last_name}} </small>
                                   </td>
