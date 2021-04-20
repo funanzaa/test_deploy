@@ -10,5 +10,6 @@ urlpatterns = [
      path('updateEreferProfile/<int:pk>/',updateEreferProfile, name= 'updateEreferProfile'),
      path('setupStatus/<int:pk>/',setupStatus, name= 'setupStatus'),
      path('setupStatus/',check_case_lock, name= 'check_case_lock'),
+     path('viewAllErefer/',viewAllErefer, name= 'viewAllErefer'),
      path('overAllHc/',OverAllHc, name= 'overAllHc'),
 ]

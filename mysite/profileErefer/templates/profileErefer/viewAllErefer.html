@@ -1,0 +1,130 @@
+{% extends 'cases/base_allereferral.html' %}
+{% load tags_and_filters_extras %}
+<!-- {% block page_title %}
+{% endblock page_title %} -->
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <!-- <a class="btn btn-app" href="{% url 'profileErefer:setupStatus' 1 %}">
+                  <span class="badge badge-info navbar-badge">{{ ListStatus_user }}</span>
+                  <i class="fas fa-tools"></i> Case Setup  
+                </a> -->
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                
+                <table id="example1" class="table table-bordered table-striped">
+                  
+                  <thead>
+                    
+                  <tr>
+                    <th>Hmain</th>
+                    <th>Hsub</th>
+                    <th>Status</th>
+                    <th>Staff</th>
+                    <th>Memo</th>
+                    <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    {% for ListAllReferrals in ListAllReferral %}
+                  <tr>
+                    <td>
+                      {{ListAllReferrals.main_hcode}} 
+                      <br>
+                      <small>
+                        {{ ListAllReferrals.main_label}}
+                      </small>
+                    </td>
+                    <td class="text-center" >
+                      {{ListAllReferrals.hos_code}}
+                      <br>
+                      <small>
+                        {{ ListAllReferrals.hos_label}}
+                      </small>
+                    </td>
+                    <td class="text-center">
+                      {% if ListAllReferrals.name == 'ติดตั้งเรียบร้อย'  %}
+                        <small class="badge badge-success"> {{ListAllReferrals.name}} </small>
+                          <br>
+                          {% if ListAllReferrals.testdata == 'Yes'  %}
+                            <small class="text-success"> TestData </small>
+                          {% else %}
+                            <small class="text-danger"> TestData </small>
+                          {% endif %}
+                          :
+                          {% if ListAllReferrals.testmq == 'Online'  %}
+                            <small class="text-success"> MQ </small>
+                          {% else %}
+                            <small class="text-danger"> MQ </small>
+                          {% endif %}
+                      {% elif ListAllReferrals.name == 'ติดตั้งไม่สำเร็จ'  %}
+                      <small class="badge badge-danger"> {{ListAllReferrals.name}} </small>
+                      <br>
+                      {% if ListAllReferrals.testdata == 'Yes'  %}
+                        <small class="text-success"> TestData </small>
+                      {% else %}
+                        <small class="text-danger"> TestData </small>
+                      {% endif %}
+                      :
+                      {% if ListAllReferrals.testmq == 'Online'  %}
+                        <small class="text-success"> MQ </small>
+                      {% else %}
+                        <small class="text-danger"> MQ </small>
+                      {% endif %}
+                      {% elif ListAllReferrals.name == 'รับเข้าระบบ'  %}
+                      <small class="badge badge-warning"> {{ListAllReferrals.name}} </small>
+                      {% endif %}
+                      <br>
+                      <small>
+                        {% if ListAllReferrals.success_at != None  %}
+                          {{ ListAllReferrals.success_at|add_datetime}}
+                        {% endif %}
+                      </small>
+                    </td>
+                    <td>
+                      <small> ติดตั้ง {{ ListAllReferrals.staff}}</small>
+                      <br>
+                      <small class="text-muted">
+                       Contact. {{ ListAllReferrals.contact}} Tel. {{ ListAllReferrals.contact_phone}} 
+                      </small>
+                    </td>
+                    <td>
+                      {% if ListAllReferrals.memo != None  %}
+                        <small>{{ ListAllReferrals.memo}}</small>
+                      {% endif %}
+                    </td>
+                    <td class="text-center">
+                      {% if ListAllReferrals.staff_id == request.user.id  %}
+                      <a class="btn btn-warning btn-sm" href="{% url 'profileErefer:updateEreferProfile' ListAllReferrals.profileserver_id %}">
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      {% else %}
+                      <a class="btn btn-danger btn-sm disabled" >
+                        <i class="fas fa-lock"></i>
+                      </a>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+{% endblock main_content %}

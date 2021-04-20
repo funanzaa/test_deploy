@@ -322,17 +322,13 @@ Dashboard
     <div class="row">
         <div class="col-lg-6">
             <div class="card">
-                <!-- <div class="card-header ui-sortable-handle" style="cursor: move;">
+                <div class="card-header ui-sortable-handle" style="cursor: move;">
                     <h3 class="card-title">
                         <i class="fas fa-chart-pie mr-1"></i>
                         ติดตั้งโครงการ E-ereferral
                     </h3>
-                </div> -->
+                </div>
                 <div class="card-body">
-
-                    <p class="text-center">
-                        <strong>ติดตั้งโครงการ E-ereferral</strong>
-                    </p>
                     {% for SetupErefer in count_SetupErefer %}
                     <div class="progress-group">
                         {{SetupErefer.refer_code}} : {{SetupErefer.refer_label}}
@@ -343,49 +339,16 @@ Dashboard
                         </div>
                     </div>
                     {% endfor %}
-
-                    <!-- {% for SetupErefer_11482 in count_SetupErefer_11482 %}
-                    <div class="progress-group">
-                        {{SetupErefer_11482.refer_code}} : {{SetupErefer_11482.refer_label}}
-                        <span
-                            class="float-right"><b>{{SetupErefer_11482.status_success}}</b>/{{SetupErefer_11482.status_total}}</span>
-                        <div class="progress progress-sm">
-                            <div class="progress-bar bg-danger" style="width: {{SetupErefer_11482.percentage}}%"></div>
-                        </div>
-                    </div>
-                    {% endfor %}
-
-                    {% for SetupErefer_11470 in count_SetupErefer_11470 %}
-                    <div class="progress-group">
-                        {{SetupErefer_11470.refer_code}} : {{SetupErefer_11470.refer_label}}
-                        <span
-                            class="float-right"><b>{{SetupErefer_11470.status_success}}</b>/{{SetupErefer_11470.status_total}}</span>
-                        <div class="progress progress-sm">
-                            <div class="progress-bar bg-success" style="width: {{SetupErefer_11470.percentage}}%"></div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    {% for SetupErefer_11478 in count_SetupErefer_11478 %}
-                    <div class="progress-group">
-                        {{SetupErefer_11478.refer_code}} : {{SetupErefer_11478.refer_label}}
-                        <span
-                            class="float-right"><b>{{SetupErefer_11478.status_success}}</b>/{{SetupErefer_11478.status_total}}</span>
-                        <div class="progress progress-sm">
-                            <div class="progress-bar bg-warning" style="width: {{SetupErefer_11478.percentage}}%"></div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    {% for SetupErefer_41414 in count_SetupErefer_41414 %}
-                    <div class="progress-group">
-                        {{SetupErefer_41414.refer_code}} : {{SetupErefer_41414.refer_label}}
-                        <span
-                            class="float-right"><b>{{SetupErefer_41414.status_success}}</b>/{{SetupErefer_41414.status_total}}</span>
-                        <div class="progress progress-sm">
-                            <div class="progress-bar bg-info" style="width: {{SetupErefer_41414.percentage}}%"></div>
-                        </div>
-                    </div>
-                    {% endfor %} -->
                 </div>
+                <div class="card-footer">
+                    <div class="col-12">
+                      <!-- <a href="" target="_blank" class="btn btn-sm btn-info float-left"><i class="fas fa-print"></i> Generate CSV</a> -->
+                      <!-- <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                        <i class="fas fa-download"></i> Generate CSV
+                      </button> -->
+                      <a href="{% url 'profileErefer:viewAllErefer'%}" class="btn btn-sm btn-secondary float-right">View All</a>
+                    </div>
+                  </div>
             </div>
         </div>
         <div class="col-lg-6">
@@ -416,6 +379,7 @@ Dashboard
             </div>
         </div>
     </div>
+
 
 </section>
 {% endblock main_content %}

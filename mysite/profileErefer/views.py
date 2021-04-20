@@ -193,7 +193,14 @@ def check_case_lock(request):
             pass
         return HttpResponse("ok")
 
+@login_required(login_url='login')
+def viewAllErefer(request):
+    context ={ "ListAllReferral": ListAllReferral()}
+    return render(request,'profileErefer/viewAllErefer.html', context)  
+    
 
+
+@login_required(login_url='login')
 def OverAllHc(request):
     context = {"ListOverAllHc":ListOverAllHc()
     ,"ListStatus_user" :  ListStatusCaseErefer(1,request.user.id)
