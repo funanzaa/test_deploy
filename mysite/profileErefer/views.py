@@ -4,11 +4,12 @@ from .models import *
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-import datetime
+from datetime import datetime, date
 import pytz
 from .query import *
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+import csv
 
 def requestSetupErefer(request):
     hospital = Hospitals.objects.all()
@@ -198,7 +199,51 @@ def viewAllErefer(request):
     context ={ "ListAllReferral": ListAllReferral()}
     return render(request,'profileErefer/viewAllErefer.html', context)  
     
+# export csv
+def export_ereferral_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    # text = 'attachment; filename="export_ereferral.csv"'
+    today = datetime.strftime(datetime.today(),"%d%m%y_%H:%M:%S")
+    text = 'attachment; filename="export_ereferral_{}.csv"'.format(today)
+    # print(text1)
+    response['Content-Disposition'] = text
 
+    response.write(u'\ufeff'.encode('utf8'))
+    writer = csv.writer(response)
+    # writer.writerow(['h_type','label','code'])
+    # hospitals = Hospitals.objects.all().values_list('h_type','label','code')
+    with connection.cursor() as cursor:
+        query = """
+        select erefer.main_hcode,main_label,erefer.hos_code,erefer.hos_label
+        ,st."name" 
+        ,case when st."name" = 'ติดตั้งเรียบร้อย' then '' 
+            when st."name" = 'ติดตั้งไม่สำเร็จ' then pep."EreferMemo" 
+            else pep."EreferMemo" end as Memo
+        ,case when st."name" = 'รับเข้าระบบ' then user_lock.first_name || ' ' || user_lock.last_name 
+            else auth_user.first_name || ' ' || auth_user.last_name end as staff
+        from (
+            select cmh.code as main_hcode,cmh."label" as main_label ,ch.code as hos_code,ch."label" hos_label ,ch.id
+            from crm_hospitals ch  
+            inner join crm_main_hospital cmh on ch.main_hospital::int = cmh.id 
+            where ch.main_hospital <> '0' and ch.main_hospital <> '6'
+            order by main_hcode
+        ) as erefer
+        inner join crm_profileserver cp on erefer.id = cp.hospitals_id 
+        inner join "profileErefer_profileereferral" pep on cp.id = pep."ProfileServer_id" 
+        left join auth_user on pep.created_by::int = auth_user.id 
+        left join auth_user user_lock on pep.case_staff_lock::int = user_lock.id 
+        left join crm_serverservicestatus st on pep."ServerServiceStatus_id" = st.id 
+        order by erefer.main_hcode
+        """
+        cursor.execute(query)
+        writer.writerow([i[0] for i in cursor.description])
+        writer.writerows(cursor)
+    # print(type(hospitals))
+    # writer.writerow(['main_hcode','main_label','hos_code','hos_label','status','memo','staff'])
+    # hospitals = export_csv()
+    # for hospital in hospitals:
+    #     writer.writerow(hospital)
+        return response
 
 @login_required(login_url='login')
 def OverAllHc(request):

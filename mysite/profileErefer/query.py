@@ -307,3 +307,40 @@ def ListAllReferral():
                 i = i+1
             resultsList.append(d)
         return resultsList
+
+def export_csv():
+    with connection.cursor() as cursor:
+        query = """
+    select erefer.main_hcode,main_label,erefer.hos_code,erefer.hos_label
+    ,st."name" 
+    ,case when st."name" = 'ติดตั้งเรียบร้อย' then '' 
+        when st."name" = 'ติดตั้งไม่สำเร็จ' then pep."EreferMemo" 
+        else pep."EreferMemo" end as Memo
+    ,case when st."name" = 'รับเข้าระบบ' then user_lock.first_name || ' ' || user_lock.last_name 
+        else auth_user.first_name || ' ' || auth_user.last_name end as staff
+    from (
+        select cmh.code as main_hcode,cmh."label" as main_label ,ch.code as hos_code,ch."label" hos_label ,ch.id
+        from crm_hospitals ch  
+        inner join crm_main_hospital cmh on ch.main_hospital::int = cmh.id 
+        where ch.main_hospital <> '0' and ch.main_hospital <> '6'
+        order by main_hcode
+    ) as erefer
+    inner join crm_profileserver cp on erefer.id = cp.hospitals_id 
+    inner join "profileErefer_profileereferral" pep on cp.id = pep."ProfileServer_id" 
+    left join auth_user on pep.created_by::int = auth_user.id 
+    left join auth_user user_lock on pep.case_staff_lock::int = user_lock.id 
+    left join crm_serverservicestatus st on pep."ServerServiceStatus_id" = st.id 
+    order by erefer.main_hcode
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+        x = cursor.description
+        resultsList = []  
+        for r in results:
+            i = 0
+            d = {}
+            while i < len(x):
+                d[x[i][0]] = r[i]
+                i = i+1
+            resultsList.append(d)
+        return resultsList

@@ -12,4 +12,6 @@ urlpatterns = [
      path('setupStatus/',check_case_lock, name= 'check_case_lock'),
      path('viewAllErefer/',viewAllErefer, name= 'viewAllErefer'),
      path('overAllHc/',OverAllHc, name= 'overAllHc'),
+     # export csv
+     path('export_ereferral_csv/',export_ereferral_csv, name= 'export_ereferral_csv'),
 ]
