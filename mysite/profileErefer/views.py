@@ -225,7 +225,7 @@ def export_ereferral_csv(request):
             select cmh.code as main_hcode,cmh."label" as main_label ,ch.code as hos_code,ch."label" hos_label ,ch.id
             from crm_hospitals ch  
             inner join crm_main_hospital cmh on ch.main_hospital::int = cmh.id 
-            where ch.main_hospital <> '0' and ch.main_hospital <> '6'
+            where ch.main_hospital <> '0' --and ch.main_hospital <> '6'
             order by main_hcode
         ) as erefer
         inner join crm_profileserver cp on erefer.id = cp.hospitals_id 
