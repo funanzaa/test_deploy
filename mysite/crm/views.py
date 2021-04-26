@@ -1166,7 +1166,7 @@ def updateCaseApi(request,pk):
 def CrmCaseGetApi(request,start_date,end_date):
     # subgroup = getCrmCaseApi('2021-04-21','2021-01-23')
     subgroup = getCrmCaseApi(start_date,end_date)
-    print(type(subgroup))
-    list_subgroup = json.dumps(subgroup)
+    # print(type(subgroup))
+    list_subgroup = json.dumps(subgroup, ensure_ascii=False)
     return HttpResponse(list_subgroup)
     
