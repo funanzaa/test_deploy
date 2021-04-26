@@ -1,4 +1,5 @@
 import datetime
+from django.template import response
 import pytz
 # import os
 from django.conf import settings
@@ -1159,4 +1160,13 @@ def updateCaseApi(request,pk):
     context = {'case': case, "projects": project, "subgroups": subgroup,
                "services": service, "hospitals": hospital,"statusCases":statusCase,"staffs":staff}
     return render(request, 'cases/update_case_api.html', context)
+
+# api crmlist
+
+def CrmCaseGetApi(request,start_date,end_date):
+    # subgroup = getCrmCaseApi('2021-04-21','2021-01-23')
+    subgroup = getCrmCaseApi(start_date,end_date)
+    print(type(subgroup))
+    list_subgroup = json.dumps(subgroup)
+    return HttpResponse(list_subgroup)
     

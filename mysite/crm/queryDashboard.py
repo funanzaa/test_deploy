@@ -247,3 +247,35 @@ def getNameLastName(id):
         cursor.execute(query, {'_id': id})
         result = cursor.fetchone()
         return result[0]
+
+def getCrmCaseApi(start_date, end_date):
+    # print(start_date)
+    # print(end_date)
+    with connection.cursor() as cursor:
+        query= """
+            select to_char(cc.date_entered,'dd-mm-yyyy')  as datetime ,hos.code as customer ,service."name" as channel, users.first_name || ' ' || users.last_name as agent,cc."name" as description
+            --select count(*)
+            from crm_case cc 
+            left join crm_hospitals hos on cc.hospitals_id = hos.id 
+            left join crm_service service on cc.service_id = service.id 
+            left join auth_user users on cc.created_by_id = users.id 
+            left join ( select cps.id,cp."name" 
+                        from crm_project_subgroup cps 
+                        inner join crm_project cp on cps.project_id = cp.id 
+                    ) crm_project_subgroup on cc.project_subgroup_id = crm_project_subgroup.id
+            where cc.date_entered >= timestamp %(_start_date)s
+            and cc.date_entered < timestamp %(_end_date)s
+            order by cc.date_entered 
+        """
+        cursor.execute(query, { '_start_date': start_date,'_end_date': end_date} )
+        results = cursor.fetchall()
+        x = cursor.description
+        resultsList = []  
+        for r in results:
+            i = 0
+            d = {}
+            while i < len(x):
+                d[x[i][0]] = r[i]
+                i = i+1
+            resultsList.append(d)
+        return resultsList
