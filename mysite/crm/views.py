@@ -34,7 +34,7 @@ from .queryDashboard import *
 # @admin_only
 def dashboardPage(request):
     tz = pytz.timezone('Asia/Bangkok')
-    now = (datetime.datetime.now(tz=tz))
+    now = (datetime.now(tz=tz))
     count_hospital = Hospitals.objects.filter(h_type=1).count()
     count_hc = Hospitals.objects.filter(h_type=3).count()
     count_clinic = Hospitals.objects.filter(h_type=4).count()
@@ -108,10 +108,10 @@ def createCase(request):
                 newCase.created_by_id = int(userAssign)
                 newCase.resolution = resolution
                 newCase.service_id = service
-                newCase.date_entered = datetime.datetime.now(tz=tz)
+                newCase.date_entered = datetime.now(tz=tz)
                 newCase.hospitals_id = hosptial
                 newCase.assign = chkAssign
-                newCase.assign_at = datetime.datetime.now(tz=tz)
+                newCase.assign_at = datetime.now(tz=tz)
                 newCase.assign_by = request.user.id
                 newCase.priorityCase = priority
                 newCase.status_Case_id = 6
@@ -138,10 +138,10 @@ def createCase(request):
                 newCase.created_by_id = int(userAssign)
                 newCase.resolution = resolution
                 newCase.service_id = service
-                newCase.date_entered = datetime.datetime.now(tz=tz)
+                newCase.date_entered = datetime.now(tz=tz)
                 newCase.hospitals_id = hosptial
                 newCase.assign = chkAssign
-                newCase.assign_at = datetime.datetime.now(tz=tz)
+                newCase.assign_at = datetime.now(tz=tz)
                 newCase.assign_by = request.user.id
                 newCase.status_Case_id = 6
                 newCase.priorityCase = priority
@@ -167,7 +167,7 @@ def createCase(request):
                 newCase.created_by_id = request.user.id
                 newCase.resolution = resolution
                 newCase.service_id = service
-                newCase.date_entered = datetime.datetime.now(tz=tz)
+                newCase.date_entered = datetime.now(tz=tz)
                 newCase.hospitals_id = hosptial
                 fs = FileSystemStorage()
                 name = fs.save(upload_file.name, upload_file)
@@ -194,7 +194,7 @@ def createCase(request):
                 newCase.created_by_id = request.user.id
                 newCase.resolution = resolution
                 newCase.service_id = service
-                newCase.date_entered = datetime.datetime.now(tz=tz)
+                newCase.date_entered = datetime.now(tz=tz)
                 newCase.hospitals_id = hosptial
                 newCase.save()
                 messages.success(request, 'Your case is added successfully!')
@@ -260,10 +260,10 @@ def updateCase(request, pk):
                 updateCase.created_by_id = staff
                 updateCase.resolution = resolution
                 updateCase.service_id = service
-                updateCase.update_at = datetime.datetime.now(tz=tz)
+                updateCase.update_at = datetime.now(tz=tz)
                 updateCase.hospitals_id = hosptial
                 updateCase.status_Case_id = ''
-                updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
+                updateCase.statusCaseUpdate_at = datetime.now(tz=tz)
                 fs = FileSystemStorage()
                 name = fs.save(upload_file.name, upload_file)
                 url = fs.url(name)
@@ -290,12 +290,12 @@ def updateCase(request, pk):
                 updateCase.resolution = resolution
                 updateCase.service_id = service
                 updateCase.forward_by = request.user.id
-                updateCase.update_at = datetime.datetime.now(tz=tz)
+                updateCase.update_at = datetime.now(tz=tz)
                 updateCase.hospitals_id = hosptial
                 updateCase.status_Case_id = statusCase
-                updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
-                updateCase.assign_at = datetime.datetime.now(tz=tz)
-                updateCase.forward_at = datetime.datetime.now(tz=tz)
+                updateCase.statusCaseUpdate_at = datetime.now(tz=tz)
+                updateCase.assign_at = datetime.now(tz=tz)
+                updateCase.forward_at = datetime.now(tz=tz)
                 updateCase.priorityCase = priority
                 updateCase.save()
                 messages.success(request, 'Your case is updated successfully!')
@@ -322,10 +322,10 @@ def updateCase(request, pk):
                 updateCase.solution= _solution
 
                 updateCase.service_id = service
-                updateCase.update_at = datetime.datetime.now(tz=tz)
+                updateCase.update_at = datetime.now(tz=tz)
                 updateCase.hospitals_id = hosptial
                 updateCase.status_Case_id = statusCase
-                updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
+                updateCase.statusCaseUpdate_at = datetime.now(tz=tz)
                 # fs = FileSystemStorage()
                 # name = fs.save(upload_file.name, upload_file)
                 # url = fs.url(name)
@@ -333,7 +333,7 @@ def updateCase(request, pk):
                 # id_api = int(updateCase.apiCases_id)
                 # apiCode = ApiAppNhsoBkk.objects.get(id=id_api)
                 # staffName = getNameLastName(request.user.id)
-                # x =datetime.datetime.now(tz=tz)
+                # x =datetime.now(tz=tz)
                 # time_date = x.strftime("%Y%m%d%H%M%S")
                 # if updateCase.apiCases_id != '' or updateCase.apiCases_id != None:
                 #     postStatus3(apiCode.callback_code,_solution,staffName,time_date) # send api
@@ -362,14 +362,14 @@ def updateCase(request, pk):
                 updateCase.solution= _solution
 
                 updateCase.service_id = service
-                updateCase.update_at = datetime.datetime.now(tz=tz)
+                updateCase.update_at = datetime.now(tz=tz)
                 updateCase.hospitals_id = hosptial
                 updateCase.status_Case_id = statusCase
-                updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
+                updateCase.statusCaseUpdate_at = datetime.now(tz=tz)
                 # id_api = int(updateCase.apiCases_id)
                 # apiCode = ApiAppNhsoBkk.objects.get(id=id_api)
                 # staffName = getNameLastName(request.user.id)
-                # x =datetime.datetime.now(tz=tz)
+                # x =datetime.now(tz=tz)
                 # time_date = x.strftime("%Y%m%d%H%M%S")
                 # if updateCase.apiCases_id != '' or updateCase.apiCases_id != None:
                 #     postStatus3(apiCode.callback_code,_solution,staffName,time_date) # send api
@@ -395,10 +395,10 @@ def updateCase(request, pk):
                 updateCase.created_by_id = request.user.id
                 updateCase.resolution = resolution
                 updateCase.service_id = service
-                updateCase.update_at = datetime.datetime.now(tz=tz)
+                updateCase.update_at = datetime.now(tz=tz)
                 updateCase.hospitals_id = hosptial
                 updateCase.status_Case_id = statusCase
-                updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
+                updateCase.statusCaseUpdate_at = datetime.now(tz=tz)
                 # fs = FileSystemStorage()
                 # name = fs.save(upload_file.name, upload_file)
                 # url = fs.url(name)
@@ -426,14 +426,14 @@ def updateCase(request, pk):
                 updateCase.created_by_id = request.user.id
                 updateCase.resolution = resolution
                 updateCase.service_id = service
-                updateCase.update_at = datetime.datetime.now(tz=tz)
+                updateCase.update_at = datetime.now(tz=tz)
                 updateCase.hospitals_id = hosptial
                 updateCase.status_Case_id = statusCase
-                updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
+                updateCase.statusCaseUpdate_at = datetime.now(tz=tz)
                 id_api = int(updateCase.apiCases_id)
                 apiCode = ApiAppNhsoBkk.objects.get(id=id_api)
                 staffName = getNameLastName(request.user.id)
-                x =datetime.datetime.now(tz=tz)
+                x =datetime.now(tz=tz)
                 time_date = x.strftime("%Y%m%d%H%M%S")
                 # print(time_date)
                 if updateCase.apiCases_id != '' or updateCase.apiCases_id != None:
@@ -461,7 +461,7 @@ def deleteCase(request, pk):
 
 def viewCaseApi(request):
     tz = pytz.timezone('Asia/Bangkok')
-    now = (datetime.datetime.now(tz=tz))
+    now = (datetime.now(tz=tz))
     user = User.objects.all()
     current_user = request.user.id
     # case = Case.objects.filter(created_by=current_user)
@@ -528,7 +528,7 @@ def hospitalAdd(request):
                 newHospital.label = label
                 newHospital.h_type = h_type
                 tz = pytz.timezone('Asia/Bangkok')
-                newHospital.date_created = datetime.datetime.now(tz=tz)
+                newHospital.date_created = datetime.now(tz=tz)
                 newHospital.save()
                 messages.success(request, 'Your hospital is added successfully!')
                 return HttpResponseRedirect(reverse_lazy('hospital-page'))
@@ -592,7 +592,7 @@ def create_case_hospital(request, pk):
             newCase.created_by_id = request.user.id
             newCase.resolution = resolution
             newCase.service_id = service
-            newCase.date_entered = datetime.datetime.now(tz=tz)
+            newCase.date_entered = datetime.now(tz=tz)
             newCase.hospitals_id = hosptial.id
             fs = FileSystemStorage()
             name = fs.save(upload_file.name, upload_file)
@@ -614,7 +614,7 @@ def create_case_hospital(request, pk):
             newCase.created_by_id = request.user.id
             newCase.resolution = resolution
             newCase.service_id = service
-            newCase.date_entered = datetime.datetime.now(tz=tz)
+            newCase.date_entered = datetime.now(tz=tz)
             newCase.hospitals_id = hosptial.id
             newCase.save()
             messages.success(request, 'Your case is added successfully!')
@@ -629,7 +629,7 @@ def create_case_hospital(request, pk):
 @login_required(login_url='login')
 def viewCase(request):
     tz = pytz.timezone('Asia/Bangkok')
-    now = (datetime.datetime.now(tz=tz))
+    now = (datetime.now(tz=tz))
     user = User.objects.all()
     current_user = request.user.id
     # case = Case.objects.filter(created_by=current_user)
@@ -732,7 +732,7 @@ def Profile_Server(request):
                 fs = FileSystemStorage()
                 name = fs.save(upload_file.name, upload_file)
                 url = fs.url(name)
-                # datetimeSendServer = datetime.datetime.now(tz=tz)
+                # datetimeSendServer = datetime.now(tz=tz)
                 newProfileServer = ProfileServer()
                 newProfileServer.hospitals_id = hosptial
                 newProfileServer.ServerBand_id = serverBand
@@ -743,7 +743,7 @@ def Profile_Server(request):
                 newProfileServer.UseServer = radioUseServer
                 newProfileServer.Memo = _memo
                 newProfileServer.ServerServiceStatus_id = 1 # status recive server
-                newProfileServer.datetimeSendServer = datetime.datetime.now(tz=tz)
+                newProfileServer.datetimeSendServer = datetime.now(tz=tz)
                 newProfileServer.ServerImage = url
                 newProfileServer.save()
                 messages.success(request, 'รับเข้าระบบแล้ว')
@@ -758,7 +758,7 @@ def Profile_Server(request):
                 contactEmail = request.POST.get("ContactEmail")
                 radioUseServer = request.POST.get("radioUseServer")
                 _memo = request.POST.get("memo")
-                # datetimeSendServer = datetime.datetime.now(tz=tz)
+                # datetimeSendServer = datetime.now(tz=tz)
                 newProfileServer = ProfileServer()
                 newProfileServer.hospitals_id = hosptial
                 newProfileServer.ServerBand_id = serverBand
@@ -769,7 +769,7 @@ def Profile_Server(request):
                 newProfileServer.UseServer = radioUseServer
                 newProfileServer.Memo = _memo
                 newProfileServer.ServerServiceStatus_id = 1 # status recive server
-                newProfileServer.datetimeSendServer = datetime.datetime.now(tz=tz)
+                newProfileServer.datetimeSendServer = datetime.now(tz=tz)
                 newProfileServer.save()
                 messages.success(request, 'รับเข้าระบบแล้ว')
                 return HttpResponseRedirect(reverse_lazy('home'))
@@ -833,7 +833,7 @@ def SetupServer(request,pk):
         ProfileServers.webServer_id = webserver
         ProfileServers.dbBackup = backupdbd
         ProfileServers.Memo = _memo
-        ProfileServers.datetimeCompleteServer = datetime.datetime.now(tz=tz)
+        ProfileServers.datetimeCompleteServer = datetime.now(tz=tz)
         ProfileServers.ServerServiceStatus_id = 2
         ProfileServers.created_by_id = request.user.id
         # print(ProfileServers.hospitals_id)
@@ -844,7 +844,7 @@ def SetupServer(request,pk):
         newCase.created_by_id = request.user.id
         newCase.resolution = "ติดตั้ง Server (เข้าระบบ)"
         newCase.service_id = 6
-        newCase.date_entered = datetime.datetime.now(tz=tz)
+        newCase.date_entered = datetime.now(tz=tz)
         newCase.hospitals_id = ProfileServers.hospitals_id
         newCase.save()
         return HttpResponseRedirect(reverse_lazy('ListAllProfileServer'))
@@ -887,7 +887,7 @@ def userReceiveServer(request,pk):
     tz = pytz.timezone('Asia/Bangkok')
     ProfileServers = ProfileServer.objects.get(id=pk)
     ProfileServers.ServerServiceStatus_id = 3
-    ProfileServers.datetimeReceiveServer = datetime.datetime.now(tz=tz)
+    ProfileServers.datetimeReceiveServer = datetime.now(tz=tz)
     ProfileServers.save()
     messages.success(request, 'ยืนยันรับเครื่อง')
     return HttpResponseRedirect(reverse_lazy('home'))
@@ -940,7 +940,7 @@ def editProfileServer(request,pk):
             updateProfileServer.ContactEmail = contact_email
             updateProfileServer.Memo = memo
             updateProfileServer.update_by = request.user.id
-            updateProfileServer.update_at = datetime.datetime.now(tz=tz)
+            updateProfileServer.update_at = datetime.now(tz=tz)
             updateProfileServer.save()
             messages.success(request, 'Your ProfileServer is updated successfully!')
             return HttpResponseRedirect(reverse_lazy('ListAllProfileServer'))
@@ -959,7 +959,7 @@ def editProfileServer(request,pk):
             updateProfileServer.ContactEmail = contact_email
             updateProfileServer.Memo = memo
             updateProfileServer.update_by = request.user.id
-            updateProfileServer.update_at = datetime.datetime.now(tz=tz)
+            updateProfileServer.update_at = datetime.now(tz=tz)
             updateProfileServer.save()
             messages.success(request, 'Your ProfileServer is updated successfully!')
             return HttpResponseRedirect(reverse_lazy('ListAllProfileServer'))
@@ -1080,16 +1080,16 @@ def updateCaseApi(request,pk):
             updateCase.resolution = resolution 
             updateCase.service_id = service 
             updateCase.assign = 'yes' 
-            updateCase.date_entered = datetime.datetime.now(tz=tz) 
+            updateCase.date_entered = datetime.now(tz=tz) 
             updateCase.hospitals_id = hosptial 
             updateCase.status_Case_id = 6 # status assign
             updateCase.assign_by = request.user.id 
-            updateCase.assign_at = datetime.datetime.now(tz=tz) 
+            updateCase.assign_at = datetime.now(tz=tz) 
             updateCase.priorityCase = priority 
 
             # id_api = int(updateCase.apiCases_id)
             # apiCode = ApiAppNhsoBkk.objects.get(id=id_api)
-            # x =datetime.datetime.now(tz=tz)
+            # x =datetime.now(tz=tz)
             # staffName = getNameLastName(request.user.id)
             # time_date = x.strftime("%Y%m%d%H%M%S")
             # # yyyy mm dd hh 24 mi ss
@@ -1120,10 +1120,10 @@ def updateCaseApi(request,pk):
         #     updateCase.solution= _solution
 
         #     updateCase.service_id = service
-        #     updateCase.update_at = datetime.datetime.now(tz=tz)
+        #     updateCase.update_at = datetime.now(tz=tz)
         #     updateCase.hospitals_id = hosptial
         #     updateCase.status_Case_id = statusCase
-        #     updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
+        #     updateCase.statusCaseUpdate_at = datetime.now(tz=tz)
         #     # updateCase.save()
         #     messages.success(request, 'Your case is updated successfully!')
         #     return HttpResponseRedirect(reverse_lazy('viewCaseApi-page'))
@@ -1142,13 +1142,13 @@ def updateCaseApi(request,pk):
             updateCase.created_by_id = request.user.id
             updateCase.resolution = resolution
             updateCase.service_id = service
-            updateCase.update_at = datetime.datetime.now(tz=tz)
+            updateCase.update_at = datetime.now(tz=tz)
             updateCase.hospitals_id = hosptial
             updateCase.status_Case_id = 1
-            updateCase.statusCaseUpdate_at = datetime.datetime.now(tz=tz)
+            updateCase.statusCaseUpdate_at = datetime.now(tz=tz)
             id_api = int(updateCase.apiCases_id)
             apiCode = ApiAppNhsoBkk.objects.get(id=id_api)
-            x =datetime.datetime.now(tz=tz)
+            x =datetime.now(tz=tz)
             staffName = getNameLastName(request.user.id)
             time_date = x.strftime("%Y%m%d%H%M%S")
             # yyyy mm dd hh 24 mi ss

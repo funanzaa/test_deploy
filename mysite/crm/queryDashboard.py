@@ -1,10 +1,10 @@
 from django.db import connection
 from django.shortcuts import render, redirect
 from .models import *
-import datetime
 import pytz
 import json
 import requests
+from datetime import datetime, date
 
 def queryProjectAll(project,month):
     with connection.cursor() as cursor:
@@ -279,3 +279,53 @@ def getCrmCaseApi(start_date, end_date):
                 i = i+1
             resultsList.append(d)
         return resultsList
+
+def caseOfYear(year, month):
+    with connection.cursor() as cursor:
+        query = """
+        select count(*)
+        from crm_case cc 
+        where date_part('month',cc.date_entered ) = %(_month)s
+        and date_part('year',cc.date_entered ) = %(_year)s 
+        """
+        cursor.execute(query, { '_year': year,'_month': month} )
+        result = cursor.fetchone()
+        return result[0]
+
+def monthRecepReport(day,month,year):
+    with connection.cursor() as cursor:
+        query = """
+        select count(*)
+        from crm_case cc 
+        where date_part('days',cc.date_entered ) = %(_day)s
+        and date_part('month',cc.date_entered ) = %(_month)s
+        and date_part('year',cc.date_entered ) = %(_year)s
+        """
+        cursor.execute(query, { '_year': year,'_month': month ,'_day': day} )
+        result = cursor.fetchone()
+        return result[0]
+
+def serviceCrm():
+    with connection.cursor() as cursor:
+        query = """
+        select cs.name 
+        from crm_service cs 
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+        return results
+
+def countSevice(service):
+    now = date.today()
+    with connection.cursor() as cursor:
+        query = """
+        select count(*)
+        from crm_case cc 
+        inner join crm_service serv on cc.service_id = serv.id 
+        where date_part('month',cc.date_entered ) = %(_month)s
+        and date_part('year',cc.date_entered ) = %(_year)s
+        and serv."name" = %(_service)s
+        """
+        cursor.execute(query, { '_service': service,'_year': now.year,'_month': now.month} )
+        result = cursor.fetchone()
+        return result[0]
