@@ -112,8 +112,8 @@ def install_Erefer(request,pk):
         updateProfileServer.FixIpAddress = ip
         updateProfileServer.dbBackup = dbBackup
         updateProfileServer.save()
-        update_at = datetime.datetime.now(tz=tz)
-        success_at = datetime.datetime.now(tz=tz)
+        update_at = datetime.now(tz=tz)
+        success_at = datetime.now(tz=tz)
         insert_profileErefer(update_at,success_at,int(status_case),str(request.user.id),int(versErefws),int(versHosErefer),ereferMemo,testData,testMq,int(pk))
         # updateProfileEreferral.save()
         messages.success(request, 'Your ProfileServer is updated successfully!')
@@ -178,21 +178,34 @@ def updateEreferProfile(request,pk):
     }
     return render(request,'profileErefer/updateEreferProfile.html',context)
 
-@login_required(login_url='login')
-def check_case_lock(request):
-    if request.method == 'GET':
-        try:
-            tz = pytz.timezone('Asia/Bangkok')
-            profile_id = request.GET["ProfileServer_id"]
-            updateProfileEreferral = ProfileEreferral.objects.get(ProfileServer_id=profile_id)
-            # print(profile_id)
-            updateProfileEreferral.case_locking = '1'
-            updateProfileEreferral.case_staff_lock = request.user.id
-            updateProfileEreferral.case_lock_date_time = datetime.datetime.now(tz=tz)
-            updateProfileEreferral.save()
-        except:
-            pass
-        return HttpResponse("ok")
+@login_required(login_url='login') # lock case request
+def check_case_lock(request,pk):
+    # print(pk)
+    # if request.method == 'GET':
+    #     try:
+    #         ProfileServer_id = request.GET["ProfileServer_id"]
+    #         print("testtest")
+    #         print(ProfileServer_id)
+    tz = pytz.timezone('Asia/Bangkok')
+    # updateProfileEreferral = ProfileEreferral.objects.get(ProfileServer_id=ProfileServer_id)
+    updateProfileEreferral = ProfileEreferral.objects.get(ProfileServer_id=pk)
+    updateProfileEreferral.case_locking = '1'
+    updateProfileEreferral.case_staff_lock = request.user.id
+    updateProfileEreferral.case_lock_date_time = datetime.now(tz=tz)
+    updateProfileEreferral.save()
+    # return HttpResponse("check_case_lock_ok")
+    return HttpResponseRedirect(reverse_lazy('profileErefer:setupStatus1'))
+    # return render(request,'profileErefer/SetupEreferStatus.html') 
+
+def setupStatus_1(request):
+    context = {"ListSetupErefer":ListSetupEreferStatus(1,request.user.id)
+    ,"ListStatus_user" :  ListStatusCaseErefer(1,request.user.id)
+    ,"ListStatus_4" :  ListStatusCaseErefer(4,request.user.id)
+    ,"ListStatus_2" :  ListStatusCaseErefer(2,request.user.id)
+    ,"count_RequestErefer": countRequestErefer()
+    }
+    return render(request,'profileErefer/SetupEreferStatus.html',context)
+
 
 @login_required(login_url='login')
 def viewAllErefer(request):

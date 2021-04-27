@@ -154,21 +154,6 @@
     </script>
     <!-- LockCase -->
     <script>
-        function lockCase(id) {
-            $.ajax({
-                url: "{% url 'profileErefer:check_case_lock'%}",
-                type: "get",
-                data: {
-                    ProfileServer_id: id
-                },
-                success: function (data) {
-                    console.log(data)
-                }
-            })
-            window.location.reload();
-        }
-    </script>
-    <script>
         function lockCaseApi(caseName,subgroupID,hosID,apiID) {
             $.ajax({
                 url: "{% url 'apiCases:createCaseApi'%}",

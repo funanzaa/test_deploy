@@ -88,10 +88,10 @@
                         <i class="fas fa-eye"></i>
                       </a> -->
                       <!-- <a class="btn btn-success btn-sm" onclick="lockCase({{ ListSetupErefers.ProfileServer_id }})" href="{% url 'profileErefer:install_Erefer' ListSetupErefers.ProfileServer_id %}"> -->
-                       <button class="btn btn-success btn-sm" onclick="lockCase({{ ListSetupErefers.ProfileServer_id }})"> 
-                         Accept
-                      </button> 
-                      <!-- <button type="button" class="btn btn-success btn-sm" onclick="lockCase( {{ ListSetupErefers.ProfileServer_id }} )" class="btn btn-block btn-outline-success">Accept</button> -->
+                       <!-- <button class="btn btn-success btn-sm" onclick="lockCase({{ ListSetupErefers.ProfileServer_id }})">  -->
+                      <a class="btn btn-success btn-sm" href="{% url 'profileErefer:check_case_lock' ListSetupErefers.ProfileServer_id %}">
+                        Accept
+                      </a>
                     </td>
                   </tr>
                   {% endfor %}
