@@ -33,7 +33,7 @@ def requestSetupErefer(request):
                 newProfileEreferral.ContactLastName = LastName
                 newProfileEreferral.ContactPhone = ContactPhone
                 newProfileEreferral.ServerServiceStatus_id = 1
-                newProfileEreferral.request_at = datetime.datetime.now(tz=tz)
+                newProfileEreferral.request_at = datetime.now(tz=tz)
                 newProfileEreferral.Memo = memo
                 newProfileEreferral.save()
                 updateMainHos.main_hospital = hospital_main
@@ -60,7 +60,7 @@ def requestSetupErefer(request):
                 newProfileEreferral.ContactLastName = LastName
                 newProfileEreferral.ContactPhone = ContactPhone
                 newProfileEreferral.ServerServiceStatus_id = 1
-                newProfileEreferral.request_at = datetime.datetime.now(tz=tz)
+                newProfileEreferral.request_at = datetime.now(tz=tz)
                 newProfileEreferral.Memo = memo
                 newProfileEreferral.save()
                 messages.success(request, 'ลงทะเบียนเสร็จสิ้น')
@@ -167,7 +167,7 @@ def updateEreferProfile(request,pk):
         updateProfileServer.FixIpAddress = ip
         updateProfileServer.dbBackup = dbBackup
         updateProfileServer.save()
-        update_at = datetime.datetime.now(tz=tz)
+        update_at = datetime.now(tz=tz)
         update_profileErefer(update_at,int(status_case),str(request.user.id),int(versErefws),int(versHosErefer),ereferMemo,testData,testMq,int(pk))
         messages.success(request, 'Your ProfileServer is updated successfully!')
         return HttpResponseRedirect(reverse_lazy('profileErefer:SetupErefer'))
