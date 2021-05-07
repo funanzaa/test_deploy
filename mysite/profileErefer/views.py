@@ -266,3 +266,6 @@ def OverAllHc(request):
     ,"ListStatus_2" :  ListStatusCaseErefer(2,request.user.id)
     }
     return render(request,'profileErefer/OverAllHc.html',context)
+
+
+
