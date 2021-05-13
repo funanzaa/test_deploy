@@ -1,6 +1,6 @@
 var labels = [];
 domain = 'http://localhost:8000'
-// domain = 'http://bkk.hospital-os.com'
+//  domain = 'http://bkk.hospital-os.com'
 // var objId = document.getElementById("project").value;
 // var objDate = document.getElementById("reservation").value;
 var dataURLOpbkkWeb = domain + `/crm/report/ReportSubProjectOpbkkWeb`
