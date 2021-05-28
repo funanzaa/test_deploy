@@ -193,6 +193,7 @@ def detailCaseApi(id):
         ) cps on cps.sub_id = cc.project_subgroup_id 
         inner join crm_hospitals hos on hos.id = cc.hospitals_id 
         where cc.created_by_id = %(_id)s
+        and cc."apiCases_id" ~* '[0-9]'
         """
         cursor.execute(query, {'_id': id})
         results = cursor.fetchall()
@@ -220,7 +221,7 @@ def countCaseApi(id):
         ) cps on cps.sub_id = cc.project_subgroup_id 
         inner join crm_hospitals hos on hos.id = cc.hospitals_id 
         where cc.created_by_id = %(_id)s
-        and cc."status_Case_id" is null
+        and cc."apiCases_id" ~* '[0-9]'
         """
         cursor.execute(query, {'_id': id})
         result = cursor.fetchone()

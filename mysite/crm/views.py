@@ -464,14 +464,6 @@ def viewCaseApi(request):
     now = (datetime.now(tz=tz))
     user = User.objects.all()
     current_user = request.user.id
-    # case = Case.objects.filter(created_by=current_user)
-    # if len(str(now)[5:7]) == 2:
-        # case = Case.objects.filter(created_by=current_user)
-        # case = Case.objects.filter(date_entered__month=str(now)[5:7], created_by=current_user, date_entered__year=str(now)[:4])
-    # else:
-        # case = Case.objects.filter(created_by=current_user)
-        # case  = Case.objects.filter(date_entered__month=str(now)[6:7], created_by=current_user, date_entered__year=str(now)[:4])
-
     countAssignSend = Case.objects.filter(assign_by=str(current_user)).count()
     countAssignForward = Case.objects.filter(forward_by=str(current_user)).count()
     countAssign = countAssignSend + countAssignForward
@@ -647,7 +639,8 @@ def viewCase(request):
     context = {'case': case,'users':user,'countAssigns': countAssign
     ,"count_RequestErefer": countRequestErefer()
     ,"countNotificationsAPI": countNotificationsAPI()
-    ,"TimeApiInsert":TimeApiInsert(),"countCaseApi":countCaseApi(current_user)
+    ,"TimeApiInsert":TimeApiInsert()
+    ,"countCaseApi":countCaseApi(current_user)
     }
     return render(request, 'cases/case.html', context)
 
