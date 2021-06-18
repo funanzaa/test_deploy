@@ -16,7 +16,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger  # paginator
 from django.http import HttpResponse
 import json
-# from django.http import JsonResponse
+from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.db import connection
 from .decorators import allowed_users , admin_only
@@ -1162,4 +1162,27 @@ def CrmCaseGetApi(request,start_date,end_date):
     # print(type(subgroup))
     list_subgroup = json.dumps(subgroup, ensure_ascii=False)
     return HttpResponse(list_subgroup)
+
+# api update database hos
+
+def updateDBhos(request,version):
+    if version == '1.0': # only 1.0 clinet
+        print(version)
+        data = {
+            "sql_name": 'update_b_icd10_covid19.sql'
+        }
+        return JsonResponse(data)
+    # elif version == '1.1': # only 1.1 clinet
+    #     print(version)
+    #     data = {
+    #         "sql_name": 'update_b_icd10_covid20.sql'
+    #     }
+    #     return JsonResponse(data)
+
     
+    # if request.method == "POST":
+    #     print('print post')
+        # chkAssign = request.POST.get("chkAssign")
+
+    return HttpResponse("Not version server")
+        

@@ -24,6 +24,7 @@ urlpatterns = [
     # Case Api
     path('viewCaseApi/', views.viewCaseApi, name='viewCaseApi-page'),
     path('CrmCaseApi/<str:start_date>/<str:end_date>/', views.CrmCaseGetApi, name='CrmCaseApi'),
+    path('getDBhosClinet/<str:version>', views.updateDBhos, name='UpdateDBhos'), # recieve s_plus_version hos
     
     # charts
     path('api/data/', get_data, name='get-data'),
