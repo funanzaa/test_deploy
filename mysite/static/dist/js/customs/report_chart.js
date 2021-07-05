@@ -1,6 +1,6 @@
 var labels = [];
-domain = 'http://localhost:8000'
-//  domain = 'http://bkk.hospital-os.com'
+// domain = 'http://localhost:8000'
+ domain = 'http://bkk.hospital-os.com'
 // var objId = document.getElementById("project").value;
 // var objDate = document.getElementById("reservation").value;
 var dataURLOpbkkWeb = domain + `/crm/report/ReportSubProjectOpbkkWeb`
@@ -18,6 +18,8 @@ $.ajax({
             defaultData_m3 = response.data_m3
             defaultData_m4 = response.data_m4
             defaultData_m5 = response.data_m5
+            defaultData_m6 = response.data_m6
+            defaultData_m7 = response.data_m7
             // opbkkclinet
             labelOpbkkClient = response.labelOpbkkClient
             opbkkclient_m1 = response.opbkkclinet_m1
@@ -25,6 +27,8 @@ $.ajax({
             opbkkclient_m3 = response.opbkkclinet_m3
             opbkkclient_m4 = response.opbkkclinet_m4
             opbkkclient_m5 = response.opbkkclinet_m5
+            opbkkclient_m6 = response.opbkkclinet_m6
+            opbkkclient_m7 = response.opbkkclinet_m7
             // console.log(opbkkclient_m1)
 
 
@@ -93,9 +97,16 @@ function buildChartOpbkkWeb(){
         text: 'เมษายน'
       },
       {
-        // Plot 2 values, linear data
         values:defaultData_m5,
         text: 'พฤษภาคม'
+      },
+      {
+        values:defaultData_m6,
+        text: 'มิถุนายน'
+      },
+      {
+        values:defaultData_m7,
+        text: 'กรกฎาคม'
       }
     ]
   };
@@ -163,6 +174,14 @@ function buildChartOpbkkWeb(){
       {
         values:opbkkclient_m5,
         text: 'พฤษภาคม'
+      },
+      {
+        values:opbkkclient_m6,
+        text: 'มิถุนายน'
+      },
+      {
+        values:opbkkclient_m7,
+        text: 'กรกฎาคม'
       }
     ]
   };

@@ -86,6 +86,7 @@ def insertDataDashBoard(request):
 	tz = pytz.timezone('Asia/Bangkok')
 	date_current = datetime.datetime.now(tz=tz)
 	if int(date_current.day) != int(max_date.strftime("%d")): #insert data
+		
 		if checkInsert(date_current.day) == False: #insert data
 			recap_report.delete() # delete data on table
 			for i in range(len(jsonDictListHosp)):

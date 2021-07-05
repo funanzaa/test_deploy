@@ -34,12 +34,16 @@ def ReportSubProjectOpbkkWeb(request):
     values_m3 = [fnReportOpbkkWeb(44,3), fnReportOpbkkWeb(45,3), fnReportOpbkkWeb(46,3), fnReportOpbkkWeb(47,3), fnReportOpbkkWeb(56,3)]
     values_m4 = [fnReportOpbkkWeb(44,4), fnReportOpbkkWeb(45,4), fnReportOpbkkWeb(46,4), fnReportOpbkkWeb(47,4), fnReportOpbkkWeb(56,4)]
     values_m5 = [fnReportOpbkkWeb(44,5), fnReportOpbkkWeb(45,5), fnReportOpbkkWeb(46,5), fnReportOpbkkWeb(47,5), fnReportOpbkkWeb(56,5)]
+    values_m6 = [fnReportOpbkkWeb(44,6), fnReportOpbkkWeb(45,6), fnReportOpbkkWeb(46,6), fnReportOpbkkWeb(47,6), fnReportOpbkkWeb(56,6)]
+    values_m7 = [fnReportOpbkkWeb(44,7), fnReportOpbkkWeb(45,7), fnReportOpbkkWeb(46,7), fnReportOpbkkWeb(47,7), fnReportOpbkkWeb(56,7)]
     # opbkkclinet
     opbkkclinet_m1 = [fnReportOpbkkWeb(7,1), fnReportOpbkkWeb(8,1), fnReportOpbkkWeb(9,1), fnReportOpbkkWeb(36,1), fnReportOpbkkWeb(37,1),fnReportOpbkkWeb(38,1), fnReportOpbkkWeb(39,1), fnReportOpbkkWeb(40,1), fnReportOpbkkWeb(41,1), fnReportOpbkkWeb(42,1)]
     opbkkclinet_m2 = [fnReportOpbkkWeb(7,2), fnReportOpbkkWeb(8,2), fnReportOpbkkWeb(9,2), fnReportOpbkkWeb(36,2), fnReportOpbkkWeb(37,2),fnReportOpbkkWeb(38,2), fnReportOpbkkWeb(39,2), fnReportOpbkkWeb(40,2), fnReportOpbkkWeb(41,2), fnReportOpbkkWeb(42,2)]
     opbkkclinet_m3 = [fnReportOpbkkWeb(7,3), fnReportOpbkkWeb(8,3), fnReportOpbkkWeb(9,3), fnReportOpbkkWeb(36,3), fnReportOpbkkWeb(37,3),fnReportOpbkkWeb(38,3), fnReportOpbkkWeb(39,3), fnReportOpbkkWeb(40,3), fnReportOpbkkWeb(41,3), fnReportOpbkkWeb(42,3)]
     opbkkclinet_m4 = [fnReportOpbkkWeb(7,4), fnReportOpbkkWeb(8,4), fnReportOpbkkWeb(9,4), fnReportOpbkkWeb(36,4), fnReportOpbkkWeb(37,4),fnReportOpbkkWeb(38,4), fnReportOpbkkWeb(39,4), fnReportOpbkkWeb(40,4), fnReportOpbkkWeb(41,4), fnReportOpbkkWeb(42,4)]
     opbkkclinet_m5 = [fnReportOpbkkWeb(7,5), fnReportOpbkkWeb(8,5), fnReportOpbkkWeb(9,5), fnReportOpbkkWeb(36,5), fnReportOpbkkWeb(37,5),fnReportOpbkkWeb(38,5), fnReportOpbkkWeb(39,5), fnReportOpbkkWeb(40,5), fnReportOpbkkWeb(41,5), fnReportOpbkkWeb(42,5)]
+    opbkkclinet_m6 = [fnReportOpbkkWeb(7,6), fnReportOpbkkWeb(8,6), fnReportOpbkkWeb(9,6), fnReportOpbkkWeb(36,6), fnReportOpbkkWeb(37,6),fnReportOpbkkWeb(38,6), fnReportOpbkkWeb(39,6), fnReportOpbkkWeb(40,6), fnReportOpbkkWeb(41,6), fnReportOpbkkWeb(42,6)]
+    opbkkclinet_m7 = [fnReportOpbkkWeb(7,7), fnReportOpbkkWeb(8,7), fnReportOpbkkWeb(9,7), fnReportOpbkkWeb(36,7), fnReportOpbkkWeb(37,7),fnReportOpbkkWeb(38,7), fnReportOpbkkWeb(39,7), fnReportOpbkkWeb(40,7), fnReportOpbkkWeb(41,7), fnReportOpbkkWeb(42,7)]
     data = {
         # opbkk-web
             "labels": labels,
@@ -48,6 +52,8 @@ def ReportSubProjectOpbkkWeb(request):
             "data_m3": values_m3,
             "data_m4": values_m4,
             "data_m5": values_m5,
+            "data_m6": values_m6,
+            "data_m7": values_m7,
             # opbkkclinet
             "labelOpbkkClient":labelOpbkkClient,
             "opbkkclinet_m1": opbkkclinet_m1,
@@ -55,6 +61,8 @@ def ReportSubProjectOpbkkWeb(request):
             "opbkkclinet_m3": opbkkclinet_m3,
             "opbkkclinet_m4": opbkkclinet_m4,
             "opbkkclinet_m5": opbkkclinet_m5,
+            "opbkkclinet_m6": opbkkclinet_m6,
+            "opbkkclinet_m7": opbkkclinet_m7,
         }
 
     return JsonResponse(data, safe=False)
@@ -74,6 +82,8 @@ def ReportSubProjectHos(request):
     hos_m3 = []
     hos_m4 = []
     hos_m5 = []
+    hos_m6 = []
+    hos_m7 = []
     # hosAdmin
     id_hosAdmin = [25,26,27,28,29,30,31,33,57,32]
     hosAdmin_m1 = []
@@ -81,6 +91,8 @@ def ReportSubProjectHos(request):
     hosAdmin_m3 = []
     hosAdmin_m4 = []
     hosAdmin_m5 = []
+    hosAdmin_m6 = []
+    hosAdmin_m7 = []
 
     for i in range(len(id_hos)):
         hos_m1.append(fnReportOpbkkWeb(id_hos[i],1))
@@ -88,12 +100,16 @@ def ReportSubProjectHos(request):
         hos_m3.append(fnReportOpbkkWeb(id_hos[i],3))
         hos_m4.append(fnReportOpbkkWeb(id_hos[i],4))
         hos_m5.append(fnReportOpbkkWeb(id_hos[i],5))
+        hos_m6.append(fnReportOpbkkWeb(id_hos[i],6))
+        hos_m7.append(fnReportOpbkkWeb(id_hos[i],7))
     for i in range(len(id_hosAdmin)):
         hosAdmin_m1.append(fnReportOpbkkWeb(id_hosAdmin[i],1))
         hosAdmin_m2.append(fnReportOpbkkWeb(id_hosAdmin[i],2))
         hosAdmin_m3.append(fnReportOpbkkWeb(id_hosAdmin[i],3))
         hosAdmin_m4.append(fnReportOpbkkWeb(id_hosAdmin[i],4))
         hosAdmin_m5.append(fnReportOpbkkWeb(id_hosAdmin[i],5))
+        hosAdmin_m6.append(fnReportOpbkkWeb(id_hosAdmin[i],6))
+        hosAdmin_m7.append(fnReportOpbkkWeb(id_hosAdmin[i],7))
     data = {
         "labelsHos": labelsHos,
         "data_m1": hos_m1,
@@ -101,12 +117,16 @@ def ReportSubProjectHos(request):
         "data_m3": hos_m3,
         "data_m4": hos_m4,
         "data_m5": hos_m5,
+        "data_m6": hos_m6,
+        "data_m7": hos_m7,
         "labelsHosAdmin": labelsHosAdmin,
         "hosAdmin_m1": hosAdmin_m1,
         "hosAdmin_m2": hosAdmin_m2,
         "hosAdmin_m3": hosAdmin_m3,
         "hosAdmin_m4": hosAdmin_m4,
         "hosAdmin_m5": hosAdmin_m5,
+        "hosAdmin_m6": hosAdmin_m6,
+        "hosAdmin_m7": hosAdmin_m7,
     }
     # print(type(data))
     

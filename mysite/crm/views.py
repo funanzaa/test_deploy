@@ -1172,12 +1172,12 @@ def updateDBhos(request,version):
             "sql_name": 'update_b_icd10_covid19.sql'
         }
         return JsonResponse(data)
-    # elif version == '1.1': # only 1.1 clinet
-    #     print(version)
-    #     data = {
-    #         "sql_name": 'update_b_icd10_covid20.sql'
-    #     }
-    #     return JsonResponse(data)
+    elif version == '1.1': # only 1.1 clinet
+        print(version)
+        data = {
+            "sql_name": 'updateV3_9_36.sql'
+        }
+        return JsonResponse(data)
 
     
     # if request.method == "POST":
