@@ -1167,22 +1167,21 @@ def CrmCaseGetApi(request,start_date,end_date):
 
 def updateDBhos(request,version):
     if version == '1.0': # only 1.0 clinet
-        print(version)
         data = {
             "sql_name": 'update_b_icd10_covid19.sql'
         }
         return JsonResponse(data)
-    elif version == '1.1': # only 1.1 clinet
-        print(version)
+
+    elif version == '1.1': # only 1.2 clinet
         data = {
-            "sql_name": 'updateV3_9_36.sql'
+            "sql_name": 'add_drug_tmt13.sql'
         }
         return JsonResponse(data)
-
-    
-    # if request.method == "POST":
-    #     print('print post')
-        # chkAssign = request.POST.get("chkAssign")
+    elif version == '1.2': # only 1.3 clinet
+        data = {
+            "sql_name": 'add_drug_tmt14.sql'
+        }
+        return JsonResponse(data)
 
     return HttpResponse("Not version server")
         
